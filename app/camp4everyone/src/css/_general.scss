@@ -1,0 +1,19 @@
+// Classes
+.center {
+  text-align: center;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+
+// Tags
+body {
+  @include reset();
+}
+
+a {
+  color: $links;
+}

@@ -1,0 +1,11 @@
+// Common
+@import 'variables';
+@import 'mixins';
+@import 'general';
+@import 'forms';
+
+// Components
+/*
+  Asegurarse de importar aquí los estilos de cada componente
+*/
+@import '../js/Public/Landing/style';
