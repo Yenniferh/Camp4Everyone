@@ -4,6 +4,7 @@
 
 - Firebase
 - Material UI
+- Material Icons
 - Sass
 - React Router
 - ESLint:

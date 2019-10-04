@@ -1,0 +1,60 @@
+.hero-container {
+  background-image: url('https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  height: 100vh;
+  width: 100%;
+  .opacity-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    background-color: #11144cbd;
+    .hero {
+      .h1 {
+        margin-bottom: 10rem;
+      }
+      .h4 {
+        margin-bottom: 2.5rem;
+      }
+    }
+  }
+}
+
+.benefits-container {
+  background-color: $background-color;
+  padding-bottom: 2.5rem;
+  .h3 {
+    margin-top: 2.5rem;
+    color: $text-blue;
+    font-weight: bold;
+  }
+  .cards-container {
+    display: flex;
+    .card {
+      margin-top: 2.5rem;
+      margin-right: 1.2rem;
+      .circle-icon {
+        border-radius: 50%;
+        background-color: $secondary-color;
+        width: 10rem;
+        height: 10rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 2.5rem auto;
+      }
+      .card-title {
+        font-weight: bold;
+        color: $text-blue;
+      }
+      .card-paragraph {
+        color: $text-blue;
+        font-weight: 300;
+        font-size: 1rem;
+      }
+    }
+  }
+}
