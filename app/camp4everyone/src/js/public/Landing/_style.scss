@@ -58,3 +58,28 @@
     }
   }
 }
+
+.reviews-container {
+  background-color: $secondary-color;
+  padding-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  .h3 {
+    margin-top: 2.5rem;
+    color: $text-blue;
+    font-weight: bold;
+  }
+  .h4 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .review-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .review-card {
+      margin-right: 1rem; 
+    }
+  }
+}
