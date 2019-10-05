@@ -49,90 +49,88 @@ export default function Landing() {
         <Typography component="h3" variant="h3" className="h3 center">
           Benefits
         </Typography>
-        <Container maxWidth="md" className="cards-container">
-          <Grid item sm={12} lg={4} component="div">
-            <Card className="card">
-              <CardContent>
-                <div className="circle-icon">
-                  <MaterialIcon icon="access_time" color="#11144c" size={100} />
-                </div>
+        <Grid
+          item
+          container
+          justify="center"
+          maxWidth="md"
+          className="cards-container"
+        >
+          <Card item className="card">
+            <CardContent>
+              <div className="circle-icon">
+                <MaterialIcon icon="access_time" color="#11144c" size={100} />
+              </div>
 
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className="card-title center"
-                >
-                  Save Time
-                </Typography>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                className="card-title center"
+              >
+                Save Time
+              </Typography>
 
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className="card-paragraph center"
-                >
-                  Find your place faster.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item sm={12} lg={4} component="div">
-            <Card className="card">
-              <CardContent>
-                <div className="circle-icon">
-                  <MaterialIcon
-                    icon="attach_money"
-                    color="#11144c"
-                    size={100}
-                  />
-                </div>
+              <Typography
+                variant="body2"
+                component="p"
+                className="card-paragraph center"
+              >
+                Find your place faster.
+              </Typography>
+            </CardContent>
+          </Card>
 
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className="card-title center"
-                >
-                  Save Money
-                </Typography>
+          <Card item className="card">
+            <CardContent>
+              <div className="circle-icon">
+                <MaterialIcon icon="attach_money" color="#11144c" size={100} />
+              </div>
 
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className="card-paragraph center"
-                >
-                  Don't pay more.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item sm={12} lg={4} component="div">
-            <Card className="card">
-              <CardContent>
-                <div className="circle-icon">
-                  <MaterialIcon icon="security" color="#11144c" size={100} />
-                </div>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                className="card-title center"
+              >
+                Save Money
+              </Typography>
 
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className="card-title center"
-                >
-                  Secure
-                </Typography>
+              <Typography
+                variant="body2"
+                component="p"
+                className="card-paragraph center"
+              >
+                Don't pay more.
+              </Typography>
+            </CardContent>
+          </Card>
 
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className="card-paragraph center"
-                >
-                  Secure payments.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Container>
+          <Card item className="card">
+            <CardContent>
+              <div className="circle-icon">
+                <MaterialIcon icon="security" color="#11144c" size={100} />
+              </div>
+
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                className="card-title center"
+              >
+                Secure
+              </Typography>
+
+              <Typography
+                variant="body2"
+                component="p"
+                className="card-paragraph center"
+              >
+                Secure payments.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
 
       <Grid
@@ -142,53 +140,54 @@ export default function Landing() {
         component="div"
         className="reviews-container"
       >
-        <Typography component="h3" variant="h3" className="h3 center">
+        <Typography item component="h3" variant="h3" className="h3 center">
           Reviews
         </Typography>
-        <Typography variant="h4" component="h4" className="h4 center">
+        <Typography item variant="h4" component="h4" className="h4 center">
           This is what our clients are saying...
         </Typography>
-        <Container maxWidth="xl" className="review-cards">
-          <Grid item lg={3}>
-            <Card className="review-card">
-              <CardHeader
-                avatar={<Avatar>M</Avatar>}
-                title="Elizabeth Mayer"
-              ></CardHeader>
-              <CardContent>
-                <Typography>
-                  Best Thing ever! Totally recommend! (Im not been paid)
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item lg={3}>
-            <Card className="review-card">
-              <CardHeader
-                avatar={<Avatar>M</Avatar>}
-                title="Elizabeth Mayer"
-              ></CardHeader>
-              <CardContent>
-                <Typography>
-                  Best Thing ever! Totally recommend! (Im not been paid)
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item sm={12} lg={3}>
-            <Card className="review-card">
-              <CardHeader
-                avatar={<Avatar>M</Avatar>}
-                title="Elizabeth Mayer"
-              ></CardHeader>
-              <CardContent>
-                <Typography>
-                  Best Thing ever! Totally recommend! (Im not been paid)
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Container>
+        <Grid
+          container
+          justify="space-around"
+          maxWidth="xl"
+          className="review-cards"
+        >
+          <Card item className="review-card">
+            <CardHeader
+              avatar={<Avatar>M</Avatar>}
+              title="Elizabeth Mayer"
+            ></CardHeader>
+            <CardContent>
+              <Typography>
+                Best Thing ever! Totally recommend! (Im not been paid)
+              </Typography>
+            </CardContent>
+          </Card>
+
+          <Card item className="review-card">
+            <CardHeader
+              avatar={<Avatar>M</Avatar>}
+              title="Elizabeth Mayer"
+            ></CardHeader>
+            <CardContent>
+              <Typography>
+                Best Thing ever! Totally recommend! (Im not been paid)
+              </Typography>
+            </CardContent>
+          </Card>
+
+          <Card item className="review-card">
+            <CardHeader
+              avatar={<Avatar>M</Avatar>}
+              title="Elizabeth Mayer"
+            ></CardHeader>
+            <CardContent>
+              <Typography>
+                Best Thing ever! Totally recommend! (Im not been paid)
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </Grid>
   );
