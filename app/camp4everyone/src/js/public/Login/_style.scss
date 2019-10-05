@@ -1,0 +1,13 @@
+// .login-container {
+//   background-color: $primary-color;
+// }
+.login {
+  padding: 1rem 0;
+  background: $primary-color;
+  color: $text-white;
+}
+
+.login-icon {
+  display: flex;
+  justify-content: center;
+}
