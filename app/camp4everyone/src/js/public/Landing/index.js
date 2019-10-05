@@ -8,10 +8,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import MaterialIcon from 'material-icons-react';
 
+import Navbar from '../Navbar/index';
+
 export default function Landing() {
   return (
     <Grid container component='main' className=''>
       {/* Hero */}
+      <Navbar></Navbar>
       <Grid item lg={12} component='div' className='hero-container'>
         <div className='opacity-container'>
           <Container className='hero center'>
