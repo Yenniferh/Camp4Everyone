@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function CustomizedInputs() {
+export default function Login() {
   const classes = useStyles()
   const [values, setValues] = React.useState({
     email: '',
@@ -53,66 +53,73 @@ export default function CustomizedInputs() {
   }
 
   return (
-    <Container component='main' maxWidth='xs' className='login' color='primary'>
-      <form className={classes.root} noValidate>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} className='login-icon'>
-            <MaterialIcon icon='account_circle' color='#ffffff' size={80} />
+    <Container component='div' className='login-container'>
+      <Container
+        component='main'
+        maxWidth='xs'
+        className='login'
+        color='primary'
+      >
+        <form className={classes.root} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} className='login-icon'>
+              <MaterialIcon icon='account_circle' color='#ffffff' size={80} />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Typography component='h1' variant='h5'>
+                Log in to Camp4Everyone
+              </Typography>
+            </Grid>
+            <CssTextField
+              className={classes.margin}
+              required
+              fullWidth
+              label='Email'
+              variant='outlined'
+              id='email'
+              type='email'
+              name='email'
+              autoComplete='email'
+              value={values.email}
+              onChange={handleChange('email')}
+            />
+            <CssTextField
+              className={classes.margin}
+              required
+              fullWidth
+              label='Password'
+              variant='outlined'
+              id='password'
+              type='password'
+              name='password'
+              autoComplete='password'
+              value={values.password}
+              onChange={handleChange('password')}
+            />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <Typography component='h1' variant='h5'>
-              Inicia sesión en Camp4Everyone
+          <Grid item xs={12}>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='secondary'
+              style={{ marginTop: '0.8rem' }}
+            >
+              Log in
+            </Button>
+          </Grid>
+          <Grid item xs={12} spacing={2} style={{ marginTop: '0.8rem' }}>
+            <Typography component='p'>
+              Already using Camp4Everyone?{' · '}
+              <Link to='/passwordRecovery'>Forgot password?</Link>
+            </Typography>
+            <Typography component='p'>
+              New to Camp4Everyone?{' · '}
+              <Link to='/signup'>Sign up now »</Link>
             </Typography>
           </Grid>
-          <CssTextField
-            className={classes.margin}
-            required
-            fullWidth
-            label='Email'
-            variant='outlined'
-            id='email'
-            type='email'
-            name='email'
-            autoComplete='email'
-            value={values.email}
-            onChange={handleChange('email')}
-          />
-          <CssTextField
-            className={classes.margin}
-            required
-            fullWidth
-            label='Password'
-            variant='outlined'
-            id='password'
-            type='password'
-            name='password'
-            autoComplete='password'
-            value={values.password}
-            onChange={handleChange('password')}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='secondary'
-            style={{ marginTop: '0.8rem' }}
-          >
-            Inicia sesión
-          </Button>
-        </Grid>
-        <Grid item xs={12} spacing={2} style={{ marginTop: '0.8rem' }}>
-          <Typography component='p'>
-            ¿Ya tienes cuenta?{' · '}
-            <Link to='/passwordRecovery'>¿Olvidaste tu contraseña?</Link>
-          </Typography>
-          <Typography component='p'>
-            ¿Nuevo en Camp4Everyone?{' · '}
-            <Link to='/signup'>Regístrate ahora »</Link>
-          </Typography>
-        </Grid>
-      </form>
+        </form>
+      </Container>
     </Container>
   )
 }
