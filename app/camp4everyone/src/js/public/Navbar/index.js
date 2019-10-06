@@ -5,6 +5,8 @@ import MaterialIcon from "material-icons-react";
 import { Toolbar } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import InputBase from "@material-ui/core/InputBase";
+import { Link} from "react-router-dom";
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -72,8 +74,8 @@ export default function Navbar() {
           />
         </div>
         <div className={classes.grow} />
-        <Button type="button" variant="contained" color="primary" size="small">
-          Log In
+        <Button type="button" variant="contained" color="primary" size="small">         
+        <Link to='/login' style={{ textDecoration: 'none', color: 'white' }}>Log In</Link>
         </Button>
         <Button
           type="button"
@@ -82,7 +84,7 @@ export default function Navbar() {
           size="small"
           style={{ marginLeft: 1 + "em" }}
         >
-          Sign Up
+          <Link to='/login' style={{ textDecoration: 'none',color: 'white' }}>Sign Up</Link>          
         </Button>
       </Toolbar>
     </AppBar>
