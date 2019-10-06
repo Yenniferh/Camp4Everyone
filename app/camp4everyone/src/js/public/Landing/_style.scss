@@ -34,6 +34,7 @@
   .cards-container {
     display: flex;
     .card {
+      width: 300px;
       margin-top: 2.5rem;
       margin-right: 1.2rem;
       .circle-icon {
@@ -55,6 +56,32 @@
         font-weight: 300;
         font-size: 1rem;
       }
+    }
+  }
+}
+
+.reviews-container {
+  background-color: $secondary-color;
+  padding-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  .h3 {
+    margin-top: 2.5rem;
+    color: $text-blue;
+    font-weight: bold;
+  }
+  .h4 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .review-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .review-card {
+      margin-right: 2rem; 
+      margin-top: 2rem;
     }
   }
 }
