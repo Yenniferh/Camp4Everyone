@@ -13,7 +13,6 @@ function Public() {
         <Route path='/' exact component={Landing} />
         <Route path='/signup' component={Signup} />
         <Route path='/login' component={Login} />
-        <Route path="/" exact component={Landing} />
         <Route path="/category" component={Category} />
         <Route path="/aboutus" component={AboutUs} />
       </BrowserRouter>
