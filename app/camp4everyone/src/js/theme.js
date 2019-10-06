@@ -12,6 +12,10 @@ export default createMuiTheme({
       light: '#6dc7a8',
       dark: '#00674d',
     },
+    text: {
+      primary: '#ffffff',
+      secondary: '#3a9679',
+    },
   },
   themeName: 'Blue Zodiac Ocean Green Eagle',
 });

@@ -1,0 +1,19 @@
+.AboutUs{
+    background-color: #FCFCFC;
+    .h2{
+        margin-top: 90px;
+        margin-bottom: 90px;
+        color: $text-blue;
+        font-weight: bold;
+    }
+    .AboutUs-Grid{
+        .OneOfUs-Card{            
+            margin-bottom: 30px;
+            background-color: bisque;
+            width: 300px;
+            .Card-Image{
+                height: 300px;
+            }
+        }
+    }
+}
