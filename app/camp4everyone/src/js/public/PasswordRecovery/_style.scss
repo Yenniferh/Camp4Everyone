@@ -1,17 +1,16 @@
-.Fondo{
-    height: 100vh;
-    background-color: aliceblue;
-    .Recovery-Card{
+.fondo{
+    min-height: 100vh;
+    background-color: $primary-color;
+    .recovery-card{
         height: 200px;
         width: 600px;
         .h4{
-            
         }
         .input{
-            
+            margin-left: 200px;
         }
-        .Recover-Button{
-            
+        .recover-button{
+           margin: 0 auto;
         }
     }
 }
