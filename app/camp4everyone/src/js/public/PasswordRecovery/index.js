@@ -16,7 +16,6 @@ export default function PasswordRecovery() {
             Recover Password
           </Typography>
         </CardContent>
-
         <Input
           placeholder="Email"
           inputProps={{
@@ -24,7 +23,6 @@ export default function PasswordRecovery() {
           }}
           className="input"
         />
-
         <CardActions>
           <Button
             type="button"

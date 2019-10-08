@@ -25,5 +25,4 @@ function Public() {
     </main>
   );
 }
-
 export default Public;
