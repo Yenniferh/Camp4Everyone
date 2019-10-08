@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import DavidImage from "./DavidImage.jpg";
-import YenniImage from "./YenniImage.jpg";
+import DavidImage from "./DavidImage.jpeg";
+import YenniImage from "./YenniImage.jpeg";
 import IsaacImage from "./IsaacImage.jpg";
 import { Typography } from "@material-ui/core";
 
@@ -32,7 +32,7 @@ export default function AboutUs() {
             <Typography>Age: 21</Typography>
             <Typography>Universidad del Norte Student</Typography>
             <Typography>
-              Who is he? No body nows. And is better that way.
+              Working all day, partying all night (He doesn't sleep).
             </Typography>
           </CardContent>
         </Card>
@@ -46,7 +46,10 @@ export default function AboutUs() {
             </Typography>
             <Typography>Age: 20</Typography>
             <Typography>Universidad del Norte Student</Typography>
-            <Typography>She has more likes on Facebook than you.</Typography>
+            <Typography>
+              She has more than a thousand likes on her Facebook profile
+              picture.
+            </Typography>
           </CardContent>
         </Card>
 
@@ -59,7 +62,7 @@ export default function AboutUs() {
             </Typography>
             <Typography>Age: 22</Typography>
             <Typography>Universidad del Norte Student</Typography>
-            <Typography>Pretends to have money.</Typography>
+            <Typography>Whith big dreams but an empty wallet.</Typography>
           </CardContent>
         </Card>
       </Grid>

@@ -6,6 +6,11 @@ import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
+import Snackbar from '@material-ui/core/Snackbar'
+
+import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper'
+import Loading from './../../utils/Loading'
+import { signup } from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -39,16 +44,75 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Signup() {
+export default function Signup(props) {
   const classes = useStyles()
+
+  const [variant, setVariant] = React.useState('')
+  const [message, setMessage] = React.useState('')
+  const [open, setOpen] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+
   const [values, setValues] = React.useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   })
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
+  }
+
+  const handleSubmit = evt => {
+    evt.preventDefault()
+
+    if (
+      values.name &&
+      values.email &&
+      values.password &&
+      values.confirmPassword
+    ) {
+      if (values.password === values.confirmPassword) {
+        setLoading(true)
+        signup(values.email, values.password)
+          .then(user => {
+            setVariant('success')
+            setMessage('Cuenta creada exitosamente')
+            setOpen(true)
+            setTimeout(() => {
+              // props.setAuthentication(true)
+              sessionStorage.setItem('user', user.user.uid)
+              setLoading(false)
+            }, 2000)
+          })
+          .catch(err => {
+            setTimeout(() => {
+              setVariant('error')
+              setMessage('Datos inválidos')
+              setOpen(true)
+              values.password = ''
+              values.confirmPassword = ''
+              setLoading(false)
+            }, 2000)
+          })
+      } else {
+        setVariant('error')
+        setMessage('Las contraseñas no coinciden')
+        setOpen(true)
+        values.password = ''
+        values.confirmPassword = ''
+      }
+    } else {
+      setVariant('error')
+      setMessage('Digite todos los campos')
+      setOpen(true)
+      values.password = ''
+      values.confirmPassword = ''
+    }
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   return (
@@ -59,7 +123,8 @@ export default function Signup() {
         className='login'
         color='primary'
       >
-        <form className={classes.root} noValidate>
+        {loading && <Loading />}
+        <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Typography component='h1' variant='h5'>
@@ -75,6 +140,7 @@ export default function Signup() {
               id='name'
               type='name'
               name='name'
+              inputProps={{ style: { color: 'white' } }}
               autoComplete='name'
               value={values.name}
               onChange={handleChange('name')}
@@ -88,6 +154,7 @@ export default function Signup() {
               id='email'
               type='email'
               name='email'
+              inputProps={{ style: { color: 'white' } }}
               autoComplete='email'
               value={values.email}
               onChange={handleChange('email')}
@@ -101,9 +168,24 @@ export default function Signup() {
               id='password'
               type='password'
               name='password'
+              inputProps={{ style: { color: 'white' } }}
               autoComplete='password'
               value={values.password}
               onChange={handleChange('password')}
+            />
+            <CssTextField
+              className={classes.margin}
+              required
+              fullWidth
+              label='Confirm password'
+              variant='outlined'
+              id='confirmPassword'
+              type='password'
+              name='confirmPassword'
+              inputProps={{ style: { color: 'white' } }}
+              autoComplete='confirmPassword'
+              value={values.confirmPassword}
+              onChange={handleChange('confirmPassword')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -119,6 +201,22 @@ export default function Signup() {
           </Grid>
         </form>
       </Container>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
+        <SnackbarContentWrapper
+          onClose={handleClose}
+          variant={variant}
+          message={message}
+        />
+      </Snackbar>
     </Container>
   )
 }

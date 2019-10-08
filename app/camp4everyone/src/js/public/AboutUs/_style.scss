@@ -1,15 +1,15 @@
 .AboutUs{
-    background-color: #FCFCFC;
+    background-color: $primary-color;
     .h2{
         margin-top: 90px;
         margin-bottom: 90px;
-        color: $text-blue;
+        color: $text-white;
         font-weight: bold;
     }
     .AboutUs-Grid{
         .OneOfUs-Card{            
             margin-bottom: 30px;
-            background-color: bisque;
+            background-color: $text-white;
             width: 300px;
             .Card-Image{
                 height: 300px;
