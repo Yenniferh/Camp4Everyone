@@ -5,15 +5,15 @@ import Category from "./Category/";
 import AboutUs from "./AboutUs/";
 import Login from "./Login/";
 import Signup from "./Signup/";
-import Navbar from "./Navbar";
 import PasswordRec from "./PasswordRecovery";
 import CategoryNav from "./CategoryNavigation";
+import Navbar from "./Navbar/";
 
 function Public() {
   return (
     <main>
-      <Navbar />
       <BrowserRouter>
+        <Navbar></Navbar>
         <Route path="/" exact component={Landing} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
