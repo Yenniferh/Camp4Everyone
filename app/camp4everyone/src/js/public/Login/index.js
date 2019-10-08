@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -16,42 +16,42 @@ import { login } from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
-    '& label.Mui-focused': {
-      color: '#3a9679'
+    "& label.Mui-focused": {
+      color: "#3a9679"
     },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#3a9679'
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#3a9679"
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'white'
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "white"
       },
-      '&:hover fieldset': {
-        borderColor: '#3a9679'
+      "&:hover fieldset": {
+        borderColor: "#3a9679"
       },
-      '&.Mui-focused fieldset': {
-        borderColor: '#3a9679'
+      "&.Mui-focused fieldset": {
+        borderColor: "#3a9679"
       }
     }
   }
-})(TextField)
+})(TextField);
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: "flex",
+    flexWrap: "wrap"
   },
   margin: {
     margin: theme.spacing(1)
   }
-}))
+}));
 
 export default function Login() {
-  const classes = useStyles()
+  const classes = useStyles();
   const [values, setValues] = React.useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: ""
+  });
 
   const [variant, setVariant] = React.useState('')
   const [message, setMessage] = React.useState('')
@@ -99,26 +99,26 @@ export default function Login() {
   }
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   return (
-    <Container component='div' className='login-container'>
+    <Container component="div" className="login-container">
       <Container
-        component='main'
-        maxWidth='xs'
-        className='login'
-        color='primary'
+        component="main"
+        maxWidth="xs"
+        className="login"
+        color="primary"
       >
         {loading && <Loading />}
         {toCategory ? <Redirect to='/category' /> : null}
         <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} className='login-icon'>
-              <MaterialIcon icon='account_circle' color='#ffffff' size={80} />
+            <Grid item xs={12} sm={12} className="login-icon">
+              <MaterialIcon icon="account_circle" color="#ffffff" size={80} />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <Typography component='h1' variant='h5'>
+              <Typography component="h1" variant="h5">
                 Log in to Camp4Everyone
               </Typography>
             </Grid>
@@ -134,7 +134,7 @@ export default function Login() {
               inputProps={{ style: { color: 'white' } }}
               autoComplete='email'
               value={values.email}
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
             />
             <CssTextField
               className={classes.margin}
@@ -148,28 +148,28 @@ export default function Login() {
               inputProps={{ style: { color: 'white' } }}
               autoComplete='password'
               value={values.password}
-              onChange={handleChange('password')}
+              onChange={handleChange("password")}
             />
           </Grid>
           <Grid item xs={12}>
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
-              color='secondary'
-              style={{ marginTop: '0.8rem' }}
+              variant="contained"
+              color="secondary"
+              style={{ marginTop: "0.8rem" }}
             >
               Log in
             </Button>
           </Grid>
-          <Grid item xs={12} spacing={2} style={{ marginTop: '0.8rem' }}>
-            <Typography component='p'>
-              Already using Camp4Everyone?{' · '}
-              <Link to='/passwordRecovery'>Forgot password?</Link>
+          <Grid item xs={12} spacing={2} style={{ marginTop: "0.8rem" }}>
+            <Typography component="p">
+              Already using Camp4Everyone?{" · "}
+              <Link to="/passwordRecovery">Forgot password?</Link>
             </Typography>
-            <Typography component='p'>
-              New to Camp4Everyone?{' · '}
-              <Link to='/signup'>Sign up now »</Link>
+            <Typography component="p">
+              New to Camp4Everyone?{" · "}
+              <Link to="/signup">Sign up now »</Link>
             </Typography>
           </Grid>
         </form>
@@ -191,5 +191,5 @@ export default function Login() {
         />
       </Snackbar>
     </Container>
-  )
+  );
 }

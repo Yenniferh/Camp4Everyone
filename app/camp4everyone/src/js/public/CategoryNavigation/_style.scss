@@ -1,0 +1,38 @@
+.categorys-fondo{
+    background-color: $background-color;
+    min-height: 100vh;
+    .h4{
+        margin-bottom: 30px;
+        color: $text-blue;
+        font-weight: bold;
+    }
+
+    .category-card{
+        display: flex;
+        margin: 20px;
+        height: 100px;
+        width: 250px;
+        align-items: center;
+        .card-title{
+            color: $text-blue;
+            .h5{
+                
+            }
+        }
+        .card-image{
+            height: 100px;
+            width: 250px;
+        }
+    }
+
+    .most-checked-section{
+        
+        .category-cards{
+            
+            
+        }
+    }
+    .normal-section{
+        
+    }
+}
