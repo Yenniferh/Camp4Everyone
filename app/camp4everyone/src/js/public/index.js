@@ -5,8 +5,6 @@ import Category from "./Category/";
 import AboutUs from "./AboutUs/";
 import Login from './Login/'
 import Signup from './Signup/'
-import Login from "./Login/";
-import Signup from "./Signup/";
 import PasswordRec from "./PasswordRecovery";
 import CategoryNav from "./CategoryNavigation";
 import Navbar from "./Navbar/";
