@@ -1,0 +1,16 @@
+.fondo{
+    min-height: 100vh;
+    background-color: $primary-color;
+    .recovery-card{
+        height: 200px;
+        width: 600px;
+        .h4{
+        }
+        .input{
+            margin-left: 200px;
+        }
+        .recover-button{
+           margin: 0 auto;
+        }
+    }
+}
