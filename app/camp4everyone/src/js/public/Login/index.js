@@ -7,7 +7,12 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import MaterialIcon from 'material-icons-react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import Snackbar from '@material-ui/core/Snackbar'
+
+import { SnackbarContentWrapper } from './../../utils/SnackbarContentWrapper'
+import Loading from './../../utils/Loading'
+import { login } from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -48,6 +53,51 @@ export default function Login() {
     password: ''
   })
 
+  const [variant, setVariant] = React.useState('')
+  const [message, setMessage] = React.useState('')
+  const [open, setOpen] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+  const [toCategory, setToCategory] = React.useState(false)
+
+  const handleSubmit = evt => {
+    evt.preventDefault()
+    setLoading(true)
+    if (values.email && values.password) {
+      login(values.email, values.password)
+        .then(user => {
+          setVariant('success')
+          setMessage('Usuario autorizado')
+          setOpen(true)
+
+          setTimeout(() => {
+            // props.setAuthentication(true)
+            sessionStorage.setItem('user', user.user.uid)
+            setLoading(false)
+            setToCategory(true)
+          }, 2000)
+        })
+        .catch(err => {
+          setTimeout(() => {
+            setVariant('error')
+            setMessage('Credenciales inválidas')
+            setOpen(true)
+            setValues.password = ''
+            setLoading(false)
+          }, 2000)
+        })
+    } else {
+      setVariant('error')
+      setMessage('Digite todos los campos')
+      setOpen(true)
+      setValues.password = ''
+      setLoading(false)
+    }
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
@@ -60,7 +110,9 @@ export default function Login() {
         className='login'
         color='primary'
       >
-        <form className={classes.root} noValidate>
+        {loading && <Loading />}
+        {toCategory ? <Redirect to='/category' /> : null}
+        <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} className='login-icon'>
               <MaterialIcon icon='account_circle' color='#ffffff' size={80} />
@@ -79,6 +131,7 @@ export default function Login() {
               id='email'
               type='email'
               name='email'
+              inputProps={{ style: { color: 'white' } }}
               autoComplete='email'
               value={values.email}
               onChange={handleChange('email')}
@@ -92,6 +145,7 @@ export default function Login() {
               id='password'
               type='password'
               name='password'
+              inputProps={{ style: { color: 'white' } }}
               autoComplete='password'
               value={values.password}
               onChange={handleChange('password')}
@@ -120,6 +174,22 @@ export default function Login() {
           </Grid>
         </form>
       </Container>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
+        <SnackbarContentWrapper
+          onClose={handleClose}
+          variant={variant}
+          message={message}
+        />
+      </Snackbar>
     </Container>
   )
 }
