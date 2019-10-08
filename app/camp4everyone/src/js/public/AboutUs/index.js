@@ -5,7 +5,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import DavidImage from "./DavidImage.jpeg";
 import YenniImage from "./YenniImage.jpeg";
-import IsaacImage from "./IsaacImage.JPG";
+import IsaacImage from "./IsaacImage.jpg";
 import { Typography } from "@material-ui/core";
 
 export default function AboutUs() {
