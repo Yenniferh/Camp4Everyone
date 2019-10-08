@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar'
+import { Link } from 'react-router-dom'
 
 import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper'
 import Loading from './../../utils/Loading'
@@ -187,6 +188,10 @@ export default function Signup(props) {
               value={values.confirmPassword}
               onChange={handleChange('confirmPassword')}
             />
+          </Grid>
+          <Grid item xs={12} style={{ paddingTop: 1 + 'rem' }}>
+            By clicking Sign up you are accepting our{' '}
+            <Link to='/termsandconditions'>Terms and Conditions</Link>
           </Grid>
           <Grid item xs={12}>
             <Button
