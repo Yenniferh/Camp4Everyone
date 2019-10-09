@@ -46,18 +46,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     email: "",
     password: ""
   });
 
-  const [variant, setVariant] = React.useState('')
-  const [message, setMessage] = React.useState('')
-  const [open, setOpen] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
-  const [toCategory, setToCategory] = React.useState(false)
+  const [variant, setVariant] = React.useState('');
+  const [message, setMessage] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [toCategory, setToCategory] = React.useState(false);
 
   const handleSubmit = evt => {
     evt.preventDefault()
@@ -70,10 +70,9 @@ export default function Login() {
           setOpen(true)
 
           setTimeout(() => {
-            // props.setAuthentication(true)
-            sessionStorage.setItem('user', user.user.uid)
-            setLoading(false)
-            setToCategory(true)
+            props.setAuthentication(true);
+            sessionStorage.setItem('user', user.user.uid);
+            setLoading(false);
           }, 2000)
         })
         .catch(err => {
