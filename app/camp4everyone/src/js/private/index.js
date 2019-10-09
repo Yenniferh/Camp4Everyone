@@ -1,11 +1,15 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Navbar from "../public/Navbar/";
+import Footer from "../public/Footer/";
 
-function Private() {
+function Private(props) {
   return (
-    <div>
-      <h1>Private</h1>
-    </div>
+    <main>
+      <BrowserRouter>
+        <Navbar setAuthentication={props.setAuthentication}  ></Navbar>
+      </BrowserRouter>
+    </main>
   );
 }
-
 export default Private;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState, useEffect}  from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import MaterialIcon from 'material-icons-react'
@@ -6,10 +6,17 @@ import { Toolbar } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import InputBase from '@material-ui/core/InputBase'
 import { Link } from 'react-router-dom'
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
+  },
+  button:{
+    borderRadius:'5px',
+    border:0,
+    marginTop:'2%',
+    backgroundColor:'#11144c',
   },
   search: {
     position: 'relative',
@@ -57,44 +64,70 @@ const useStyles = makeStyles(theme => ({
 // FIXME: hide log in button when logged
 // FIXME: hide sign up button when logged
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const signout = () => {
+    props.setAuthentication(false);
+  }
+  
+  const [isAuth, setIsAuth] = useState(false);
+  useEffect(() => {
+    const uid = sessionStorage.getItem("user");
+    uid !== null && setIsAuth(true);
+  },[isAuth]);
+
+
   const classes = useStyles()
   return (
     <AppBar position='static' color='secondary'>
-      <Toolbar>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <MaterialIcon icon='search' />
-          </div>
-          <InputBase
-            placeholder='Search…'
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
+    <Toolbar>
+      <Link to='/'>
+        <MaterialIcon icon='home' color='#11144c' size={30} />
+      </Link>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <MaterialIcon icon='search' />
         </div>
-        <div className={classes.grow} />
-        <Button type='button' variant='contained' color='primary' size='small'>
+        <InputBase
+          placeholder='Search…'
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </div>
+      <div className={classes.grow} />
+      {
+        isAuth ?
+          <div>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              color="inherit"
+              onClick={signout}
+            >
+              <MaterialIcon icon='power_settings_new' color='#11144c' size={30} />
+              
+          </IconButton>
+          </div>
+        : 
+        <div>
+          <button className={classes.button}>
           <Link to='/login' className='navbar-link'>
             Log In
           </Link>
-        </Button>
-        <Button
-          type='button'
-          variant='contained'
-          color='primary'
-          size='small'
-          style={{
-            marginLeft: 1 + 'em'
-          }}
-        >
+          </button>
+          <button className={classes.button}>
           <Link to='/signup' className='navbar-link'>
             Sign Up
           </Link>
-        </Button>
-      </Toolbar>
-    </AppBar>
+          </button>
+
+          
+        </div>
+      }
+    </Toolbar>
+  </AppBar>
   )
 }

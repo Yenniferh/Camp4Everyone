@@ -67,12 +67,7 @@ export default function Signup(props) {
   const handleSubmit = evt => {
     evt.preventDefault()
 
-    if (
-      values.name &&
-      values.email &&
-      values.password &&
-      values.confirmPassword
-    ) {
+    if ( values.name && values.email && values.password && values.confirmPassword ) {
       if (values.password === values.confirmPassword) {
         setLoading(true)
         signup(values.email, values.password)
@@ -81,7 +76,7 @@ export default function Signup(props) {
             setMessage('Cuenta creada exitosamente')
             setOpen(true)
             setTimeout(() => {
-              // props.setAuthentication(true)
+              props.setAuthentication(true)
               sessionStorage.setItem('user', user.user.uid)
               setLoading(false)
             }, 2000)

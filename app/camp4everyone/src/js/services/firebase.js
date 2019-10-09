@@ -15,14 +15,14 @@ firebase.initializeApp({
 const auth = firebase.auth()
 
 export const login = (email, password) => {
-  return auth.signInWithEmailAndPassword(email, password)
+  return auth.signInWithEmailAndPassword(email, password);
 }
 export const signup = (email, password) => {
-  return auth.createUserWithEmailAndPassword(email, password)
+  return auth.createUserWithEmailAndPassword(email, password);
 }
 export const signout = () => {
-  return auth.signOut()
+  return auth.signOut();
 }
 export const passwordRecovery = email => {
-  return auth.sendPasswordResetEmail(email)
+  return auth.sendPasswordResetEmail(email);
 }
