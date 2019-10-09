@@ -1,0 +1,18 @@
+.login-container {
+  background-color: $primary-color;
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: auto;
+  align-items: center;
+}
+.login {
+  padding: 1rem 0;
+  background: $primary-color;
+  color: $text-white;
+}
+
+.login-icon {
+  display: flex;
+  justify-content: center;
+}
