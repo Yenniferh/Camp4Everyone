@@ -71,7 +71,7 @@ export default function Login(props) {
 
           setTimeout(() => {
             props.setAuthentication(true);
-            sessionStorage.setItem('user', user.user.uid);
+            sessionStorage.setItem('userPassword', values.password);
             setLoading(false);
           }, 2000)
         })
