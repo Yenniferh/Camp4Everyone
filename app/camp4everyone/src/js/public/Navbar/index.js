@@ -65,6 +65,10 @@ const useStyles = makeStyles(theme => ({
 // FIXME: hide sign up button when logged
 
 export default function Navbar(props) {
+  const signout = () => {
+    props.setAuthentication(false);
+  }
+
   const classes = useStyles()
   return (
     <AppBar position='static' color='secondary'>
@@ -88,14 +92,14 @@ export default function Navbar(props) {
       <div className={classes.grow} />
         <div>
           <button className={classes.button}>
-          <Link to='/login' className='navbar-link'>
-            Log In
-          </Link>
+            <Link to='/login' className='navbar-link'>
+              Log In
+            </Link>
           </button>
           <button className={classes.button}>
-          <Link to='/signup' className='navbar-link'>
-            Sign Up
-          </Link>
+            <Link to='/signup' className='navbar-link'>
+              Sign Up
+            </Link>
           </button>
         </div>
     </Toolbar>

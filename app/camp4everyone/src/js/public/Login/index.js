@@ -71,7 +71,7 @@ export default function Login(props) {
             sessionStorage.setItem('user', user.user.uid);
             setLoading(false);
             props.setAuthentication(true);
-          }, 200)
+          }, 2000)
         })
         .catch(err => {
           setTimeout(() => {
@@ -80,7 +80,7 @@ export default function Login(props) {
             setOpen(true)
             setValues.password = ''
             setLoading(false)
-          }, 200)
+          }, 2000)
         })
     } else {
       setVariant('error')

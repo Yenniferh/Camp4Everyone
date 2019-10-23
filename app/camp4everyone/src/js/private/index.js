@@ -1,9 +1,14 @@
 import React from "react";
+import Navbar from "../public/Navbar/";
+import { BrowserRouter, Route } from "react-router-dom";
+
 
 function Private(props) {
   return (
     <main>
-      asdas
+      <BrowserRouter>
+        <Navbar></Navbar>
+      </BrowserRouter>
     </main>
   );
 }

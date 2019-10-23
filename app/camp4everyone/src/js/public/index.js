@@ -15,6 +15,7 @@ function Public(props) {
   return (
     <main>
       <BrowserRouter>
+        <Navbar></Navbar>
         <Route path="/" exact component={Landing} />
         <Route path="/signup" render={()=><Signup setAuthentication={props.setAuthentication} />} />
         <Route path="/login" render={()=><Login setAuthentication={props.setAuthentication} />} />
