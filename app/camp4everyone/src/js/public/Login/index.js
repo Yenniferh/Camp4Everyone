@@ -58,7 +58,6 @@ export default function Login(props) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [toCategory, setToCategory] = React.useState(false);
-
   const handleSubmit = evt => {
     evt.preventDefault()
     setLoading(true)
@@ -68,12 +67,11 @@ export default function Login(props) {
           setVariant('success')
           setMessage('Usuario autorizado')
           setOpen(true)
-
           setTimeout(() => {
-            props.setAuthentication(true);
-            sessionStorage.setItem('userPassword', values.password);
+            sessionStorage.setItem('user', user.user.uid);
             setLoading(false);
-          }, 2000)
+            props.setAuthentication(true);
+          }, 200)
         })
         .catch(err => {
           setTimeout(() => {
@@ -82,7 +80,7 @@ export default function Login(props) {
             setOpen(true)
             setValues.password = ''
             setLoading(false)
-          }, 2000)
+          }, 200)
         })
     } else {
       setVariant('error')

@@ -11,6 +11,7 @@ function Main() {
   useEffect(() => {
     const uid = sessionStorage.getItem("user");
     uid !== null && setIsAuth(true);
+    
   },[isAuth]);
 
   const setAuthentication = val => { 
@@ -20,7 +21,6 @@ function Main() {
     }  
     setIsAuth(val);
   }
-
 
   return (
     <main>

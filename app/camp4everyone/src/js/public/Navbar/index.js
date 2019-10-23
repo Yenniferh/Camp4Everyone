@@ -1,4 +1,4 @@
-import React,{useState, useEffect}  from 'react'
+import React from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import MaterialIcon from 'material-icons-react'
@@ -65,17 +65,6 @@ const useStyles = makeStyles(theme => ({
 // FIXME: hide sign up button when logged
 
 export default function Navbar(props) {
-  const signout = () => {
-    props.setAuthentication(false);
-  }
-  
-  const [isAuth, setIsAuth] = useState(false);
-  useEffect(() => {
-    const uid = sessionStorage.getItem("user");
-    uid !== null && setIsAuth(true);
-  },[isAuth]);
-
-
   const classes = useStyles()
   return (
     <AppBar position='static' color='secondary'>
@@ -97,21 +86,6 @@ export default function Navbar(props) {
         />
       </div>
       <div className={classes.grow} />
-      {
-        isAuth ?
-          <div>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={signout}
-            >
-              <MaterialIcon icon='power_settings_new' color='#11144c' size={30} />
-              
-          </IconButton>
-          </div>
-        : 
         <div>
           <button className={classes.button}>
           <Link to='/login' className='navbar-link'>
@@ -123,10 +97,7 @@ export default function Navbar(props) {
             Sign Up
           </Link>
           </button>
-
-          
         </div>
-      }
     </Toolbar>
   </AppBar>
   )
