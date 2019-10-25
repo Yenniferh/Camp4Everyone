@@ -1,71 +1,71 @@
-import React from 'react'
+import React from 'react';
 
-import { withStyles, makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Container from '@material-ui/core/Container'
-import Snackbar from '@material-ui/core/Snackbar'
-import { Link } from 'react-router-dom'
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Snackbar from '@material-ui/core/Snackbar';
+import { Link } from 'react-router-dom';
 
-import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper'
-import Loading from './../../utils/Loading'
-import { signup } from './../../services/firebase'
+import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper';
+import Loading from './../../utils/Loading';
+import { signup } from './../../services/firebase';
 
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
-      color: '#3a9679'
+      color: '#3a9679',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: '#3a9679'
+      borderBottomColor: '#3a9679',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'white'
+        borderColor: 'white',
       },
       '&:hover fieldset': {
-        borderColor: '#3a9679'
+        borderColor: '#3a9679',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#3a9679'
-      }
-    }
-  }
-})(TextField)
+        borderColor: '#3a9679',
+      },
+    },
+  },
+})(TextField);
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   margin: {
-    margin: theme.spacing(1)
-  }
-}))
+    margin: theme.spacing(1),
+  },
+}));
 
 export default function Signup(props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [variant, setVariant] = React.useState('')
-  const [message, setMessage] = React.useState('')
-  const [open, setOpen] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
+  const [variant, setVariant] = React.useState('');
+  const [message, setMessage] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const [values, setValues] = React.useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
-  })
+    confirmPassword: '',
+  });
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   const handleSubmit = evt => {
-    evt.preventDefault()
+    evt.preventDefault();
 
     if (
       values.name &&
@@ -74,47 +74,47 @@ export default function Signup(props) {
       values.confirmPassword
     ) {
       if (values.password === values.confirmPassword) {
-        setLoading(true)
+        setLoading(true);
         signup(values.email, values.password)
           .then(user => {
-            setVariant('success')
-            setMessage('Cuenta creada exitosamente')
-            setOpen(true)
+            setVariant('success');
+            setMessage('Cuenta creada exitosamente');
+            setOpen(true);
             setTimeout(() => {
               // props.setAuthentication(true)
-              sessionStorage.setItem('user', user.user.uid)
-              setLoading(false)
-            }, 2000)
+              sessionStorage.setItem('user', user.user.uid);
+              setLoading(false);
+            }, 2000);
           })
           .catch(err => {
             setTimeout(() => {
-              setVariant('error')
-              setMessage('Datos inválidos')
-              setOpen(true)
-              values.password = ''
-              values.confirmPassword = ''
-              setLoading(false)
-            }, 2000)
-          })
+              setVariant('error');
+              setMessage('Datos inválidos');
+              setOpen(true);
+              values.password = '';
+              values.confirmPassword = '';
+              setLoading(false);
+            }, 2000);
+          });
       } else {
-        setVariant('error')
-        setMessage('Las contraseñas no coinciden')
-        setOpen(true)
-        values.password = ''
-        values.confirmPassword = ''
+        setVariant('error');
+        setMessage('Las contraseñas no coinciden');
+        setOpen(true);
+        values.password = '';
+        values.confirmPassword = '';
       }
     } else {
-      setVariant('error')
-      setMessage('Digite todos los campos')
-      setOpen(true)
-      values.password = ''
-      values.confirmPassword = ''
+      setVariant('error');
+      setMessage('Digite todos los campos');
+      setOpen(true);
+      values.password = '';
+      values.confirmPassword = '';
     }
-  }
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <Container component='div' className='login-container'>
@@ -190,8 +190,10 @@ export default function Signup(props) {
             />
           </Grid>
           <Grid item xs={12} style={{ paddingTop: 1 + 'rem' }}>
-            By clicking Sign up you are accepting our{' '}
-            <Link to='/termsandconditions'>Terms and Conditions</Link>
+            <Typography>
+              By clicking Sign up you are accepting our{' '}
+              <Link to='/termsandconditions'>Terms and Conditions</Link>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Button
@@ -210,7 +212,7 @@ export default function Signup(props) {
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left'
+          horizontal: 'left',
         }}
         open={open}
         autoHideDuration={5000}
@@ -223,5 +225,5 @@ export default function Signup(props) {
         />
       </Snackbar>
     </Container>
-  )
+  );
 }
