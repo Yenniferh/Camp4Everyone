@@ -9,7 +9,8 @@ import PasswordRec from "./PasswordRecovery";
 import CategoryNav from "./CategoryNavigation";
 import Navbar from "./Navbar/";
 import Footer from "./Footer/";
-import TermsAndConditions from './TermsAndConditions/'
+import TermsAndConditions from './TermsAndConditions/';
+import userList from './userList';
 
 function Public(props) {
   return (
@@ -24,10 +25,14 @@ function Public(props) {
         <Route path="/termsandconditions" component={TermsAndConditions} />
         <Route path="/passwordrecovery" component={PasswordRec} />
         <Route path="/categorynav" component={CategoryNav} />
+        <Route path="/users" component={userList} />
         <Footer></Footer>
 
       </BrowserRouter>
     </main>
   );
 }
+
+
+
 export default Public;

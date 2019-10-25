@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/storage'
 import 'firebase/auth'
+import 'firebase/firestore';
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_APIKEY,
@@ -13,6 +14,7 @@ firebase.initializeApp({
   measurementId: process.env.REACT_APP_MEASUREMENTID
 })
 const auth = firebase.auth()
+var db = firebase.firestore()
 
 export const login = (email, password) => {
   return auth.signInWithEmailAndPassword(email, password);
@@ -25,4 +27,7 @@ export const signout = () => {
 }
 export const passwordRecovery = email => {
   return auth.sendPasswordResetEmail(email);
+}
+export const getdb = () => {
+  return db;
 }
