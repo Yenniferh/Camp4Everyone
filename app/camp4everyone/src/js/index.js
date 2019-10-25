@@ -27,9 +27,9 @@ function Main() {
         <MuiThemeProvider theme={theme}>
           {
             isAuth ?  
-              <Private/>
+              <Private setAuthentication={setAuthentication}/>
             :  
-              <Public />
+              <Public setAuthentication={setAuthentication}/>
           }    
           
         </MuiThemeProvider>

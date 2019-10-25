@@ -19,6 +19,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
 import Deposits from './Deposits.js';
+import UsersBox from './usersBox.js';
 
 function Copyright() {
   return (
@@ -170,7 +171,7 @@ export default function Admin() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <UsersBox />
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
