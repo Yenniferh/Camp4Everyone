@@ -1,12 +1,10 @@
-/* eslint-disable no-script-url */
-
-import React from 'react';
+import React, { useState , useEffect}  from "react";
+import { getdb }  from '../../services/firebase'
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-import { getdb }  from '../../services/firebase';
-
+import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   depositContext: {
@@ -15,33 +13,34 @@ const useStyles = makeStyles({
 });
 
 function UserTimes(){
-    const [users]
-    const db = getdb()
-    db.collection("users").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(doc.data());
-        });
-    });
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+      const db = getdb()
+      db.collection("users").onSnapshot((snapshot) => {
+        const newUsers = snapshot.docs.map((doc)=>({
+          email: doc.email,
+          ...doc.data()
+        }))
+        setUsers(newUsers)
+      })
+  },[]);
+  
+  return users
 }
 
-export default function UsersBox() {
-    const users = UserTimes()
 
+const  UsersBox = () => {
   const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Title>Users ({users.map().lenght()})</Title>
-      <Typography component="p" variant="h4">
-        $3,024.00
-      </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
-      </Typography>
-      <div>
-        <Link color="primary" href="javascript:;">
-          View balance
-        </Link>
-      </div>
+  const users = UserTimes()
+    return(
+      <React.Fragment>
+        <Title> Users ({users.length})</Title>
+        <button>CREATE</button>
+        <button>READ</button>
+        <button>UPDATE</button>
+        <button>DELETE</button>
     </React.Fragment>
-  );
-}
+
+    );
+  }
+  export default UsersBox;
