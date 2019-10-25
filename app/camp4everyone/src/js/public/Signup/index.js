@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 
 import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper'
 import Loading from './../../utils/Loading'
-import { signup } from './../../services/firebase'
+import { signup, addUser } from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -67,7 +67,12 @@ export default function Signup(props) {
   const handleSubmit = evt => {
     evt.preventDefault()
 
-    if ( values.name && values.email && values.password && values.confirmPassword ) {
+    if (
+      values.name &&
+      values.email &&
+      values.password &&
+      values.confirmPassword
+    ) {
       if (values.password === values.confirmPassword) {
         setLoading(true)
         signup(values.email, values.password)
@@ -78,6 +83,7 @@ export default function Signup(props) {
             setTimeout(() => {
               props.setAuthentication(true)
               sessionStorage.setItem('user', user.user.uid)
+              addUser(values.name, values.email)
               setLoading(false)
             }, 2000)
           })
