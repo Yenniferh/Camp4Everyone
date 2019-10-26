@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from "react";
 import Public from "./public/index";
 import Private from './private/index.js';

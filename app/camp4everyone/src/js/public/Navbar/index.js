@@ -69,13 +69,6 @@ export default function Navbar(props) {
   const signout = () => {
     props.setAuthentication(false);
   }
-  
-  const [isAuth, setIsAuth] = useState(false);
-  useEffect(() => {
-    const uid = sessionStorage.getItem("user");
-    uid !== null && setIsAuth(true);
-  },[isAuth]);
-
 
   const classes = useStyles()
   return (
@@ -100,21 +93,6 @@ export default function Navbar(props) {
         />
       </div>
       <div className={classes.grow} />
-      {
-        isAuth ?
-          <div>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={signout}
-            >
-              <MaterialIcon icon='power_settings_new' color='#11144c' size={30} />
-              
-          </IconButton>
-          </div>
-        : 
         <div>
           <Button type='button' className={classes.button}>
             <Link to='/login' className='navbar-link'>
@@ -127,7 +105,6 @@ export default function Navbar(props) {
             </Link>
           </Button>
         </div>
-      }
     </Toolbar>
   </AppBar>
   );

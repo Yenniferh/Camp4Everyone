@@ -1,13 +1,14 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
 import Navbar from "../public/Navbar/";
-import Footer from "../public/Footer/";
+import { BrowserRouter, Route } from "react-router-dom";
+import Admin from "./admin/";
+
 
 function Private(props) {
   return (
     <main>
       <BrowserRouter>
-        <Navbar setAuthentication={props.setAuthentication}  ></Navbar>
+        <Route path="/admin" render={()=><Admin setAuthentication={props.setAuthentication}></Admin>} />        
       </BrowserRouter>
     </main>
   );
