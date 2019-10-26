@@ -1,0 +1,17 @@
+.footer {
+  background-color: #2a2139;
+  height: auto;
+  min-height: 5rem;
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  text-transform: capitalize;
+  align-items: center;
+  .footer-link {
+    color: #a2a2a296;
+    text-decoration: none;
+  }
+  .footer-link:hover {
+    color: #979797;
+  }
+}

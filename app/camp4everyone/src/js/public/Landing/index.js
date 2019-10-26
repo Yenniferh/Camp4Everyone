@@ -1,14 +1,14 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Container from '@material-ui/core/Container'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import MaterialIcon from 'material-icons-react'
-import CardHeader from '@material-ui/core/CardHeader'
-import Avatar from '@material-ui/core/Avatar'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import MaterialIcon from 'material-icons-react';
+import CardHeader from '@material-ui/core/CardHeader';
+import Avatar from '@material-ui/core/Avatar';
 
 export default function Landing() {
   return (
@@ -20,10 +20,10 @@ export default function Landing() {
             <Typography component='h1' variant='h1' className='h1'>
               Camp4Everyone
             </Typography>
-            <Typography component='h4' variant='h4' className='h4'>
+            <Typography component='h3' variant='h4' className='h4'>
               Discover new places, begin the adventure and
             </Typography>
-            <Typography component='h4' variant='h4' className='h4'>
+            <Typography component='h3' variant='h4' className='h4'>
               live a magical experience.
             </Typography>
             <Button
@@ -48,16 +48,10 @@ export default function Landing() {
         component='div'
         className='benefits-container'
       >
-        <Typography component='h3' variant='h3' className='h3 center'>
+        <Typography component='h2' variant='h3' className='h3 center'>
           Benefits
         </Typography>
-        <Grid
-          item
-          container
-          justify='center'
-          maxWidth='md'
-          className='cards-container'
-        >
+        <Grid item container justify='center' className='cards-container'>
           <Card item className='card'>
             <CardContent>
               <div className='circle-icon'>
@@ -67,7 +61,7 @@ export default function Landing() {
               <Typography
                 gutterBottom
                 variant='h5'
-                component='h2'
+                component='h3'
                 className='card-title center'
               >
                 Save Time
@@ -135,6 +129,7 @@ export default function Landing() {
         </Grid>
       </Grid>
 
+      {/* Reviews */}
       <Grid
         container
         lg={12}
@@ -156,35 +151,35 @@ export default function Landing() {
         >
           <Card item className='review-card'>
             <CardHeader
-              avatar={<Avatar>M</Avatar>}
-              title='Elizabeth Mayer'
+              avatar={<Avatar>L</Avatar>}
+              title='Laura Pregonero'
             ></CardHeader>
             <CardContent>
-              <Typography>Best Thing ever! Totally recommend!</Typography>
+              <Typography>I really enjoyed the trip to France</Typography>
             </CardContent>
           </Card>
 
           <Card item className='review-card'>
             <CardHeader
-              avatar={<Avatar>M</Avatar>}
+              avatar={<Avatar>E</Avatar>}
               title='Elizabeth Mayer'
             ></CardHeader>
             <CardContent>
-              <Typography>Best Thing ever! Totally recommend!</Typography>
+              <Typography>Best thing ever! Totally recommend!</Typography>
             </CardContent>
           </Card>
 
           <Card item className='review-card'>
             <CardHeader
-              avatar={<Avatar>M</Avatar>}
-              title='Elizabeth Mayer'
+              avatar={<Avatar>J</Avatar>}
+              title='John Doe'
             ></CardHeader>
             <CardContent>
-              <Typography>Best Thing ever! Totally recommend!</Typography>
+              <Typography>I visited Sri Lanka last week. Amazing!</Typography>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
     </Grid>
-  )
+  );
 }
