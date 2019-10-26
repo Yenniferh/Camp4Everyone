@@ -43,3 +43,7 @@ export const addUser = (name, email) => {
       console.error('Error adding document: ', error)
     })
 }
+
+export const getdb = () => {
+  return db;
+}

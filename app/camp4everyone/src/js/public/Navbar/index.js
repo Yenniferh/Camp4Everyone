@@ -64,12 +64,6 @@ export default function Navbar(props) {
     props.setAuthentication(false);
   };
 
-  const [isAuth, setIsAuth] = useState(false);
-  useEffect(() => {
-    const uid = sessionStorage.getItem('user');
-    uid !== null && setIsAuth(true);
-  }, [isAuth]);
-
   const classes = useStyles();
   return (
     <AppBar position='static' color='secondary'>
@@ -92,38 +86,29 @@ export default function Navbar(props) {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        <div className={classes.grow} />
-        {isAuth ? (
-          <div>
-            <IconButton
-              edge='end'
-              aria-label='account of current user'
-              aria-haspopup='true'
-              color='inherit'
-              onClick={signout}
-            >
-              <MaterialIcon
-                icon='power_settings_new'
-                color='#11144c'
-                size={30}
-              />
-            </IconButton>
-          </div>
-        ) : (
-          <div>
-            <Button type='button' variant='text' className='navbar-link'>
-              <Link to='/login' className='navbar-link'>
-                Log In
-              </Link>
-            </Button>
-            <Button type='button' variant='text' className='navbar-link'>
-              <Link to='/signup' className='navbar-link'>
-                Sign Up
-              </Link>
-            </Button>
-          </div>
-        )}
-      </Toolbar>
-    </AppBar>
+        <InputBase
+          placeholder='Search…'
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </div>
+      <div className={classes.grow} />
+        <div>
+          <Button type='button' className={classes.button}>
+            <Link to='/login' className='navbar-link'>
+              Log In
+            </Link>
+          </Button>
+          <Button type='button' className={classes.button}>
+            <Link to='/signup' className='navbar-link'>
+              Sign Up
+            </Link>
+          </Button>
+        </div>
+    </Toolbar>
+  </AppBar>
   );
 }
