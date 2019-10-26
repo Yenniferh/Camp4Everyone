@@ -3,15 +3,21 @@
   height: auto;
   min-height: 5rem;
   width: auto;
-  display: flex;
-  justify-content: flex-start;
-  text-transform: capitalize;
-  align-items: center;
-  .footer-link {
-    color: #a2a2a296;
-    text-decoration: none;
-  }
-  .footer-link:hover {
-    color: #979797;
+  .footer-container {
+    display: flex;
+    justify-content: space-evenly;
+    text-transform: capitalize;
+    align-items: center;
+
+    .footer-link {
+      color: #a2a2a296;
+      text-decoration: none;
+      margin-right: 1rem;
+      transition: all 400ms;
+    }
+    .footer-link:hover {
+      border-bottom: 2px solid #979797f3;
+      color: #979797;
+    }
   }
 }

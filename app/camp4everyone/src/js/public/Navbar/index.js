@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import MaterialIcon from 'material-icons-react';
@@ -12,12 +12,6 @@ import logo from './Logo2.png';
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
-  },
-  button:{
-    borderRadius:'5px',
-    border:0,
-    marginTop:'2%',
-    backgroundColor:'#11144c',
   },
   search: {
     position: 'relative',
@@ -68,20 +62,29 @@ const useStyles = makeStyles(theme => ({
 export default function Navbar(props) {
   const signout = () => {
     props.setAuthentication(false);
-  }
+  };
 
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <AppBar position='static' color='secondary'>
-    <Toolbar>
-      <Link to='/'>
-        <div className='logo'>
-          <img src={logo} alt='Logo camp4everyone' />
-        </div>
-      </Link>
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <MaterialIcon icon='search' />
+      <Toolbar>
+        <Link to='/'>
+          <div className='logo'>
+            <img src={logo} alt='Logo camp4everyone' />
+          </div>
+        </Link>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <MaterialIcon icon='search' />
+          </div>
+          <InputBase
+            placeholder='Search…'
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
         </div>
         <InputBase
           placeholder='Search…'

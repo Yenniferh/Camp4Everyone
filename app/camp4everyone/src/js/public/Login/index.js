@@ -69,7 +69,7 @@ export default function Login(props) {
           setOpen(true);
 
           setTimeout(() => {
-            props.setAuthentication(true)
+            props.setAuthentication(true);
             sessionStorage.setItem('user', user.user.uid);
             setLoading(false);
             setToCategory(true);
@@ -161,7 +161,7 @@ export default function Login(props) {
               Log in
             </Button>
           </Grid>
-          <Grid item xs={12} spacing={2} style={{ marginTop: '0.8rem' }}>
+          <Grid item xs={12} style={{ marginTop: '0.8rem' }}>
             <Typography component='p'>
               Already using Camp4Everyone?{' · '}
               <Link to='/passwordRecovery'>Forgot password?</Link>
