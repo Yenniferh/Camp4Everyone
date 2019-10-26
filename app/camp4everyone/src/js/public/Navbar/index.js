@@ -94,7 +94,6 @@ export default function Navbar(props) {
           }}
           inputProps={{ 'aria-label': 'search' }}
         />
-      </div>
       <div className={classes.grow} />
         <div>
           <Button type='button' className={classes.button}>

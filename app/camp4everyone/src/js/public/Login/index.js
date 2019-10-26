@@ -69,10 +69,10 @@ export default function Login(props) {
           setOpen(true);
 
           setTimeout(() => {
-            props.setAuthentication(true);
             sessionStorage.setItem('user', user.user.uid);
             setLoading(false);
-            setToCategory(true);
+            setToAdmin(true);
+            props.setAuthentication(true);
           }, 2000);
         })
         .catch(err => {
