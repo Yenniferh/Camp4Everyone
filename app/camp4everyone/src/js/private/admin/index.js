@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState , useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,8 +18,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
-import Deposits from './Deposits.js';
-import UsersBox from './usersBox.js';
+import Chart from './Chart';
+import Deposits from './Deposits';
+import Orders from './Orders';
+
+import { getdb }  from '../../services/firebase'
+
 
 function Copyright() {
   return (
@@ -33,7 +37,25 @@ function Copyright() {
     </Typography>
   );
 }
+function GetReservations(){
+  const [reservations, setReservations] = useState([]);
 
+  useEffect(() => {
+    const db = getdb()
+    db.collection("reservations").onSnapshot((snapshot) => {
+      const newReservations = snapshot.docs.map((doc)=>({
+        place: doc.place,
+        billing: doc.billing,
+        ...doc.data()
+      }))
+      setReservations(newReservations)
+    })
+},[]);
+
+
+
+return reservations
+}
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -115,9 +137,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Admin() {
+export default function Dashboard() {
+  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [billing, setBilling] = React.useState(0);
+
+  const reservations = GetReservations()
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -125,7 +151,13 @@ export default function Admin() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  useEffect(() => {
+    var currentBilling = 0
+    reservations.forEach(function (item, index) {
+      currentBilling = currentBilling + item.billing
+    });
+    setBilling(currentBilling);
+  },[reservations]);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -164,29 +196,29 @@ export default function Admin() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
+        <Divider />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4} lg={3}>
+            {/* Chart */}
+            <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <UsersBox />
+                <Chart />
               </Paper>
             </Grid>
+            {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <Deposits billing={billing} />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
+            {/* Recent Orders */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {reservations.length}
+                <Orders reservations={reservations}/>
               </Paper>
             </Grid>
           </Grid>
