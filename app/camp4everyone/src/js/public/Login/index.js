@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     email: '',
@@ -70,7 +70,7 @@ export default function Login() {
           setOpen(true);
 
           setTimeout(() => {
-            // props.setAuthentication(true)
+            props.setAuthentication(true)
             sessionStorage.setItem('user', user.user.uid);
             setLoading(false);
             setToCategory(true);

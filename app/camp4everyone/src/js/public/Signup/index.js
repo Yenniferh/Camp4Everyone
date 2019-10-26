@@ -8,10 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import { Link } from 'react-router-dom';
-
 import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper';
 import Loading from './../../utils/Loading';
-import { signup } from './../../services/firebase';
+import { signup, addUser } from './../../services/firebase';
 
 const CssTextField = withStyles({
   root: {
@@ -81,10 +80,11 @@ export default function Signup(props) {
             setMessage('Cuenta creada exitosamente');
             setOpen(true);
             setTimeout(() => {
-              // props.setAuthentication(true)
-              sessionStorage.setItem('user', user.user.uid);
-              setLoading(false);
-            }, 2000);
+              props.setAuthentication(true)
+              sessionStorage.setItem('user', user.user.uid)
+              addUser(values.name, values.email)
+              setLoading(false)
+            }, 2000)
           })
           .catch(err => {
             setTimeout(() => {

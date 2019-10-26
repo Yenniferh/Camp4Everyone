@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-export default function index() {
+export default function Footer() {
   return (
     <Grid container className='footer'>
       <Container maxWidth='md'>
@@ -14,6 +14,15 @@ export default function index() {
           </Link>
           <Link to='/aboutus' className='footer-link'>
             <Typography>about us</Typography>
+          </Link>
+          <Link to='/category' className='footer-link'>
+            <Typography>categories</Typography>
+          </Link>
+          <Link to='/categorynav' className='footer-link'>
+            <Typography>category view example</Typography>
+          </Link>
+          <Link to='/passwordrecovery' className='footer-link'>
+            <Typography>password recovery</Typography>
           </Link>
         </Grid>
       </Container>
