@@ -6,12 +6,12 @@ import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import theme from "./theme";
 import { signout } from './services/firebase';
 
+
 function Main() {
   const [isAuth, setIsAuth] = useState(false);
   useEffect(() => {
     const uid = sessionStorage.getItem("user");
     uid !== null && setIsAuth(true);
-    
   },[isAuth]);
 
   const setAuthentication = val => { 
@@ -22,14 +22,15 @@ function Main() {
     setIsAuth(val);
   }
 
+
   return (
     <main>
         <MuiThemeProvider theme={theme}>
           {
             isAuth ?  
-              <Private setAuthentication={setAuthentication}/>
+              <Private setAuthentication={setAuthentication} />
             :  
-              <Public setAuthentication={setAuthentication}/>
+              <Public setAuthentication={setAuthentication} />
           }    
           
         </MuiThemeProvider>
