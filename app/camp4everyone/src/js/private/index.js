@@ -1,13 +1,12 @@
-import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import Navbar from "../public/Navbar/";
-import Footer from "../public/Footer/";
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Navbar from '../public/Navbar/';
 
 function Private(props) {
   return (
     <main>
       <BrowserRouter>
-        <Navbar setAuthentication={props.setAuthentication}  ></Navbar>
+        <Navbar setAuthentication={props.setAuthentication}></Navbar>
       </BrowserRouter>
     </main>
   );
