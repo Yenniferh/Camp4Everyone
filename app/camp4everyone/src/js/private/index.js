@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from '../public/Navbar/';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Admin from './admin/';
 

@@ -1,7 +1,8 @@
 import React, { useState , useEffect} from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -21,9 +22,34 @@ import { mainListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
 
-import { getdb }  from '../../services/firebase'
 
+
+import { getdb, signup, addUser }  from '../../services/firebase'
+
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: '#3a9679',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#3a9679',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: '#3a9679',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#3a9679',
+      },
+    },
+  },
+})(TextField);
 
 function Copyright() {
   return (
@@ -46,6 +72,7 @@ function GetReservations(){
       const newReservations = snapshot.docs.map((doc)=>({
         place: doc.place,
         billing: doc.billing,
+        date:doc.date,
         ...doc.data()
       }))
       setReservations(newReservations)
@@ -132,17 +159,40 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  paperModal: {
+    top:'50%',
+    left:'50%',
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
   fixedHeight: {
     height: 240,
   },
+  fixedHeight2: {
+    height: 140,
+  },
 }));
 
-export default function Dashboard() {
-  
+function getModalStyle() {
+  const top = 50 ;
+  const left = 50 ;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+export default function Dashboard() { 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openUserCreate, setOpenUserCreate] = React.useState(false);
   const [billing, setBilling] = React.useState(0);
-
+  const [modalStyle] = React.useState(getModalStyle);
   const reservations = GetReservations()
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -150,7 +200,14 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleOpenUserCreate = () => {
+    setOpenUserCreate(true);
+  };
+  const handleCloseUserCreate = () => {
+    setOpenUserCreate(false);
+  };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightPaper2 = clsx(classes.paper, classes.fixedHeight2);
   useEffect(() => {
     var currentBilling = 0
     reservations.forEach(function (item, index) {
@@ -158,6 +215,49 @@ export default function Dashboard() {
     });
     setBilling(currentBilling);
   },[reservations]);
+  const [values, setValues] = React.useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  const handleSubmit = evt => {
+    evt.preventDefault();
+
+    if (
+      values.name &&
+      values.email &&
+      values.password &&
+      values.confirmPassword
+    ) {
+      if (values.password === values.confirmPassword) {
+        signup(values.email, values.password)
+          .then(user => {
+            setTimeout(() => {
+              console.log('ok');
+              addUser(values.name, values.email)
+            }, 2000)
+          })
+          .catch(err => {
+            setTimeout(() => {
+              console.log('nok');
+              values.password = '';
+              values.confirmPassword = '';
+            }, 2000);
+          });
+      } else {
+        values.password = '';
+        values.confirmPassword = '';
+      }
+    } else {
+      values.password = '';
+      values.confirmPassword = '';
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -203,15 +303,119 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <Chart reservations={reservations}/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits billing={billing} />
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper2}>
+                <center>User Panel</center>
+                <Divider />
+                <button  onClick={handleOpenUserCreate}>CREATE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openUserCreate}
+                  onClose={handleCloseUserCreate}
+                >
+                <div style={modalStyle} className={classes.paperModal}>
+                  <h2 id="simple-modal-title">Create User</h2>
+                  <form  onSubmit={handleSubmit} noValidate>
+                    <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Name'
+                      variant='outlined'
+                      id='name'
+                      type='name'
+                      name='name'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='name'
+                      value={values.name}
+                      onChange={handleChange('name')}
+                    />
+                    <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Email'
+                      variant='outlined'
+                      id='email'
+                      type='email'
+                      name='email'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='email'
+                      value={values.email}
+                      onChange={handleChange('email')}
+                    />
+                    <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Password'
+                      variant='outlined'
+                      id='password'
+                      type='password'
+                      name='password'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='password'
+                      value={values.password}
+                      onChange={handleChange('password')}
+                    />
+                    <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Confirm password'
+                      variant='outlined'
+                      id='confirmPassword'
+                      type='password'
+                      name='confirmPassword'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='confirmPassword'
+                      value={values.confirmPassword}
+                      onChange={handleChange('confirmPassword')}
+                    />
+                    <Grid item xs={12}>
+                      <Button
+                        type='submit'
+                        fullWidth
+                        variant='contained'
+                        color='secondary'
+                        style={{ marginTop: '0.8rem' }}
+                      >
+                      CREATE
+                      </Button>
+                      </Grid>
+                    </form>
+                  </div>
+                </Modal>
+                <button>READ</button>
+                <button>UPDATE</button>
+                <button>DELETE</button>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper2}>
+                <center>Place Panel</center>
+                <Divider />
+                <button>CREATE</button>
+                <button>READ</button>
+                <button>UPDATE</button>
+                <button>DELETE</button>                
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper2}>
+                <center>Reservations Panel</center>
+                <Divider />
+                <button>CREATE</button>
+                <button>READ</button>
+                <button>UPDATE</button>
+                <button>DELETE</button>                
               </Paper>
             </Grid>
             {/* Recent Orders */}

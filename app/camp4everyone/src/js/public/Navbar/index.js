@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import MaterialIcon from 'material-icons-react';
@@ -6,7 +6,6 @@ import { Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
 import logo from './Logo2.png';
 
 const useStyles = makeStyles(theme => ({
@@ -60,9 +59,7 @@ const useStyles = makeStyles(theme => ({
 // FIXME: hide sign up button when logged
 
 export default function Navbar(props) {
-  const signout = () => {
-    props.setAuthentication(false);
-  };
+
 
   const classes = useStyles();
   return (
