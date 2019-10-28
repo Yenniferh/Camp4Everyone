@@ -27,7 +27,7 @@ import Button from '@material-ui/core/Button';
 
 
 
-import { getdb, signup, addUser }  from '../../services/firebase'
+import { getdb, signup, addUser, addPlace, addReservation }  from '../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -191,9 +191,13 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openUserCreate, setOpenUserCreate] = React.useState(false);
+  const [openPlaceCreate, setOpenPlaceCreate] = React.useState(false);
+  const [openReservationCreate, setOpenReservationCreate] = React.useState(false);
+
   const [billing, setBilling] = React.useState(0);
   const [modalStyle] = React.useState(getModalStyle);
   const reservations = GetReservations()
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -205,6 +209,18 @@ export default function Dashboard() {
   };
   const handleCloseUserCreate = () => {
     setOpenUserCreate(false);
+  };
+  const handleOpenPlaceCreate = () => {
+    setOpenPlaceCreate(true);
+  };
+  const handleClosePlaceCreate = () => {
+    setOpenPlaceCreate(false);
+  };
+  const handleOpenReservationCreate = () => {
+    setOpenReservationCreate(true);
+  };
+  const handleCloseReservationCreate = () => {
+    setOpenReservationCreate(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaper2 = clsx(classes.paper, classes.fixedHeight2);
@@ -221,8 +237,24 @@ export default function Dashboard() {
     password: '',
     confirmPassword: '',
   });
+  const [placeValues, setPlacesValues] = React.useState({
+    name: '',
+    price:'',
+  });
+  const [reservationValues, setReservationValues] = React.useState({
+    user: '',
+    place: '',
+    price:'',
+    date:'',
+  });
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
+  };
+  const handlePlaceChange = prop => event => {
+    setPlacesValues({ ...placeValues, [prop]: event.target.value });
+  };
+  const handleReservationChange = prop => event => {
+    setReservationValues({ ...reservationValues, [prop]: event.target.value });
   };
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -237,13 +269,11 @@ export default function Dashboard() {
         signup(values.email, values.password)
           .then(user => {
             setTimeout(() => {
-              console.log('ok');
               addUser(values.name, values.email)
             }, 2000)
           })
           .catch(err => {
             setTimeout(() => {
-              console.log('nok');
               values.password = '';
               values.confirmPassword = '';
             }, 2000);
@@ -257,7 +287,44 @@ export default function Dashboard() {
       values.confirmPassword = '';
     }
   };
+  const handlePlaceSubmit = evt =>{
+    evt.preventDefault();
+    if ( placeValues.name && placeValues.price) {
+      addPlace(placeValues.name,placeValues.price)
+        .then(place => {
+          setTimeout(() => {
+            console.log('ok place');
+          }, 2000)
+        })
+        .catch(err => {
+          setTimeout(() => {
+            console.log('Nok place');
+            placeValues.name = '';
+            placeValues.price = '';
+          }, 2000);
+        });
 
+    }
+  };
+  const handleReservationSubmit = evt =>{
+    evt.preventDefault();
+    if ( reservationValues.user && reservationValues.place && reservationValues.date && reservationValues.price) {
+      addReservation(reservationValues.user,reservationValues.place,reservationValues.price,reservationValues.date)
+        .then(place => {
+          setTimeout(() => {
+            console.log('ok reservation');
+          }, 2000)
+        })
+        .catch(err => {
+          setTimeout(() => {
+            console.log('Nok reservation');
+            placeValues.name = '';
+            placeValues.price = '';
+          }, 2000);
+        });
+
+    }
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -320,77 +387,77 @@ export default function Dashboard() {
                   open={openUserCreate}
                   onClose={handleCloseUserCreate}
                 >
-                <div style={modalStyle} className={classes.paperModal}>
-                  <h2 id="simple-modal-title">Create User</h2>
-                  <form  onSubmit={handleSubmit} noValidate>
-                    <CssTextField
-                      className={classes.margin}
-                      required
-                      fullWidth
-                      label='Name'
-                      variant='outlined'
-                      id='name'
-                      type='name'
-                      name='name'
-                      inputProps={{ style: { color: 'black' } }}
-                      autoComplete='name'
-                      value={values.name}
-                      onChange={handleChange('name')}
-                    />
-                    <CssTextField
-                      className={classes.margin}
-                      required
-                      fullWidth
-                      label='Email'
-                      variant='outlined'
-                      id='email'
-                      type='email'
-                      name='email'
-                      inputProps={{ style: { color: 'black' } }}
-                      autoComplete='email'
-                      value={values.email}
-                      onChange={handleChange('email')}
-                    />
-                    <CssTextField
-                      className={classes.margin}
-                      required
-                      fullWidth
-                      label='Password'
-                      variant='outlined'
-                      id='password'
-                      type='password'
-                      name='password'
-                      inputProps={{ style: { color: 'black' } }}
-                      autoComplete='password'
-                      value={values.password}
-                      onChange={handleChange('password')}
-                    />
-                    <CssTextField
-                      className={classes.margin}
-                      required
-                      fullWidth
-                      label='Confirm password'
-                      variant='outlined'
-                      id='confirmPassword'
-                      type='password'
-                      name='confirmPassword'
-                      inputProps={{ style: { color: 'black' } }}
-                      autoComplete='confirmPassword'
-                      value={values.confirmPassword}
-                      onChange={handleChange('confirmPassword')}
-                    />
-                    <Grid item xs={12}>
-                      <Button
-                        type='submit'
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Create User</h2>
+                    <form  onSubmit={handleSubmit} noValidate>
+                      <CssTextField
+                        className={classes.margin}
+                        required
                         fullWidth
-                        variant='contained'
-                        color='secondary'
-                        style={{ marginTop: '0.8rem' }}
-                      >
-                      CREATE
-                      </Button>
-                      </Grid>
-                    </form>
+                        label='Name'
+                        variant='outlined'
+                        id='name'
+                        type='name'
+                        name='name'
+                        inputProps={{ style: { color: 'black' } }}
+                        autoComplete='name'
+                        value={values.name}
+                        onChange={handleChange('name')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Email'
+                        variant='outlined'
+                        id='email'
+                        type='email'
+                        name='email'
+                        inputProps={{ style: { color: 'black' } }}
+                        autoComplete='email'
+                        value={values.email}
+                        onChange={handleChange('email')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Password'
+                        variant='outlined'
+                        id='password'
+                        type='password'
+                        name='password'
+                        inputProps={{ style: { color: 'black' } }}
+                        autoComplete='password'
+                        value={values.password}
+                        onChange={handleChange('password')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Confirm password'
+                        variant='outlined'
+                        id='confirmPassword'
+                        type='password'
+                        name='confirmPassword'
+                        inputProps={{ style: { color: 'black' } }}
+                        autoComplete='confirmPassword'
+                        value={values.confirmPassword}
+                        onChange={handleChange('confirmPassword')}
+                      />
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        CREATE
+                        </Button>
+                        </Grid>
+                      </form>
                   </div>
                 </Modal>
                 <button>READ</button>
@@ -402,7 +469,54 @@ export default function Dashboard() {
               <Paper className={fixedHeightPaper2}>
                 <center>Place Panel</center>
                 <Divider />
-                <button>CREATE</button>
+                <button onClick={handleOpenPlaceCreate}>CREATE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openPlaceCreate}
+                  onClose={handleClosePlaceCreate}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Create Place</h2>
+                    <form  onSubmit={handlePlaceSubmit} noValidate>
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Place Name'
+                        variant='outlined'
+                        id='place_name'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.name}
+                        onChange={handlePlaceChange('name')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Place Price'
+                        variant='outlined'
+                        id='place_price'
+                        type='number'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.price}
+                        onChange={handlePlaceChange('price')}
+                      />
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        CREATE
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal>
                 <button>READ</button>
                 <button>UPDATE</button>
                 <button>DELETE</button>                
@@ -412,7 +526,78 @@ export default function Dashboard() {
               <Paper className={fixedHeightPaper2}>
                 <center>Reservations Panel</center>
                 <Divider />
-                <button>CREATE</button>
+                <button onClick={handleOpenReservationCreate}>CREATE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openReservationCreate}
+                  onClose={handleCloseReservationCreate}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Create Reservation</h2>
+                    <form  onSubmit={handleReservationSubmit} noValidate>
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='User'
+                        variant='outlined'
+                        id='user'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.user}
+                        onChange={handleReservationChange('user')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Place'
+                        variant='outlined'
+                        id='place'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.place}
+                        onChange={handleReservationChange('place')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Date'
+                        variant='outlined'
+                        id='date'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.date}
+                        onChange={handleReservationChange('date')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Price'
+                        variant='outlined'
+                        id='price'
+                        type='number'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.price}
+                        onChange={handleReservationChange('price')}
+                      />
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        CREATE
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal>
                 <button>READ</button>
                 <button>UPDATE</button>
                 <button>DELETE</button>                

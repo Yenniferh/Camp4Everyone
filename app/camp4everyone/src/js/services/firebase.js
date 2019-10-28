@@ -44,6 +44,36 @@ export const addUser = (name, email) => {
     })
 }
 
+export const addPlace = (name, price) => {
+  return db
+    .collection('places')
+    .add({
+      name: JSON.stringify(name),
+      price: price
+    })
+    .then(function(docRef) {
+      console.log('Document written with ID: ', docRef.id)
+    })
+    .catch(function(error) {
+      console.error('Error adding document: ', error)
+    })
+}
+export const addReservation = (user, place, price, date) => {
+  return db
+    .collection('reservations')
+    .add({
+      user: JSON.stringify(user),
+      place: JSON.stringify(place),
+      billing: price,
+      date: date,
+    })
+    .then(function(docRef) {
+      console.log('Document written with ID: ', docRef.id)
+    })
+    .catch(function(error) {
+      console.error('Error adding document: ', error)
+    })
+}
 export const getdb = () => {
   return db;
 }
