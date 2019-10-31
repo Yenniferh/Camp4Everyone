@@ -58,6 +58,7 @@ export default function Login(props) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [toAdmin, setToAdmin] = React.useState(false);
+  const [toHome, setToHome] = React.useState(false);
   const handleSubmit = evt => {
     evt.preventDefault();
     setLoading(true);
@@ -71,7 +72,7 @@ export default function Login(props) {
           setTimeout(() => {
             sessionStorage.setItem('user', user.user.uid);
             setLoading(false);
-            setToAdmin(true);
+            setToHome(true);
             props.setAuthentication(true);
           }, 2000);
         })
@@ -110,7 +111,7 @@ export default function Login(props) {
         color='primary'
       >
         {loading && <Loading />}
-        {toAdmin ? <Redirect to='/admin' /> : null}
+        {toHome ? <Redirect to='/home' /> : null}
         <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} className='login-icon'>
