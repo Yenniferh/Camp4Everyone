@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import MaterialIcon from 'material-icons-react';
@@ -6,7 +6,6 @@ import { Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
 import logo from './Logo2.png';
 
 const useStyles = makeStyles(theme => ({
@@ -90,11 +89,11 @@ export default function Navbar(props) {
           placeholder='Search…'
           classes={{
             root: classes.inputRoot,
-            input: classes.inputInput
+            input: classes.inputInput,
           }}
           inputProps={{ 'aria-label': 'search' }}
         />
-      <div className={classes.grow} />
+        <div className={classes.grow} />
         <div>
           <Button type='button' className={classes.button}>
             <Link to='/login' className='navbar-link'>
@@ -107,7 +106,7 @@ export default function Navbar(props) {
             </Link>
           </Button>
         </div>
-    </Toolbar>
-  </AppBar>
+      </Toolbar>
+    </AppBar>
   );
 }
