@@ -9,10 +9,9 @@ import Container from '@material-ui/core/Container'
 import MaterialIcon from 'material-icons-react'
 import { Link, Redirect } from 'react-router-dom'
 import Snackbar from '@material-ui/core/Snackbar'
-
 import { SnackbarContentWrapper } from './../../utils/SnackbarContentWrapper'
 import Loading from './../../utils/Loading'
-import { login, getCurrentUser, updatePhoto } from './../../services/firebase'
+import { login, getCurrentUserEmail, updatePhoto } from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -67,7 +66,7 @@ export default function Login(props) {
           setVariant('success')
           setMessage('Usuario autorizado')
           setOpen(true)
-          updatePhoto(getCurrentUser, 'hola')
+          updatePhoto(getCurrentUserEmail, 'hola')
           setTimeout(() => {
             sessionStorage.setItem('user', user.user.uid)
             setLoading(false)
@@ -110,7 +109,6 @@ export default function Login(props) {
         color="primary"
       >
         {loading && <Loading />}
-        {toHome ? <Redirect to="/home" /> : null}
         <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} className="login-icon">
