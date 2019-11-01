@@ -33,8 +33,8 @@ export const addUser = (name, email) => {
   return db
     .collection("users")
     .add({
-      name: JSON.stringify(name),
-      email: JSON.stringify(email)
+      name: name,
+      email: email
     })
     .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id);
@@ -48,7 +48,7 @@ export const addPlace = (name, price) => {
   return db
     .collection("places")
     .add({
-      name: JSON.stringify(name),
+      name: name,
       price: price
     })
     .then(function (docRef) {
@@ -62,8 +62,8 @@ export const addReservation = (user, place, price, date) => {
   return db
     .collection("reservations")
     .add({
-      user: JSON.stringify(user),
-      place: JSON.stringify(place),
+      user: user,
+      place: place,
       billing: price,
       date: date
     })
@@ -101,9 +101,9 @@ export const getdb = () => {
 
 export const ChangeName = (newName) => {
   let email = getCurrentUserEmail();
-  console.log("User email: ", email);
+  console.log("User email NAME: ", email);
   db.collection("users")
-    .where("email", "==", JSON.stringify(email))
+    .where("email", "==", email)
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -111,6 +111,38 @@ export const ChangeName = (newName) => {
           .doc(doc.id)
           .update({ "name": newName });
       });
+    })
+    .then(function () {
+      console.log("User name updated succesfully.");
+    })
+    .catch(function (error) {
+      console.error("Error updating user name: ", error);
+    });
+};
+
+export const updateUserEmail = (newEmail) => {
+  firebase.auth().currentUser
+    .updateEmail(newEmail)
+    .then(function () {
+      console.log("User email updated succesfully.");
+    })
+    .catch(function (error) {
+      console.error("Error updating user profile email: ", error);
+    });
+};
+
+export const ChangeEmail = (newEmail) => {
+  let email = getCurrentUserEmail();
+  db.collection("users")
+    .where("email", "==", email)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        db.collection("users")
+          .doc(doc.id)
+          .update({ "email": newEmail });
+      });
+      updateUserEmail(newEmail);
     })
     .then(function () {
       console.log("User name updated succesfully.");
