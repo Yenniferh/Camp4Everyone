@@ -17,14 +17,14 @@ const auth = firebase.auth();
 export const db = firebaseApp.firestore();
 
 export const login = (email, password) => {
-  return auth.signInWithEmailAndPassword(email, password);
-};
+  return auth.signInWithEmailAndPassword(email, password)
+}
 export const signup = (email, password) => {
-  return auth.createUserWithEmailAndPassword(email, password);
-};
+  return auth.createUserWithEmailAndPassword(email, password)
+}
 export const signout = () => {
-  return auth.signOut();
-};
+  return auth.signOut()
+}
 export const passwordRecovery = email => {
   return auth.sendPasswordResetEmail(email);
 };
@@ -78,27 +78,6 @@ export const getdb = () => {
   return db;
 };
 
-/* export const updateUser = (user, namess) => {
-  user
-    .updateProfile({ name: "hello", email: "123@123.com" })
-    .then(function() {
-      console.log("User updated succesfully.");
-    })
-    .catch(function(error) {
-      console.error("Error updating user profile: ", error);
-    });
-  user
-    .updateEmail("123@123.com")
-    .then(function() {
-      console.log("User email updated succesfully.");
-    })
-    .catch(function(error) {
-      console.error("Error email user error: ", error);
-    });
-  console.log("Email del usuraio a Update: ", user.email);
-  console.log("Nombre del usuraio a Update: ", user.name);
-}; */
-
 export const ChangeName = (newName) => {
   let email = getCurrentUserEmail();
   console.log("User email: ", email);
@@ -123,3 +102,22 @@ export const ChangeName = (newName) => {
 export const getCurrentUserEmail = () => {
   return firebase.auth().currentUser.email;
 };
+
+export const updatePhoto = (user, url) => {
+  return db
+    .collection('users')
+    .where('email', '==', 'noadmin@noadmin.com')
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        console.log(doc.id, ' => ', doc.data())
+        // Build doc ref from doc.id
+        db.collection('users')
+          .doc(doc.id)
+          .update({
+            avatarUrl:
+              'https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+          })
+      })
+    })
+}
