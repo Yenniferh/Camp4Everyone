@@ -1,105 +1,111 @@
-import React from 'react'
+import React from "react";
 
-import { withStyles, makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Container from '@material-ui/core/Container'
-import MaterialIcon from 'material-icons-react'
-import { Link, Redirect } from 'react-router-dom'
-import Snackbar from '@material-ui/core/Snackbar'
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import MaterialIcon from "material-icons-react";
+import { Link, Redirect } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
 
-import { SnackbarContentWrapper } from './../../utils/SnackbarContentWrapper'
-import Loading from './../../utils/Loading'
-import { login, getCurrentUser, updatePhoto } from './../../services/firebase'
+import { SnackbarContentWrapper } from "./../../utils/SnackbarContentWrapper";
+import Loading from "./../../utils/Loading";
+import {
+  login,
+  getCurrentUserEmail,
+  ChangeName
+} from "./../../services/firebase";
 
 const CssTextField = withStyles({
   root: {
-    '& label.Mui-focused': {
-      color: '#3a9679'
+    "& label.Mui-focused": {
+      color: "#3a9679"
     },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#3a9679'
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#3a9679"
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'white'
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "white"
       },
-      '&:hover fieldset': {
-        borderColor: '#3a9679'
+      "&:hover fieldset": {
+        borderColor: "#3a9679"
       },
-      '&.Mui-focused fieldset': {
-        borderColor: '#3a9679'
+      "&.Mui-focused fieldset": {
+        borderColor: "#3a9679"
       }
     }
   }
-})(TextField)
+})(TextField);
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: "flex",
+    flexWrap: "wrap"
   },
   margin: {
     margin: theme.spacing(1)
   }
-}))
+}));
 
 export default function Login(props) {
-  const classes = useStyles()
+  const classes = useStyles();
   const [values, setValues] = React.useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: ""
+  });
 
-  const [variant, setVariant] = React.useState('')
-  const [message, setMessage] = React.useState('')
-  const [open, setOpen] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
-  const [toAdmin, setToAdmin] = React.useState(false)
+  const [variant, setVariant] = React.useState("");
+  const [message, setMessage] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [toAdmin, setToAdmin] = React.useState(false);
+  const [toHome, setToHome] = React.useState(false);
   const handleSubmit = evt => {
-    evt.preventDefault()
-    setLoading(true)
+    evt.preventDefault();
+    setLoading(true);
     if (values.email && values.password) {
       login(values.email, values.password)
         .then(user => {
-          setVariant('success')
-          setMessage('Usuario autorizado')
-          setOpen(true)
-          updatePhoto(getCurrentUser, 'hola')
+          setVariant("success");
+          setMessage("Usuario autorizado");
+          setOpen(true);
+
           setTimeout(() => {
-            sessionStorage.setItem('user', user.user.uid)
-            setLoading(false)
-            setToAdmin(true)
-            props.setAuthentication(true)
-          }, 2000)
+            sessionStorage.setItem("user", user.user.uid);
+            setLoading(false);
+            setToHome(true);
+            props.setAuthentication(true);
+          }, 2000);
         })
         .catch(err => {
           setTimeout(() => {
-            setVariant('error')
-            setMessage('Credenciales inválidas')
-            setOpen(true)
-            setValues.password = ''
-            setLoading(false)
-          }, 2000)
-        })
+            console.log(err);
+            setVariant("error");
+            setMessage("Credenciales inválidas");
+            setOpen(true);
+            setValues.password = "";
+            setLoading(false);
+          }, 2000);
+        });
     } else {
-      setVariant('error')
-      setMessage('Digite todos los campos')
-      setOpen(true)
-      setValues.password = ''
-      setLoading(false)
+      setVariant("error");
+      setMessage("Digite todos los campos");
+      setOpen(true);
+      setValues.password = "";
+      setLoading(false);
     }
-  }
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   return (
     <Container component="div" className="login-container">
@@ -176,8 +182,8 @@ export default function Login(props) {
 
       <Snackbar
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
+          vertical: "bottom",
+          horizontal: "left"
         }}
         open={open}
         autoHideDuration={5000}
@@ -190,5 +196,5 @@ export default function Login(props) {
         />
       </Snackbar>
     </Container>
-  )
+  );
 }
