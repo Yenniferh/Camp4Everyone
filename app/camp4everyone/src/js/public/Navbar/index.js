@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from 'react';
+import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,8 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import { Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import Menu from '@material-ui/core/Menu';
-
 import logo from './Logo2.png';
 
 const useStyles = makeStyles(theme => ({
@@ -117,39 +115,41 @@ export default function Navbar(props) {
             <img src={logo} alt='Logo camp4everyone' />
           </div>
         </Link>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <MaterialIcon icon='search' />
+          </div>
+          <InputBase
+            placeholder='Search…'
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </div>
+        <InputBase
+          placeholder='Search…'
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
         <div className={classes.grow} />
-          {
-            isAuth ?
-            <div>
-              <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="primary-search-account-menu"
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </MenuItem>
-            </div>
-              :
-            <div>
-              <Button type='button' className={classes.button}>
-                <Link to='/login' className='navbar-link'>
-                  Log In
-                </Link>
-              </Button>
-              <Button type='button' className={classes.button}>
-                <Link to='/signup' className='navbar-link'>
-                  Sign Up
-                </Link>
-              </Button>
-            </div>
-          }
-        
+        <div>
+          <Button type='button' className={classes.button}>
+            <Link to='/login' className='navbar-link'>
+              Log In
+            </Link>
+          </Button>
+          <Button type='button' className={classes.button}>
+            <Link to='/signup' className='navbar-link'>
+              Sign Up
+            </Link>
+          </Button>
+        </div>
       </Toolbar>
-      {renderMenu}
-
     </AppBar>
   );
 }
