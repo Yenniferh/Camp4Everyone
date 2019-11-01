@@ -12,7 +12,11 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 import { SnackbarContentWrapper } from "./../../utils/SnackbarContentWrapper";
 import Loading from "./../../utils/Loading";
-import { login, getCurrentUser, updateUser } from "./../../services/firebase";
+import {
+  login,
+  getCurrentUserEmail,
+  ChangeName
+} from "./../../services/firebase";
 
 const CssTextField = withStyles({
   root: {
@@ -67,7 +71,6 @@ export default function Login(props) {
         .then(user => {
           setVariant("success");
           setMessage("Usuario autorizado");
-          updateUser(getCurrentUser().id, "cambiooo");
           setOpen(true);
 
           setTimeout(() => {

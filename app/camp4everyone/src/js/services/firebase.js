@@ -15,7 +15,6 @@ const firebaseApp = firebase.initializeApp({
 });
 const auth = firebase.auth();
 export const db = firebaseApp.firestore();
-export const dbRef = firebaseApp.database();
 
 export const login = (email, password) => {
   return auth.signInWithEmailAndPassword(email, password);
@@ -37,10 +36,10 @@ export const addUser = (name, email) => {
       name: JSON.stringify(name),
       email: JSON.stringify(email)
     })
-    .then(function(docRef) {
+    .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error("Error adding document: ", error);
     });
 };
@@ -52,10 +51,10 @@ export const addPlace = (name, price) => {
       name: JSON.stringify(name),
       price: price
     })
-    .then(function(docRef) {
+    .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error("Error adding document: ", error);
     });
 };
@@ -68,10 +67,10 @@ export const addReservation = (user, place, price, date) => {
       billing: price,
       date: date
     })
-    .then(function(docRef) {
+    .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error("Error adding document: ", error);
     });
 };
@@ -80,9 +79,6 @@ export const getdb = () => {
 };
 
 /* export const updateUser = (user, namess) => {
-  console.log("Email del usuraio a Update: ", user.email);
-  console.log("Nombre del usuraio a Update: ", user.name);
-  console.log(maness);
   user
     .updateProfile({ name: "hello", email: "123@123.com" })
     .then(function() {
@@ -103,20 +99,27 @@ export const getdb = () => {
   console.log("Nombre del usuraio a Update: ", user.name);
 }; */
 
-export const updateUser = (userID, namess) => {
-  return dbRef
-    .ref("users/" + userID)
-    .set({
-      name: namess
+export const ChangeName = (newName) => {
+  let email = getCurrentUserEmail();
+  console.log("User email: ", email);
+  db.collection("users")
+    .where("email", "==", JSON.stringify(email))
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        db.collection("users")
+          .doc(doc.id)
+          .update({ "name": newName });
+      });
     })
-    .then(function() {
-      console.log("User updated succesfully.");
+    .then(function () {
+      console.log("User name updated succesfully.");
     })
-    .catch(function(error) {
-      console.error("Error updating user profile: ", error);
+    .catch(function (error) {
+      console.error("Error updating user name: ", error);
     });
 };
 
-export const getCurrentUser = () => {
-  return firebase.auth().currentUser;
+export const getCurrentUserEmail = () => {
+  return firebase.auth().currentUser.email;
 };
