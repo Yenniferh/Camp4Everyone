@@ -16,7 +16,7 @@ export default function Deposits(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>Deposits</Title>
       <Typography component="p" variant="h4">
         ${props.billing}
       </Typography>
@@ -24,7 +24,7 @@ export default function Deposits(props) {
         on 15 March, 2019
       </Typography>
       <div>
-        <Link color="primary" href="javascript:;">
+        <Link color="primary">
           View balance
         </Link>
       </div>

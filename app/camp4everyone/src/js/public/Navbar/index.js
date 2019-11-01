@@ -1,10 +1,11 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBar from '@material-ui/core/AppBar';
-import MaterialIcon from 'material-icons-react';
 import { Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import InputBase from '@material-ui/core/InputBase';
 import { Link } from 'react-router-dom';
 import logo from './Logo2.png';
 
@@ -59,11 +60,53 @@ const useStyles = makeStyles(theme => ({
 // FIXME: hide sign up button when logged
 
 export default function Navbar(props) {
-  const signout = () => {
-    props.setAuthentication(false);
-  };
+  const [isAuth, setIsAuth] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+
+  useEffect(() => {
+    const uid = sessionStorage.getItem("user");
+    uid !== null && setIsAuth(true);
+  },[isAuth]);
 
   const classes = useStyles();
+    const handleProfileMenuOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <Link to='/home' className='navbar-link'>
+        <MenuItem>
+          Home      
+        </MenuItem>
+      </Link>
+      <Link to='/profile' className='navbar-link'>
+        <MenuItem>
+          Profile
+        </MenuItem>
+      </Link>
+
+      
+    </Menu>
+  );
+
   return (
     <AppBar position='static' color='secondary'>
       <Toolbar>

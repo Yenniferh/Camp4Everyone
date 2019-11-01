@@ -25,7 +25,7 @@ function Main() {
 
   return (
     <main>
-        <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>    
           {
             isAuth ?  
               <Private setAuthentication={setAuthentication} />

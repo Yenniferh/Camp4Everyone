@@ -102,22 +102,22 @@ export default function Login(props) {
   }
 
   return (
-    <Container component='div' className='login-container'>
+    <Container component="div" className="login-container">
       <Container
-        component='main'
-        maxWidth='xs'
-        className='login'
-        color='primary'
+        component="main"
+        maxWidth="xs"
+        className="login"
+        color="primary"
       >
         {loading && <Loading />}
-        {toAdmin ? <Redirect to='/admin' /> : null}
+        {toHome ? <Redirect to="/home" /> : null}
         <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} className='login-icon'>
-              <MaterialIcon icon='account_circle' color='#ffffff' size={80} />
+            <Grid item xs={12} sm={12} className="login-icon">
+              <MaterialIcon icon="account_circle" color="#ffffff" size={80} />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <Typography component='h1' variant='h5'>
+              <Typography component="h1" variant="h5">
                 Log in to Camp4Everyone
               </Typography>
             </Grid>
@@ -125,50 +125,50 @@ export default function Login(props) {
               className={classes.margin}
               required
               fullWidth
-              label='Email'
-              variant='outlined'
-              id='email'
-              type='email'
-              name='email'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='email'
+              label="Email"
+              variant="outlined"
+              id="email"
+              type="email"
+              name="email"
+              inputProps={{ style: { color: "white" } }}
+              autoComplete="email"
               value={values.email}
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
             />
             <CssTextField
               className={classes.margin}
               required
               fullWidth
-              label='Password'
-              variant='outlined'
-              id='password'
-              type='password'
-              name='password'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='password'
+              label="Password"
+              variant="outlined"
+              id="password"
+              type="password"
+              name="password"
+              inputProps={{ style: { color: "white" } }}
+              autoComplete="password"
               value={values.password}
-              onChange={handleChange('password')}
+              onChange={handleChange("password")}
             />
           </Grid>
           <Grid item xs={12}>
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
-              color='secondary'
-              style={{ marginTop: '0.8rem' }}
+              variant="contained"
+              color="secondary"
+              style={{ marginTop: "0.8rem" }}
             >
               Log in
             </Button>
           </Grid>
-          <Grid item xs={12} style={{ marginTop: '0.8rem' }}>
-            <Typography component='p'>
-              Already using Camp4Everyone?{' · '}
-              <Link to='/passwordRecovery'>Forgot password?</Link>
+          <Grid item xs={12} style={{ marginTop: "0.8rem" }}>
+            <Typography component="p">
+              Already using Camp4Everyone?{" · "}
+              <Link to="/passwordRecovery">Forgot password?</Link>
             </Typography>
-            <Typography component='p'>
-              New to Camp4Everyone?{' · '}
-              <Link to='/signup'>Sign up now »</Link>
+            <Typography component="p">
+              New to Camp4Everyone?{" · "}
+              <Link to="/signup">Sign up now »</Link>
             </Typography>
           </Grid>
         </form>
