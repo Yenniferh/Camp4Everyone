@@ -77,3 +77,16 @@ export const addReservation = (user, place, price, date) => {
 export const getdb = () => {
   return db;
 }
+
+export const changeEmail = (newEmail,oldEmail) =>{
+  db.collection("users").where("email", "==", oldEmail)
+  .get()
+  .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          console.log(doc.id, " => ", doc.data());
+          db.collection("users").doc(doc.id).update({"email": newEmail});
+      });
+ })
+  
+  return db;
+}
