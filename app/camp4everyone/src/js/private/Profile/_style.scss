@@ -1,0 +1,45 @@
+.profile {
+  margin-top: 1.5rem;
+  padding: 0 0.6rem;
+  .head {
+    padding-top: 1.2rem;
+    background-color: $primary-color;
+    color: $text-white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    min-width: 100%;
+    width: auto;
+    .head-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 200px;
+      .head-info_avatar {
+        width: 100px;
+        height: 100px;
+        background-color: $secondary-color;
+        color: $text-white;
+        font-size: 24px;
+      }
+      .head-info_name {
+        margin-top: 0.8rem;
+      }
+    }
+  }
+
+  .info-details {
+    background-color: $background-color;
+    height: 800px;
+    width: 100%;
+    .details {
+      display: flex;
+      align-items: center;
+      #tooltip {
+        margin-left: 0.8rem;
+        float: right;
+        color: $text-gray;
+      }
+    }
+  }
+}

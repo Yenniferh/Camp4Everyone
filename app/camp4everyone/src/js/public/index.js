@@ -10,6 +10,7 @@ import CategoryNav from './CategoryNavigation';
 import Navbar from './Navbar/';
 import Footer from './Footer/';
 import TermsAndConditions from './TermsAndConditions/';
+import Profile from '../private/Profile/';
 
 function Public(props) {
   return (
@@ -30,6 +31,7 @@ function Public(props) {
         <Route path='/termsandconditions' component={TermsAndConditions} />
         <Route path='/passwordrecovery' component={PasswordRec} />
         <Route path='/categorynav' component={CategoryNav} />
+        <Route path='/profile' component={Profile} />
         <Footer></Footer>
       </BrowserRouter>
     </main>
