@@ -1,4 +1,4 @@
-import React, { useState ,Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { Link, Redirect } from "react-router-dom";
@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import { getCurrentUser, updatePhoto, ChangeName, ChangeEmail } from './../../services/firebase'
+import { getCurrentUser, updatePhoto, ChangeName, ChangeEmail, UploadImage } from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -38,7 +38,7 @@ export default function Profile() {
   let output = React.createRef()
   const [values, setValues] = React.useState({
     email: "",
-    name:"",
+    name: "",
   });
   const [reload, setReload] = useState(false);
   const handleClick = () => {
@@ -46,16 +46,16 @@ export default function Profile() {
   }
 
   const handleChange = ev => {
-    console.log(photo)
-
     let input = ev.target
+    UploadImage(input.files[0]);
     let reader = new FileReader()
 
-    reader.onload = function() {
+    reader.onload = function () {
       let dataURL = reader.result
       output.current.src = dataURL
     }
     reader.readAsDataURL(input.files[0])
+
 
     if (photo.current.value) {
       tooltip.current.innerHTML = photo.current.value.replace(/^.*\\/, '')
@@ -79,19 +79,19 @@ export default function Profile() {
   const handleChangeEmail = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  
+
   const handleSubmitEmail = evt => {
     evt.preventDefault();
     ChangeEmail(values.email)
     setReload(true);
 
   }
-   
+
   const handleSubmitName = evt => {
     evt.preventDefault();
     ChangeName(values.name)
     setReload(true);
-    
+
   }
   return (
     <Fragment>
@@ -138,7 +138,7 @@ export default function Profile() {
           <img id='output' ref={output}></img>
           <br></br>
           <form onSubmit={handleSubmitEmail} noValidate>
-          <CssTextField
+            <CssTextField
               required
               fullWidth
               label="Email"
@@ -151,7 +151,7 @@ export default function Profile() {
               value={values.email}
               onChange={handleChangeEmail("email")}
             />
-          <Button
+            <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -163,7 +163,7 @@ export default function Profile() {
           </form>
           <br></br>
           <form onSubmit={handleSubmitName} noValidate>
-          <CssTextField
+            <CssTextField
               required
               fullWidth
               label="name"
@@ -176,7 +176,7 @@ export default function Profile() {
               value={values.name}
               onChange={handleChangeName("name")}
             />
-          <Button
+            <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -186,7 +186,7 @@ export default function Profile() {
               NEW NAME
             </Button>
           </form>
-        </Grid>        
+        </Grid>
       </Grid>
     </Fragment>
   )
