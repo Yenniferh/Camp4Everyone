@@ -115,6 +115,7 @@ export default function Login(props) {
         color="primary"
       >
         {loading && <Loading />}
+        {toHome ? <Redirect to="/home" /> : null}
         <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} className="login-icon">

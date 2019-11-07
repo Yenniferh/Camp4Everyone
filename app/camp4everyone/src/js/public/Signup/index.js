@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Snackbar from "@material-ui/core/Snackbar";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { SnackbarContentWrapper } from "../../utils/SnackbarContentWrapper";
 import Loading from "./../../utils/Loading";
 import { signup, addUser } from "./../../services/firebase";
@@ -51,6 +51,7 @@ export default function Signup(props) {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [toHome, setToHome] = React.useState(false);
 
   const [values, setValues] = React.useState({
     name: "",
@@ -80,10 +81,11 @@ export default function Signup(props) {
             setMessage("Cuenta creada exitosamente");
             setOpen(true);
             setTimeout(() => {
-              props.setAuthentication(true);
               sessionStorage.setItem("user", user.user.uid);
               addUser(values.name, values.email);
               setLoading(false);
+              setToHome(true);
+              props.setAuthentication(true);
             }, 2000);
           })
           .catch(err => {
@@ -125,6 +127,7 @@ export default function Signup(props) {
         color="primary"
       >
         {loading && <Loading />}
+        {toHome ? <Redirect to="/home" /> : null}
         <form className={classes.root} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
