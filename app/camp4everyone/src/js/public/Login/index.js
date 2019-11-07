@@ -72,7 +72,6 @@ export default function Login(props) {
           setVariant("success");
           setMessage("Usuario autorizado");
           setOpen(true);
-
           setTimeout(() => {
             sessionStorage.setItem("user", user.user.uid);
             setLoading(false);
