@@ -16,46 +16,46 @@ import {
   login,
   getCurrentUserEmail,
   ChangeName
-} from "./../../services/firebase";
+} from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
-    "& label.Mui-focused": {
-      color: "#3a9679"
+    '& label.Mui-focused': {
+      color: '#3a9679'
     },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#3a9679"
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#3a9679'
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "white"
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white'
       },
-      "&:hover fieldset": {
-        borderColor: "#3a9679"
+      '&:hover fieldset': {
+        borderColor: '#3a9679'
       },
-      "&.Mui-focused fieldset": {
-        borderColor: "#3a9679"
+      '&.Mui-focused fieldset': {
+        borderColor: '#3a9679'
       }
     }
   }
-})(TextField);
+})(TextField)
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap"
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   margin: {
     margin: theme.spacing(1)
   }
-}));
+}))
 
 export default function Login(props) {
-  const classes = useStyles();
+  const classes = useStyles()
   const [values, setValues] = React.useState({
-    email: "",
-    password: ""
-  });
+    email: '',
+    password: ''
+  })
 
   const [variant, setVariant] = React.useState("");
   const [message, setMessage] = React.useState("");
@@ -69,9 +69,9 @@ export default function Login(props) {
     if (values.email && values.password) {
       login(values.email, values.password)
         .then(user => {
-          setVariant("success");
-          setMessage("Usuario autorizado");
-          setOpen(true);
+          setVariant('success')
+          setMessage('Usuario autorizado')
+          setOpen(true)
           setTimeout(() => {
             sessionStorage.setItem("user", user.user.uid);
             setLoading(false);
@@ -81,38 +81,38 @@ export default function Login(props) {
         })
         .catch(err => {
           setTimeout(() => {
-            console.log(err);
-            setVariant("error");
-            setMessage("Credenciales inválidas");
-            setOpen(true);
-            setValues.password = "";
-            setLoading(false);
-          }, 2000);
-        });
+            console.log(err)
+            setVariant('error')
+            setMessage('Credenciales inválidas')
+            setOpen(true)
+            setValues.password = ''
+            setLoading(false)
+          }, 2000)
+        })
     } else {
-      setVariant("error");
-      setMessage("Digite todos los campos");
-      setOpen(true);
-      setValues.password = "";
-      setLoading(false);
+      setVariant('error')
+      setMessage('Digite todos los campos')
+      setOpen(true)
+      setValues.password = ''
+      setLoading(false)
     }
-  };
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+    setValues({ ...values, [prop]: event.target.value })
+  }
 
   return (
-    <Container component="div" className="login-container">
+    <Container component='div' className='login-container'>
       <Container
-        component="main"
-        maxWidth="xs"
-        className="login"
-        color="primary"
+        component='main'
+        maxWidth='xs'
+        className='login'
+        color='primary'
       >
         {loading && <Loading />}
         {toHome ? <Redirect to="/home" /> : null}
@@ -181,13 +181,12 @@ export default function Login(props) {
             </form>
           )}
         </Consumer>
-        
       </Container>
 
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
+          vertical: 'bottom',
+          horizontal: 'left'
         }}
         open={open}
         autoHideDuration={5000}
@@ -200,5 +199,5 @@ export default function Login(props) {
         />
       </Snackbar>
     </Container>
-  );
+  )
 }
