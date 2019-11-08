@@ -125,6 +125,7 @@ export const ChangeEmail = (newEmail) => {
           .update({ "email": newEmail });
       });
       updateUserEmail(newEmail);
+      //FIXME: Chanche image folder name to new email.
     })
     .then(function () {
       console.log("User name updated succesfully.");
@@ -172,3 +173,11 @@ export const ChangeImg = (imgURL) => {
       console.error("Error updating user image: ", error);
     });
 };
+
+/* export const signOut = () => {
+  auth.signOut().then(function () {
+    // Sign-out successful.
+  }).catch(function (error) {
+    console.error("Error signing out user: ", error);
+  });
+} */
