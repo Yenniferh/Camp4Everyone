@@ -1,5 +1,5 @@
 import React from "react";
-
+import {Consumer} from '../../../AuthContext';
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -63,7 +63,7 @@ export default function Login(props) {
   const [loading, setLoading] = React.useState(false);
   const [toAdmin, setToAdmin] = React.useState(false);
   const [toHome, setToHome] = React.useState(false);
-  const handleSubmit = evt => {
+  const handleSubmit = (evt,setAuth) => {
     evt.preventDefault();
     setLoading(true);
     if (values.email && values.password) {
@@ -76,7 +76,7 @@ export default function Login(props) {
             sessionStorage.setItem("user", user.user.uid);
             setLoading(false);
             setToHome(true);
-            props.setAuthentication(true);
+            setAuth(true);
           }, 2000);
         })
         .catch(err => {
@@ -116,67 +116,72 @@ export default function Login(props) {
       >
         {loading && <Loading />}
         {toHome ? <Redirect to="/home" /> : null}
-        <form className={classes.root} onSubmit={handleSubmit} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} className="login-icon">
-              <MaterialIcon icon="account_circle" color="#ffffff" size={80} />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <Typography component="h1" variant="h5">
-                Log in to Camp4Everyone
-              </Typography>
-            </Grid>
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label="Email"
-              variant="outlined"
-              id="email"
-              type="email"
-              name="email"
-              inputProps={{ style: { color: "white" } }}
-              autoComplete="email"
-              value={values.email}
-              onChange={handleChange("email")}
-            />
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label="Password"
-              variant="outlined"
-              id="password"
-              type="password"
-              name="password"
-              inputProps={{ style: { color: "white" } }}
-              autoComplete="password"
-              value={values.password}
-              onChange={handleChange("password")}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              style={{ marginTop: "0.8rem" }}
-            >
-              Log in
-            </Button>
-          </Grid>
-          <Grid item xs={12} style={{ marginTop: "0.8rem" }}>
-            <Typography component="p">
-              Already using Camp4Everyone?{" · "}
-              <Link to="/passwordRecovery">Forgot password?</Link>
-            </Typography>
-            <Typography component="p">
-              New to Camp4Everyone?{" · "}
-              <Link to="/signup">Sign up now »</Link>
-            </Typography>
-          </Grid>
-        </form>
+        <Consumer>
+          {({setAuth}) => (
+            <form className={classes.root} onSubmit={e=>handleSubmit(e, setAuth)} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} className="login-icon">
+                  <MaterialIcon icon="account_circle" color="#ffffff" size={80} />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <Typography component="h1" variant="h5">
+                    Log in to Camp4Everyone
+                  </Typography>
+                </Grid>
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label="Email"
+                  variant="outlined"
+                  id="email"
+                  type="email"
+                  name="email"
+                  inputProps={{ style: { color: "white" } }}
+                  autoComplete="email"
+                  value={values.email}
+                  onChange={handleChange("email")}
+                />
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label="Password"
+                  variant="outlined"
+                  id="password"
+                  type="password"
+                  name="password"
+                  inputProps={{ style: { color: "white" } }}
+                  autoComplete="password"
+                  value={values.password}
+                  onChange={handleChange("password")}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  style={{ marginTop: "0.8rem" }}
+                >
+                  Log in
+                </Button>
+              </Grid>
+              <Grid item xs={12} style={{ marginTop: "0.8rem" }}>
+                <Typography component="p">
+                  Already using Camp4Everyone?{" · "}
+                  <Link to="/passwordRecovery">Forgot password?</Link>
+                </Typography>
+                <Typography component="p">
+                  New to Camp4Everyone?{" · "}
+                  <Link to="/signup">Sign up now »</Link>
+                </Typography>
+              </Grid>
+            </form>
+          )}
+        </Consumer>
+        
       </Container>
 
       <Snackbar

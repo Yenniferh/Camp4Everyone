@@ -20,11 +20,11 @@ function Public(props) {
         <Route path='/' exact component={Landing} />
         <Route
           path='/signup'
-          render={() => <Signup setAuthentication={props.setAuthentication} />}
+          render={() => <Signup  />}
         />
         <Route
           path='/login'
-          render={() => <Login setAuthentication={props.setAuthentication} />}
+          render={() => <Login  />}
         />
         <Route path='/category' component={Category} />
         <Route path='/aboutus' component={AboutUs} />
