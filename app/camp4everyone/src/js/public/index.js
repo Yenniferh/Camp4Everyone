@@ -18,8 +18,14 @@ function Public(props) {
       <BrowserRouter>
         <Navbar></Navbar>
         <Route path='/' exact component={Landing} />
-        <Route path='/signup' render={() => <Signup />} />
-        <Route path='/login' render={() => <Login />} />
+        <Route
+          path='/signup'
+          render={() => <Signup  />}
+        />
+        <Route
+          path='/login'
+          render={() => <Login  />}
+        />
         <Route path='/category' component={Category} />
         <Route path='/aboutus' component={AboutUs} />
         <Route path='/termsandconditions' component={TermsAndConditions} />
