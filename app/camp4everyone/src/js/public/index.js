@@ -1,16 +1,16 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Landing from './Landing/';
-import Category from './Category/';
-import AboutUs from './AboutUs/';
-import Login from './Login/';
-import Signup from './Signup/';
-import PasswordRec from './PasswordRecovery';
-import CategoryNav from './CategoryNavigation';
-import Navbar from './Navbar/';
-import Footer from './Footer/';
-import TermsAndConditions from './TermsAndConditions/';
-import Profile from '../private/Profile/';
+import React from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Landing from './Landing/'
+import Category from './Category/'
+import AboutUs from './AboutUs/'
+import Login from './Login/'
+import Signup from './Signup/'
+import PasswordRec from './PasswordRecovery'
+import CategoryNav from './CategoryNavigation'
+import Navbar from './Navbar/'
+import Footer from './Footer/'
+import TermsAndConditions from './TermsAndConditions/'
+import Profile from '../private/Profile/'
 
 function Public(props) {
   return (
@@ -35,6 +35,6 @@ function Public(props) {
         <Footer></Footer>
       </BrowserRouter>
     </main>
-  );
+  )
 }
-export default Public;
+export default Public

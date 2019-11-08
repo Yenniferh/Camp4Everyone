@@ -7,7 +7,7 @@ import theme from "./theme";
 import { signout } from './services/firebase';
 
 function Main() {
-  const [isAuth, setIsAuth] = useState(false);
+  /* const [isAuth, setIsAuth] = useState(false);
   useEffect(() => {
     const uid = sessionStorage.getItem("user");
     uid !== null && setIsAuth(true);
@@ -19,29 +19,19 @@ function Main() {
       sessionStorage.clear();
     }  
     setIsAuth(val);
-  }
-
+  } */
 
   return (
     <main>
-          <MuiThemeProvider theme={theme}>      
-
-      <Provider>
-        <Consumer>
-            {
-              ({isAuth}) => (
-                isAuth ?
-                  <Private />
-                :
-                  <Public />
-              )
-            }
-        </Consumer>
-      </Provider>
+      <MuiThemeProvider theme={theme}>
+        <Provider>
+          <Consumer>
+            {({ isAuth }) => (isAuth ? <Private /> : <Public />)}
+          </Consumer>
+        </Provider>
       </MuiThemeProvider>
-
     </main>
-  );
+  )
 }
 
-export default Main;
+export default Main
