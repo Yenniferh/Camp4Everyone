@@ -1,6 +1,6 @@
 .profile {
   margin-top: 1.5rem;
-  padding: 0 0.6rem;
+  padding: 0 2.5rem;
   .head {
     padding-top: 1.2rem;
     background-color: $primary-color;
@@ -28,17 +28,42 @@
     }
   }
 
-  .info-details {
+  .edit-info {
     background-color: $background-color;
-    height: 800px;
+    height: 600px;
     width: 100%;
-    .details {
-      display: flex;
-      align-items: center;
+    padding-top: 1rem;
+    .edit-profile-img {
+      color: $text-blue;
+      font-size: 16px;
+      margin: 0.8rem 0.2rem;
+      float: left;
+      #output {
+        width: 120px;
+        height: 120px;
+        display: block;
+        float: left;
+        margin-right: 1rem;
+        border: 1px solid $primary-color;
+        object-fit: cover;
+        background-attachment: scroll;
+        background-origin: padding-box;
+        @media screen and (max-width: 479px) {
+          margin-bottom: 0.8rem;
+        }
+      }
+
+      .selector {
+        display: block;
+        @media screen and (max-width: 479px) {
+          padding-left: 0;
+        }
+      }
+
       #tooltip {
-        margin-left: 0.8rem;
-        float: right;
-        color: $text-gray;
+        margin-top: 0.5rem;
+        font-size: 85%;
+        opacity: 0.7;
       }
     }
   }
