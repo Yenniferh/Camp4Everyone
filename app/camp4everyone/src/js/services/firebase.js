@@ -1,8 +1,8 @@
-import firebase from "firebase/app";
-import "firebase/database";
-import "firebase/storage";
-import "firebase/firestore";
-import "firebase/auth";
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/storage';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const firebaseApp = firebase.initializeApp({
   apiKey: process.env.REACT_APP_APIKEY,
@@ -12,7 +12,7 @@ const firebaseApp = firebase.initializeApp({
   projectId: process.env.REACT_APP_PROJECTID,
   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
   appId: process.env.REACT_APP_APPID,
-  measurementId: process.env.REACT_APP_MEASUREMENTID
+  measurementId: process.env.REACT_APP_MEASUREMENTID,
 });
 const auth = firebase.auth();
 export const db = firebaseApp.firestore();
@@ -34,104 +34,105 @@ export const passwordRecovery = email => {
 
 export const addUser = (name, email) => {
   return db
-    .collection("users")
+    .collection('users')
     .add({
       name: name,
-      email: email
+      email: email,
     })
-    .then(function (docRef) {
-      console.log("Document written with ID: ", docRef.id);
+    .then(function(docRef) {
+      console.log('Document written with ID: ', docRef.id);
     })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
+    .catch(function(error) {
+      console.error('Error adding document: ', error);
     });
 };
 
 export const addPlace = (name, price) => {
   return db
-    .collection("places")
+    .collection('places')
     .add({
       name: name,
-      price: price
+      price: price,
     })
-    .then(function (docRef) {
-      console.log("Document written with ID: ", docRef.id);
+    .then(function(docRef) {
+      console.log('Document written with ID: ', docRef.id);
     })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
+    .catch(function(error) {
+      console.error('Error adding document: ', error);
     });
 };
 export const addReservation = (user, place, price, date) => {
   return db
-    .collection("reservations")
+    .collection('reservations')
     .add({
       user: user,
       place: place,
       billing: price,
-      date: date
+      date: date,
     })
-    .then(function (docRef) {
-      console.log("Document written with ID: ", docRef.id);
+    .then(function(docRef) {
+      console.log('Document written with ID: ', docRef.id);
     })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
+    .catch(function(error) {
+      console.error('Error adding document: ', error);
     });
 };
 export const getdb = () => {
   return db;
 };
 
-export const ChangeName = (newName) => {
+export const ChangeName = newName => {
   let email = getCurrentUserEmail();
-  console.log("User email NAME: ", email);
-  db.collection("users")
-    .where("email", "==", email)
+  console.log('User email NAME: ', email);
+  db.collection('users')
+    .where('email', '==', email)
     .get()
-    .then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        db.collection("users")
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        db.collection('users')
           .doc(doc.id)
-          .update({ "name": newName });
+          .update({ name: newName });
       });
     })
-    .then(function () {
-      console.log("User name updated succesfully.");
+    .then(function() {
+      console.log('User name updated succesfully.');
     })
-    .catch(function (error) {
-      console.error("Error updating user name: ", error);
+    .catch(function(error) {
+      console.error('Error updating user name: ', error);
     });
 };
 
-export const updateUserEmail = (newEmail) => {
-  firebase.auth().currentUser
-    .updateEmail(newEmail)
-    .then(function () {
-      console.log("User email updated succesfully.");
+export const updateUserEmail = newEmail => {
+  firebase
+    .auth()
+    .currentUser.updateEmail(newEmail)
+    .then(function() {
+      console.log('User email updated succesfully.');
     })
-    .catch(function (error) {
-      console.error("Error updating user profile email: ", error);
+    .catch(function(error) {
+      console.error('Error updating user profile email: ', error);
     });
 };
 
-export const ChangeEmail = (newEmail) => {
+export const ChangeEmail = newEmail => {
   let email = getCurrentUserEmail();
-  db.collection("users")
-    .where("email", "==", email)
+  db.collection('users')
+    .where('email', '==', email)
     .get()
-    .then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        db.collection("users")
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        db.collection('users')
           .doc(doc.id)
-          .update({ "email": newEmail });
+          .update({ email: newEmail });
       });
       updateUserEmail(newEmail);
       //FIXME: Chanche image folder name to new email.
     })
-    .then(function () {
-      console.log("User name updated succesfully.");
+    .then(function() {
+      console.log('User name updated succesfully.');
     })
-    .catch(function (error) {
-      console.error("Error updating user name: ", error);
+    .catch(function(error) {
+      console.error('Error updating user name: ', error);
     });
 };
 
@@ -139,38 +140,41 @@ export const getCurrentUserEmail = () => {
   return firebase.auth().currentUser.email;
 };
 
-export const UploadImage = (file) => {
+export const UploadImage = file => {
   const storageRef = dbstorage.ref();
   let email = getCurrentUserEmail();
-  storageRef.child('images/' + email + '/' + file.name).put(file)
-    .then(function (snapshot) {
-      snapshot.ref.getDownloadURL()
-        .then(function (downloadURL) {
+  storageRef
+    .child('images/' + email + '/' + file.name)
+    .put(file)
+    .then(function(snapshot) {
+      snapshot.ref
+        .getDownloadURL()
+        .then(function(downloadURL) {
           ChangeImg(downloadURL);
         })
-        .catch(function (error) {
-          console.error("Error consiguiendo URL: ", error);
+        .catch(function(error) {
+          console.error('Error consiguiendo URL: ', error);
         });
     })
-    .catch(function (error) {
-      console.error("Error uploading Image: ", error);
-    })
+    .catch(function(error) {
+      console.error('Error uploading Image: ', error);
+    });
 };
 
-export const ChangeImg = (imgURL) => {
+export const ChangeImg = imgURL => {
   let email = getCurrentUserEmail();
-  db.collection("users")
-    .where("email", "==", email)
+  db.collection('users')
+    .where('email', '==', email)
     .get()
-    .then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        db.collection("users")
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        db.collection('users')
           .doc(doc.id)
-          .update({ "image": imgURL });
+          .update({ image: imgURL });
       });
     })
-    .catch(function (error) {
-      console.error("Error updating user image: ", error);
+    .catch(function(error) {
+      console.error('Error updating user image: ', error);
     });
 };
 

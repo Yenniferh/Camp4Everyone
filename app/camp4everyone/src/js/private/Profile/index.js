@@ -1,101 +1,156 @@
-import React, { useState, Fragment } from 'react'
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import { Link, Redirect } from "react-router-dom";
-
-import Grid from '@material-ui/core/Grid'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import { getCurrentUser, updatePhoto, ChangeName, ChangeEmail, UploadImage } from './../../services/firebase'
+import React, { useState, Fragment } from 'react';
+import clsx from 'clsx';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import { Redirect } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import {
+  ChangeName,
+  ChangeEmail,
+  UploadImage,
+} from './../../services/firebase';
 
 const CssTextField = withStyles({
   root: {
-    "& label.Mui-focused": {
-      color: "#3a9679"
+    '&': {
+      marginBottom: '8px',
     },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#3a9679"
+    '& label.Mui-focused': {
+      color: '#3a9679',
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "white"
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#3a9679',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#11144',
       },
-      "&:hover fieldset": {
-        borderColor: "#3a9679"
+      '&:hover fieldset': {
+        borderColor: '#3a9679',
       },
-      "&.Mui-focused fieldset": {
-        borderColor: "#3a9679"
+      '&.Mui-focused fieldset': {
+        borderColor: '#3a9679',
+      },
+    },
+  },
+})(TextField);
+
+const styles = makeStyles(theme => ({
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  buttonSuccess: {
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+}));
+
+export default function Profile() {
+  let photo = React.createRef();
+  let uploadPhoto = React.createRef();
+  let tooltip = React.createRef();
+  let output = React.createRef();
+  const classes = styles();
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef();
+  const [pic, setPic] = React.useState(null);
+  const [values, setValues] = React.useState({
+    email: '',
+    name: '',
+  });
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const [reload, setReload] = useState(false);
+
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: success,
+  });
+
+  const handleClick = () => {
+    photo.current.click();
+  };
+
+  const handleSubmit = evt => {
+    setLoading(true);
+    setSuccess(false);
+    evt.preventDefault();
+    let email = values.email;
+    let name = values.name;
+    if (pic || email || name) {
+      if (pic) {
+        UploadImage(pic);
+      }
+
+      if (name) {
+        ChangeName(name);
+      }
+
+      if (email) {
+        ChangeEmail(email);
+      }
+      timer.current = setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 2000);
+      setReload(true);
+      setValues({ email: '', name: '' });
+    }
+  };
+
+  const handleChangePic = ev => {
+    let input = ev.target;
+    if (input.files[0]) {
+      let reader = new FileReader();
+
+      reader.onload = function() {
+        let dataURL = reader.result;
+        output.current.src = dataURL;
+        setPic(input.files[0]);
+      };
+      reader.readAsDataURL(input.files[0]);
+
+      if (photo.current.value) {
+        tooltip.current.innerHTML = photo.current.value.replace(/^.*\\/, '');
+      } else {
+        tooltip.current.innerHTML = 'No photo chosen, yet.';
       }
     }
-  }
-})(TextField);
-export default function Profile() {
-  let photo = React.createRef()
-  let uploadPhoto = React.createRef()
-  let tooltip = React.createRef()
-  let output = React.createRef()
-  const [values, setValues] = React.useState({
-    email: "",
-    name: "",
-  });
-  const [reload, setReload] = useState(false);
-  const handleClick = () => {
-    photo.current.click()
-  }
-
-  const handleChange = ev => {
-    let input = ev.target
-    UploadImage(input.files[0]);
-    let reader = new FileReader()
-
-    reader.onload = function () {
-      let dataURL = reader.result
-      output.current.src = dataURL
-    }
-    reader.readAsDataURL(input.files[0])
-
-
-    if (photo.current.value) {
-      tooltip.current.innerHTML = photo.current.value.replace(/^.*\\/, '')
-    } else {
-      tooltip.current.innerHTML = 'No photo chosen, yet.'
-    }
-  }
-  const handleClickEmail = () => {
-    ChangeEmail(values.email);
-    alert("Email Changed");
-  }
-  const handleClickName = () => {
-
-    ChangeName(values.name);
-    alert(values.name);
-  }
-
-  const handleChangeName = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
   };
-  const handleChangeEmail = prop => event => {
+
+  const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const handleSubmitEmail = evt => {
-    evt.preventDefault();
-    ChangeEmail(values.email)
-    setReload(true);
-
-  }
-
-  const handleSubmitName = evt => {
-    evt.preventDefault();
-    ChangeName(values.name)
-    setReload(true);
-
-  }
+  //FIXME: Circular progress does not work
+  //FIXME: Obtain name from firebase
   return (
     <Fragment>
-      {reload ? <Redirect to="/profile" /> : null}
+      {reload ? <Redirect to='/profile' /> : null}
       <Grid container className='profile'>
         <Grid item className='head'>
           <Container maxWidth='md' className='head-info'>
@@ -105,91 +160,95 @@ export default function Profile() {
             </Typography>
           </Container>
         </Grid>
-        <Grid item className='info-details'>
-          <Container maxWidth='md' className='details'>
-            <input
-              type='file'
-              id='photo'
-              accept='image/*'
-              hidden
-              ref={photo}
-              onChange={handleChange}
-            ></input>
-            <Button
-              type='button'
-              variant='contained'
-              color='secondary'
-              size='large'
-              id='upload-photo'
-              ref={uploadPhoto}
-              onClick={handleClick}
-            >
-              upload photo
-            </Button>
-            <Typography
-              variant='body2'
-              component='p'
-              id='tooltip'
-              ref={tooltip}
-            >
-              No photo chosen, yet.
-            </Typography>
+        <Grid item className='edit-info'>
+          <Container maxWidth='sm' className='info'>
+            <form onSubmit={handleSubmit} noValidate>
+              <Container className='edit-profile-img'>
+                <Typography
+                  variant='body2'
+                  component='p'
+                  style={{ marginRight: '1rem', marginBottom: '1rem' }}
+                >
+                  Profile photo
+                </Typography>
+                <img id='output' ref={output}></img>
+                <Container className='selector'>
+                  <input
+                    type='file'
+                    id='photo'
+                    accept='image/*'
+                    hidden
+                    ref={photo}
+                    onChange={handleChangePic}
+                  ></input>
+
+                  <Button
+                    type='button'
+                    variant='contained'
+                    color='secondary'
+                    size='large'
+                    id='upload-photo'
+                    ref={uploadPhoto}
+                    onClick={handleClick}
+                  >
+                    upload photo
+                  </Button>
+                  <Typography
+                    variant='body2'
+                    component='p'
+                    id='tooltip'
+                    ref={tooltip}
+                  >
+                    No photo chosen, yet.
+                  </Typography>
+                </Container>
+              </Container>
+              <CssTextField
+                fullWidth
+                label='Email'
+                variant='outlined'
+                id='email'
+                type='email'
+                name='email'
+                inputProps={{ style: { color: '#11144' } }}
+                autoComplete='email'
+                value={values.email}
+                onChange={handleChange('email')}
+              />
+              <CssTextField
+                fullWidth
+                label='Name'
+                variant='outlined'
+                id='name'
+                type='text'
+                name='email'
+                inputProps={{ style: { color: '#11144' } }}
+                autoComplete='name'
+                value={values.name}
+                onChange={handleChange('name')}
+              />
+              <div className={classes.wrapper}>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='secondary'
+                  className={buttonClassname}
+                  disabled={loading}
+                  style={{ marginTop: '0.8rem' }}
+                >
+                  save changes
+                </Button>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    className={classes.buttonProgress}
+                  />
+                )}
+              </div>
+            </form>
           </Container>
-          <img id='output' ref={output}></img>
-          <br></br>
-          <form onSubmit={handleSubmitEmail} noValidate>
-            <CssTextField
-              required
-              fullWidth
-              label="Email"
-              variant="outlined"
-              id="email"
-              type="email"
-              name="email"
-              inputProps={{ style: { color: "black" } }}
-              autoComplete="email"
-              value={values.email}
-              onChange={handleChangeEmail("email")}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              style={{ marginTop: "0.8rem" }}
-            >
-              NEW EMAIL
-            </Button>
-          </form>
-          <br></br>
-          <form onSubmit={handleSubmitName} noValidate>
-            <CssTextField
-              required
-              fullWidth
-              label="name"
-              variant="outlined"
-              id="name"
-              type="text"
-              name="email"
-              inputProps={{ style: { color: "black" } }}
-              autoComplete="name"
-              value={values.name}
-              onChange={handleChangeName("name")}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              style={{ marginTop: "0.8rem" }}
-            >
-              NEW NAME
-            </Button>
-          </form>
         </Grid>
       </Grid>
-
-      
     </Fragment>
-  )
+  );
 }
