@@ -1,6 +1,13 @@
 .profile {
   margin-top: 1.5rem;
   padding: 0 2.5rem;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  max-height: 800px;
+  @media screen and (max-width: 479px) {
+    padding: 0 0.5rem;
+  }
   .head {
     padding-top: 1.2rem;
     background-color: $primary-color;
@@ -30,9 +37,11 @@
 
   .edit-info {
     background-color: $background-color;
-    height: 600px;
+    height: auto;
+    max-height: 600px;
     width: 100%;
-    padding-top: 1rem;
+    padding: 1rem 0;
+    overflow: auto;
     .edit-profile-img {
       color: $text-blue;
       font-size: 16px;
