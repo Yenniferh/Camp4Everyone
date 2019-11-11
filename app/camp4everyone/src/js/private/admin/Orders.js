@@ -33,34 +33,27 @@ export default function Orders(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Reservations</Title>
+      <Title>Reservations</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>User</TableCell>
+            <TableCell>Place</TableCell>
+            <TableCell>Billing</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {props.reservations.map(row => (
             <TableRow key={row.id}>
               <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell>{row.user}</TableCell>
+              <TableCell>{row.place}</TableCell>
+              <TableCell>$ {row.billing} USD</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary">
-          See more reservations
-        </Link>
-      </div>
     </React.Fragment>
   );
 }

@@ -83,7 +83,6 @@ export const getdb = () => {
 
 export const ChangeName = newName => {
   let email = getCurrentUserEmail();
-  console.log('User email NAME: ', email);
   db.collection('users')
     .where('email', '==', email)
     .get()
@@ -178,10 +177,40 @@ export const ChangeImg = imgURL => {
     });
 };
 
-/* export const signOut = () => {
-  auth.signOut().then(function () {
-    // Sign-out successful.
-  }).catch(function (error) {
-    console.error("Error signing out user: ", error);
+export const deletePlace = (placeName) =>{
+  return db.collection('places')
+  .where('name','==',placeName)
+  .get()
+  .then(function(querySnapshot){
+    if(querySnapshot.empty){
+      throw "error 404"
+    }else{
+      return querySnapshot
+    }
+  })
+  .then(function(querySnapshot){
+      querySnapshot.forEach(function(doc) {
+        return db.collection("places").doc(doc.id).delete()
+      });
   });
-} */
+};
+export const deleteUser = (userEmail) =>{
+  return db.collection('users')
+  .where('email','==',userEmail)
+  .get()
+  .then(function(querySnapshot){
+    if(querySnapshot.empty){
+      throw "error 404"
+    }else{
+      return querySnapshot
+    }
+  })
+  .then(function(querySnapshot){
+      querySnapshot.forEach(function(doc) {
+        return db.collection("users").doc(doc.id).delete()
+      });
+  });
+};
+export const deleteReservation = (reservationId) =>{
+  return db.collection("reservations").doc(reservationId).delete();
+};

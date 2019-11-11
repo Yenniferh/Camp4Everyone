@@ -24,10 +24,13 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar'
+import { SnackbarContentWrapper } from './../../utils/SnackbarContentWrapper'
+import Loading from './../../utils/Loading'
 
 
 
-import { getdb, signup, addUser, addPlace, addReservation }  from '../../services/firebase'
+import { getdb, signup, addUser, addPlace, addReservation, deletePlace, deleteUser, deleteReservation }  from '../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -70,6 +73,8 @@ function GetReservations(){
     const db = getdb()
     db.collection("reservations").onSnapshot((snapshot) => {
       const newReservations = snapshot.docs.map((doc)=>({
+        id: doc.id,
+        user: doc.user,
         place: doc.place,
         billing: doc.billing,
         date:doc.date,
@@ -190,10 +195,16 @@ function getModalStyle() {
 export default function Dashboard() { 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openAD, setOpenAD] = React.useState(false);
   const [openUserCreate, setOpenUserCreate] = React.useState(false);
   const [openPlaceCreate, setOpenPlaceCreate] = React.useState(false);
+  const [openPlaceDelete, setOpenPlaceDelete] = React.useState(false);
+  const [openUserDelete, setOpenUserDelete] = React.useState(false);
   const [openReservationCreate, setOpenReservationCreate] = React.useState(false);
-
+  const [openReservationDelete, setOpenReservationDelete] = React.useState(false);
+  const [loading, setLoading] = React.useState(false)
+  const [variant, setVariant] = React.useState('')
+  const [message, setMessage] = React.useState('')
   const [billing, setBilling] = React.useState(0);
   const [modalStyle] = React.useState(getModalStyle);
   const reservations = GetReservations()
@@ -213,14 +224,35 @@ export default function Dashboard() {
   const handleOpenPlaceCreate = () => {
     setOpenPlaceCreate(true);
   };
+  const handleOpenPlaceDelete = () => {
+    setOpenPlaceDelete(true);
+  };
+  const handleOpenUserDelete = () => {
+    setOpenUserDelete(true);
+  };
+  const handleClose = () => {
+    setOpenAD(false)
+  }
   const handleClosePlaceCreate = () => {
     setOpenPlaceCreate(false);
+  };
+  const handleClosePlaceDelete = () => {
+    setOpenPlaceDelete(false);
+  };
+  const handleCloseUserDelete = () => {
+    setOpenUserDelete(false);
   };
   const handleOpenReservationCreate = () => {
     setOpenReservationCreate(true);
   };
+  const handleOpenReservationDelete = () => {
+    setOpenReservationDelete(true);
+  };
   const handleCloseReservationCreate = () => {
     setOpenReservationCreate(false);
+  };
+  const handleCloseReservationDelete = () => {
+    setOpenReservationDelete(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaper2 = clsx(classes.paper, classes.fixedHeight2);
@@ -246,6 +278,7 @@ export default function Dashboard() {
     place: '',
     price:'',
     date:'',
+    id:'',
   });
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
@@ -258,7 +291,7 @@ export default function Dashboard() {
   };
   const handleSubmit = evt => {
     evt.preventDefault();
-
+    setLoading(true)
     if (
       values.name &&
       values.email &&
@@ -270,6 +303,10 @@ export default function Dashboard() {
           .then(user => {
             setTimeout(() => {
               addUser(values.name, values.email)
+              setVariant('success')
+              setMessage('Reservation created successfully')
+              setLoading(false)
+              setOpenAD(true)
             }, 2000)
           })
           .catch(err => {
@@ -287,13 +324,44 @@ export default function Dashboard() {
       values.confirmPassword = '';
     }
   };
+  const handleDeletePlaceSubmit = evt =>{
+    evt.preventDefault();
+    setLoading(true)
+    if ( placeValues.name ) {
+      deletePlace(placeValues.name)
+      .then(res=>{
+        setTimeout(() => {
+          setVariant('success')
+          setMessage('Place deleted successfully')
+          setOpenPlaceDelete(false);
+          setLoading(false)
+          setOpenAD(true)
+        }, 2000)
+      }).catch(err=>{
+        setTimeout(() => {
+          setVariant('error')
+          setMessage('Ups! Something went wrong')
+          setOpenPlaceDelete(false);
+          setLoading(false)
+          setOpenAD(true)
+          placeValues.name = '';
+          placeValues.price = '';
+        }, 2000);
+      });
+    }
+  };
   const handlePlaceSubmit = evt =>{
     evt.preventDefault();
+    setOpenPlaceCreate(false);
+    setLoading(true)
     if ( placeValues.name && placeValues.price) {
       addPlace(placeValues.name,placeValues.price)
         .then(place => {
           setTimeout(() => {
-            console.log('ok place');
+            setVariant('success')
+            setMessage('Place '+ placeValues.name+' created successfully')
+            setLoading(false)
+            setOpenAD(true)
           }, 2000)
         })
         .catch(err => {
@@ -308,11 +376,16 @@ export default function Dashboard() {
   };
   const handleReservationSubmit = evt =>{
     evt.preventDefault();
+    setLoading(true)
     if ( reservationValues.user && reservationValues.place && reservationValues.date && reservationValues.price) {
       addReservation(reservationValues.user,reservationValues.place,reservationValues.price,reservationValues.date)
         .then(place => {
           setTimeout(() => {
-            console.log('ok reservation');
+            setVariant('success')
+            setMessage('Reservation created successfully')
+            setOpenReservationCreate(false);
+            setLoading(false)
+            setOpenAD(true)
           }, 2000)
         })
         .catch(err => {
@@ -325,8 +398,59 @@ export default function Dashboard() {
 
     }
   };
+  const handleDeleteUserSubmit = evt =>{
+    evt.preventDefault();
+    setLoading(true)
+    if ( values.email ) {
+      deleteUser(values.email)
+      .then(res=>{
+        setTimeout(() => {
+          setVariant('success')
+          setMessage('Userdeleted successfully')
+          setOpenUserDelete(false);
+          setLoading(false)
+          setOpenAD(true)
+        }, 2000)
+      }).catch(err=>{
+        setTimeout(() => {
+          setVariant('error')
+          setMessage('Ups! Something went wrong')
+          setOpenUserDelete(false);
+          setLoading(false)
+          setOpenAD(true)
+          values.email = '';
+        }, 2000);
+      });
+    }
+  };
+  const handleDeleteReservationSubmit = evt =>{
+    evt.preventDefault();
+    setLoading(true)
+    if ( reservationValues.id ) {
+      deleteReservation(reservationValues.id)
+      .then(res=>{
+        setTimeout(() => {
+          setVariant('success')
+          setMessage('Reservation deleted successfully')
+          setOpenReservationDelete(false);
+          setLoading(false)
+          setOpenAD(true)
+        }, 2000)
+      }).catch(err=>{
+        setTimeout(() => {
+          setVariant('error')
+          setMessage('Ups! Something went wrong')
+          setOpenReservationDelete(false);
+          setLoading(false)
+          setOpenAD(true)
+          reservationValues.id = '';
+        }, 2000);
+      });
+    }
+  };
   return (
     <div className={classes.root}>
+      {loading && <Loading />}
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
@@ -462,7 +586,44 @@ export default function Dashboard() {
                 </Modal>
                 <button>READ</button>
                 <button>UPDATE</button>
-                <button>DELETE</button>
+                <button  onClick={handleOpenUserDelete}>DELETE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openUserDelete}
+                  onClose={handleCloseUserDelete}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Delete User</h2>
+                    <form  onSubmit={handleDeleteUserSubmit} noValidate>
+                    <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Email'
+                        variant='outlined'
+                        id='email'
+                        type='email'
+                        name='email'
+                        inputProps={{ style: { color: 'black' } }}
+                        autoComplete='email'
+                        value={values.email}
+                        onChange={handleChange('email')}
+                      />
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        DELETE
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal> 
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
@@ -519,7 +680,42 @@ export default function Dashboard() {
                 </Modal>
                 <button>READ</button>
                 <button>UPDATE</button>
-                <button>DELETE</button>                
+                <button onClick={handleOpenPlaceDelete}>DELETE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openPlaceDelete}
+                  onClose={handleClosePlaceDelete}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Delete Place</h2>
+                    <form  onSubmit={handleDeletePlaceSubmit} noValidate>
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Place Name'
+                        variant='outlined'
+                        id='place_name'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.name}
+                        onChange={handlePlaceChange('name')}
+                      />
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        DELETE
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal>                
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
@@ -600,7 +796,44 @@ export default function Dashboard() {
                 </Modal>
                 <button>READ</button>
                 <button>UPDATE</button>
-                <button>DELETE</button>                
+                <button onClick={handleOpenReservationDelete}>DELETE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openReservationDelete}
+                  onClose={handleCloseReservationDelete}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Delete Reservation</h2>
+                    <form  onSubmit={handleDeleteReservationSubmit} noValidate>
+                      
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Id'
+                        variant='outlined'
+                        id='Id'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.id}
+                        onChange={handleReservationChange('id')}
+                      />
+                    
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        Delete
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal>              
               </Paper>
             </Grid>
             {/* Recent Orders */}
@@ -614,6 +847,21 @@ export default function Dashboard() {
         </Container>
         <Copyright />
       </main>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        open={openAD}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
+        <SnackbarContentWrapper
+          onClose={handleClose}
+          variant={variant}
+          message={message}
+        />
+      </Snackbar>
     </div>
   );
 }
