@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import MaterialIcon from 'material-icons-react';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Container from '@material-ui/core/Container'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import MaterialIcon from 'material-icons-react'
+import CardHeader from '@material-ui/core/CardHeader'
+import Avatar from '@material-ui/core/Avatar'
 
 export default function Landing() {
   return (
@@ -20,10 +20,8 @@ export default function Landing() {
             <Typography component='h1' variant='h1' className='h1'>
               Camp4Everyone
             </Typography>
-            <Typography component='h3' variant='h4' className='h4'>
-              Discover new places, begin the adventure and
-            </Typography>
-            <Typography component='h3' variant='h4' className='h4'>
+            <Typography component='h2' variant='h4' className='h2'>
+              Discover new places, begin the adventure and <br />
               live a magical experience.
             </Typography>
             <Button
@@ -41,16 +39,11 @@ export default function Landing() {
       </Grid>
 
       {/* Benefits */}
-      <Grid
-        container
-        direction='column'
-        component='div'
-        className='benefits-container'
-      >
+      <Grid item component='div' className='benefits-container'>
         <Typography component='h2' variant='h3' className='h3 center'>
           Benefits
         </Typography>
-        <Grid item container justify='center' className='cards-container'>
+        <Container className='cards-container'>
           <Card className='card'>
             <CardContent>
               <div className='circle-icon'>
@@ -125,7 +118,7 @@ export default function Landing() {
               </Typography>
             </CardContent>
           </Card>
-        </Grid>
+        </Container>
       </Grid>
 
       {/* Reviews */}
@@ -174,5 +167,5 @@ export default function Landing() {
         </Grid>
       </Grid>
     </Grid>
-  );
+  )
 }

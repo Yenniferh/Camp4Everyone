@@ -8,6 +8,10 @@
     justify-content: space-evenly;
     text-transform: capitalize;
     align-items: center;
+    @media screen and (max-width: 450px) {
+      display: block;
+      padding-top: 10px;
+    }
 
     .footer-link {
       color: #a2a2a296;
