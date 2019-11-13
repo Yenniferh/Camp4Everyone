@@ -47,6 +47,31 @@ export const addUser = (name, email) => {
     });
 };
 
+export const readUser = (email) => {
+  return db.collection("users").where('email', '==', email)
+  .get()
+  .then((data) =>{
+    let user = []
+    data.forEach((doc)=>{
+      console.log(doc)
+      user.push(doc.data());
+    });
+      return user;
+  }).catch((err) => console.log(err));
+};
+export const readPlace = (name) => {
+  return db.collection("places").where('name', '==', name)
+  .get()
+  .then((data) =>{
+    let place = []
+    data.forEach((doc)=>{
+      console.log(doc)
+      place.push(doc.data());
+    });
+      return place;
+  }).catch((err) => console.log(err));
+};
+
 export const addPlace = (name, price) => {
   return db
     .collection('places')
@@ -76,6 +101,19 @@ export const addReservation = (user, place, price, date) => {
     .catch(function(error) {
       console.error('Error adding document: ', error);
     });
+};
+export const readReservation = (code) => {
+  console.log(code);
+  return db.collection("reservations").where('code', '==', code)
+  .get()
+  .then((data) =>{
+    let user = []
+    data.forEach((doc)=>{
+      console.log(doc)
+      user.push(doc.data());
+    });
+      return user;
+  }).catch((err) => console.log(err));
 };
 export const getdb = () => {
   return db;
