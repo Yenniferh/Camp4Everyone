@@ -1,0 +1,30 @@
+.not-found {
+  min-height: 250px;
+  height: auto;
+  max-height: 100vh;
+  padding: 1.5rem;
+  color: $text-blue;
+  .left-image,
+  .right-image {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .left-image {
+    height: 30rem;
+    padding: 1.5rem 2rem;
+  }
+  .right-image {
+    align-self: center;
+    flex-direction: column;
+    height: 15rem;
+    padding: 2.5rem 2rem;
+    margin-top: 2rem;
+    .right-paragraph {
+      margin-top: 1rem;
+      font-weight: 300;
+      font-size: 1rem;
+    }
+  }
+}
