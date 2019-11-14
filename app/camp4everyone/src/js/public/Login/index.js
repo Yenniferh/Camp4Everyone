@@ -1,5 +1,5 @@
-import React from "react";
-
+import React from 'react'
+import { Consumer } from '../../../AuthContext'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -12,54 +12,58 @@ import Snackbar from '@material-ui/core/Snackbar'
 
 import { SnackbarContentWrapper } from './../../utils/SnackbarContentWrapper'
 import Loading from './../../utils/Loading'
-import { login } from './../../services/firebase'
+import {
+  login,
+  getCurrentUserEmail,
+  ChangeName
+} from './../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
-    "& label.Mui-focused": {
-      color: "#3a9679"
+    '& label.Mui-focused': {
+      color: '#3a9679'
     },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#3a9679"
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#3a9679'
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "white"
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white'
       },
-      "&:hover fieldset": {
-        borderColor: "#3a9679"
+      '&:hover fieldset': {
+        borderColor: '#3a9679'
       },
-      "&.Mui-focused fieldset": {
-        borderColor: "#3a9679"
+      '&.Mui-focused fieldset': {
+        borderColor: '#3a9679'
       }
     }
   }
-})(TextField);
+})(TextField)
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap"
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   margin: {
     margin: theme.spacing(1)
   }
-}));
+}))
 
 export default function Login(props) {
-  const classes = useStyles();
+  const classes = useStyles()
   const [values, setValues] = React.useState({
-    email: "",
-    password: ""
-  });
+    email: '',
+    password: ''
+  })
 
-  const [variant, setVariant] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [toCategory, setToCategory] = React.useState(false);
-
-  const handleSubmit = evt => {
+  const [variant, setVariant] = React.useState('')
+  const [message, setMessage] = React.useState('')
+  const [open, setOpen] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+  const [toAdmin, setToAdmin] = React.useState(false)
+  const [toHome, setToHome] = React.useState(false)
+  const handleSubmit = (evt, setAuth) => {
     evt.preventDefault()
     setLoading(true)
     if (values.email && values.password) {
@@ -68,15 +72,16 @@ export default function Login(props) {
           setVariant('success')
           setMessage('Usuario autorizado')
           setOpen(true)
-
           setTimeout(() => {
-            props.setAuthentication(true);
-            sessionStorage.setItem('userPassword', values.password);
-            setLoading(false);
+            sessionStorage.setItem('user', user.user.uid)
+            setLoading(false)
+            setToHome(true)
+            setAuth(true)
           }, 2000)
         })
         .catch(err => {
           setTimeout(() => {
+            console.log(err)
             setVariant('error')
             setMessage('Credenciales inválidas')
             setOpen(true)
@@ -98,80 +103,92 @@ export default function Login(props) {
   }
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+    setValues({ ...values, [prop]: event.target.value })
+  }
 
   return (
-    <Container component="div" className="login-container">
+    <Container component='div' className='login-container'>
       <Container
-        component="main"
-        maxWidth="xs"
-        className="login"
-        color="primary"
+        component='main'
+        maxWidth='xs'
+        className='login'
+        color='primary'
       >
         {loading && <Loading />}
-        {toCategory ? <Redirect to='/category' /> : null}
-        <form className={classes.root} onSubmit={handleSubmit} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} className="login-icon">
-              <MaterialIcon icon="account_circle" color="#ffffff" size={80} />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <Typography component="h1" variant="h5">
-                Log in to Camp4Everyone
-              </Typography>
-            </Grid>
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label='Email'
-              variant='outlined'
-              id='email'
-              type='email'
-              name='email'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='email'
-              value={values.email}
-              onChange={handleChange("email")}
-            />
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label='Password'
-              variant='outlined'
-              id='password'
-              type='password'
-              name='password'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='password'
-              value={values.password}
-              onChange={handleChange("password")}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              style={{ marginTop: "0.8rem" }}
+        {toHome ? <Redirect to='/home' /> : null}
+        <Consumer>
+          {({ setAuth }) => (
+            <form
+              className={classes.root}
+              onSubmit={e => handleSubmit(e, setAuth)}
+              noValidate
             >
-              Log in
-            </Button>
-          </Grid>
-          <Grid item xs={12} spacing={2} style={{ marginTop: "0.8rem" }}>
-            <Typography component="p">
-              Already using Camp4Everyone?{" · "}
-              <Link to="/passwordRecovery">Forgot password?</Link>
-            </Typography>
-            <Typography component="p">
-              New to Camp4Everyone?{" · "}
-              <Link to="/signup">Sign up now »</Link>
-            </Typography>
-          </Grid>
-        </form>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} className='login-icon'>
+                  <MaterialIcon
+                    icon='account_circle'
+                    color='#ffffff'
+                    size={80}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <Typography component='h1' variant='h5'>
+                    Log in to Camp4Everyone
+                  </Typography>
+                </Grid>
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label='Email'
+                  variant='outlined'
+                  id='email'
+                  type='email'
+                  name='email'
+                  inputProps={{ style: { color: 'white' } }}
+                  autoComplete='email'
+                  value={values.email}
+                  onChange={handleChange('email')}
+                />
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label='Password'
+                  variant='outlined'
+                  id='password'
+                  type='password'
+                  name='password'
+                  inputProps={{ style: { color: 'white' } }}
+                  autoComplete='password'
+                  value={values.password}
+                  onChange={handleChange('password')}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  color='secondary'
+                  style={{ marginTop: '0.8rem' }}
+                >
+                  Log in
+                </Button>
+              </Grid>
+              <Grid item xs={12} style={{ marginTop: '0.8rem' }}>
+                <Typography component='p'>
+                  Already using Camp4Everyone?{' · '}
+                  <Link to='/passwordRecovery'>Forgot password?</Link>
+                </Typography>
+                <Typography component='p'>
+                  New to Camp4Everyone?{' · '}
+                  <Link to='/signup'>Sign up now »</Link>
+                </Typography>
+              </Grid>
+            </form>
+          )}
+        </Consumer>
       </Container>
 
       <Snackbar
@@ -190,5 +207,5 @@ export default function Login(props) {
         />
       </Snackbar>
     </Container>
-  );
+  )
 }

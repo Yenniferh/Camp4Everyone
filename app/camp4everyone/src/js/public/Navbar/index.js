@@ -1,22 +1,20 @@
-import React,{useState, useEffect}  from 'react'
+import React, { useState, useEffect } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
+import MenuItem from '@material-ui/core/MenuItem'
+import IconButton from '@material-ui/core/IconButton'
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
-import MaterialIcon from 'material-icons-react'
 import { Toolbar } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
-import InputBase from '@material-ui/core/InputBase'
 import { Link } from 'react-router-dom'
-import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu'
+import logo from './Logo2.png'
+import { signout } from '../../services/firebase'
+import { Consumer } from '../../../AuthContext'
 
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
-  },
-  button:{
-    borderRadius:'5px',
-    border:0,
-    marginTop:'2%',
-    backgroundColor:'#11144c',
   },
   search: {
     position: 'relative',
@@ -45,6 +43,7 @@ const useStyles = makeStyles(theme => ({
   inputRoot: {
     color: 'inherit'
   },
+
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create('width'),
@@ -62,72 +61,108 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // FIXME: hide log in button when logged
+
 // FIXME: hide sign up button when logged
 
 export default function Navbar(props) {
-  const signout = () => {
-    props.setAuthentication(false);
-  }
-  
-  const [isAuth, setIsAuth] = useState(false);
-  useEffect(() => {
-    const uid = sessionStorage.getItem("user");
-    uid !== null && setIsAuth(true);
-  },[isAuth]);
+  const [isAuth, setIsAuth] = useState(false)
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const isMenuOpen = Boolean(anchorEl)
 
+  useEffect(() => {
+    const uid = sessionStorage.getItem('user')
+    uid !== null && setIsAuth(true)
+  }, [isAuth])
 
   const classes = useStyles()
-  return (
-    <AppBar position='static' color='secondary'>
-    <Toolbar>
-      <Link to='/'>
-        <MaterialIcon icon='home' color='#11144c' size={30} />
-      </Link>
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <MaterialIcon icon='search' />
-        </div>
-        <InputBase
-          placeholder='Search…'
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput
-          }}
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </div>
-      <div className={classes.grow} />
-      {
-        isAuth ?
-          <div>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={signout}
-            >
-              <MaterialIcon icon='power_settings_new' color='#11144c' size={30} />
-              
-          </IconButton>
-          </div>
-        : 
-        <div>
-          <button className={classes.button}>
-          <Link to='/login' className='navbar-link'>
-            Log In
-          </Link>
-          </button>
-          <button className={classes.button}>
-          <Link to='/signup' className='navbar-link'>
-            Sign Up
-          </Link>
-          </button>
+  const handleProfileMenuOpen = event => {
+    setAnchorEl(event.currentTarget)
+  }
 
-          
-        </div>
-      }
-    </Toolbar>
-  </AppBar>
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+  }
+
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+    handleMobileMenuClose()
+  }
+
+  const logoutClick = setAuth => {
+    signout()
+    sessionStorage.clear()
+    setAuth(false)
+  }
+
+  const menuId = 'primary-search-account-menu'
+
+  const renderMenu = setAuth => (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <Link to='/home' className='navbar-link'>
+        <MenuItem>Home</MenuItem>
+      </Link>
+
+      <Link to='/profile' className='navbar-link'>
+        <MenuItem>Profile</MenuItem>
+      </Link>
+
+      <Link to='/' className='navbar-link'>
+        <MenuItem onClick={e => logoutClick(setAuth)}>Logout</MenuItem>
+      </Link>
+    </Menu>
+  )
+
+  return (
+    <Consumer>
+      {({ isAuth, setAuth }) => (
+        <AppBar position='static' color='secondary'>
+          <Toolbar>
+            <Link to='/'>
+              <div className='logo'>
+                <img src={logo} alt='Logo camp4everyone' />
+              </div>
+            </Link>
+            <div className={classes.grow} />
+            {isAuth ? (
+              <div>
+                <MenuItem onClick={handleProfileMenuOpen}>
+                  <IconButton
+                    aria-label='account of current user'
+                    aria-controls='primary-search-account-menu'
+                    aria-haspopup='true'
+                    color='inherit'
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </MenuItem>
+              </div>
+            ) : (
+              <div>
+                <Button type='button' className={classes.button}>
+                  <Link to='/login' className='navbar-link'>
+                    Log In
+                  </Link>
+                </Button>
+                <Button type='button' className={classes.button}>
+                  <Link to='/signup' className='navbar-link'>
+                    Sign Up
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </Toolbar>
+          {renderMenu(setAuth)}
+        </AppBar>
+      )}
+    </Consumer>
   )
 }

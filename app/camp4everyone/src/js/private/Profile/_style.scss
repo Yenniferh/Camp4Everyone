@@ -1,0 +1,79 @@
+.profile {
+  margin-top: 1.5rem;
+  padding: 0 2.5rem;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  max-height: 800px;
+  @media screen and (max-width: 479px) {
+    padding: 0 0.5rem;
+  }
+  .head {
+    padding-top: 1.2rem;
+    background-color: $primary-color;
+    color: $text-white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    min-width: 100%;
+    width: auto;
+    .head-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 200px;
+      .head-info_avatar {
+        width: 100px;
+        height: 100px;
+        background-color: $secondary-color;
+        color: $text-white;
+        font-size: 24px;
+      }
+      .head-info_name {
+        margin-top: 0.8rem;
+      }
+    }
+  }
+
+  .edit-info {
+    background-color: $background-color;
+    height: auto;
+    max-height: 600px;
+    width: 100%;
+    padding: 1rem 0;
+    overflow: auto;
+    .edit-profile-img {
+      color: $text-blue;
+      font-size: 16px;
+      margin: 0.8rem 0.2rem;
+      float: left;
+      #output {
+        width: 120px;
+        height: 120px;
+        display: block;
+        float: left;
+        margin-right: 1rem;
+        border: 1px solid $primary-color;
+        object-fit: cover;
+        background-attachment: scroll;
+        background-origin: padding-box;
+        @media screen and (max-width: 479px) {
+          margin-bottom: 0.8rem;
+        }
+      }
+
+      .selector {
+        display: block;
+        @media screen and (max-width: 479px) {
+          padding-left: 0;
+        }
+      }
+
+      #tooltip {
+        margin-top: 0.5rem;
+        font-size: 85%;
+        opacity: 0.7;
+      }
+    }
+  }
+}

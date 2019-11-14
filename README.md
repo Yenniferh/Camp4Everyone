@@ -28,13 +28,13 @@ Using `git clone https://github.com/Yenniferh/Camp4Everyone.git`
 Environmental variables must be in a .env plain document in the app/camp4everyone path.
 
 ```txt
-  REACT_APP_APIKEY = AIzaSyDfV5pSRLCWKUYiFjpQlKBsudT24b00mis
-  REACT_APP_AUTHDOMAIN = camp4everyone-19221.firebaseapp.com
-  REACT_APP_DATABASEURL = https://camp4everyone-19221.firebaseio.com
-  REACT_APP_PROJECTID = camp4everyone-19221
-  REACT_APP_MESSAGINGSENDERID = 1085459494278
-  REACT_APP_APPID = 1:1085459494278:web:374f0a4263f0917b012807
-  REACT_APP_MEASUREMENTID = G-XN080S1PLX
+  REACT_APP_APIKEY =
+  REACT_APP_AUTHDOMAIN =
+  REACT_APP_DATABASEURL =
+  REACT_APP_PROJECTID =
+  REACT_APP_MESSAGINGSENDERID =
+  REACT_APP_APPID =
+  REACT_APP_MEASUREMENTID =
 ```
 
 ## Installing Dependencies

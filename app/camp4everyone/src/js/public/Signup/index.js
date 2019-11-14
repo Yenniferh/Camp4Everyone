@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Consumer } from '../../../AuthContext'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -7,8 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar'
-import { Link } from 'react-router-dom'
-
+import { Link, Redirect } from 'react-router-dom'
 import { SnackbarContentWrapper } from '../../utils/SnackbarContentWrapper'
 import Loading from './../../utils/Loading'
 import { signup, addUser } from './../../services/firebase'
@@ -52,6 +51,7 @@ export default function Signup(props) {
   const [message, setMessage] = React.useState('')
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+  const [toHome, setToHome] = React.useState(false)
 
   const [values, setValues] = React.useState({
     name: '',
@@ -64,7 +64,7 @@ export default function Signup(props) {
     setValues({ ...values, [prop]: event.target.value })
   }
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt, setAuth) => {
     evt.preventDefault()
 
     if (
@@ -81,10 +81,11 @@ export default function Signup(props) {
             setMessage('Cuenta creada exitosamente')
             setOpen(true)
             setTimeout(() => {
-              props.setAuthentication(true)
               sessionStorage.setItem('user', user.user.uid)
               addUser(values.name, values.email)
               setLoading(false)
+              setToHome(true)
+              setAuth(true)
             }, 2000)
           })
           .catch(err => {
@@ -126,86 +127,97 @@ export default function Signup(props) {
         color='primary'
       >
         {loading && <Loading />}
-        <form className={classes.root} onSubmit={handleSubmit} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <Typography component='h1' variant='h5'>
-                Create your account in Camp4Everyone
-              </Typography>
-            </Grid>
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label='Name'
-              variant='outlined'
-              id='name'
-              type='name'
-              name='name'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='name'
-              value={values.name}
-              onChange={handleChange('name')}
-            />
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label='Email'
-              variant='outlined'
-              id='email'
-              type='email'
-              name='email'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='email'
-              value={values.email}
-              onChange={handleChange('email')}
-            />
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label='Password'
-              variant='outlined'
-              id='password'
-              type='password'
-              name='password'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='password'
-              value={values.password}
-              onChange={handleChange('password')}
-            />
-            <CssTextField
-              className={classes.margin}
-              required
-              fullWidth
-              label='Confirm password'
-              variant='outlined'
-              id='confirmPassword'
-              type='password'
-              name='confirmPassword'
-              inputProps={{ style: { color: 'white' } }}
-              autoComplete='confirmPassword'
-              value={values.confirmPassword}
-              onChange={handleChange('confirmPassword')}
-            />
-          </Grid>
-          <Grid item xs={12} style={{ paddingTop: 1 + 'rem' }}>
-            By clicking Sign up you are accepting our{' '}
-            <Link to='/termsandconditions'>Terms and Conditions</Link>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='secondary'
-              style={{ marginTop: '0.8rem' }}
+        {toHome ? <Redirect to='/home' /> : null}
+        <Consumer>
+          {({ setAuth }) => (
+            <form
+              className={classes.root}
+              onSubmit={e => handleSubmit(e, setAuth)}
+              noValidate
             >
-              Sign up
-            </Button>
-          </Grid>
-        </form>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12}>
+                  <Typography component='h1' variant='h5'>
+                    Create your account in Camp4Everyone
+                  </Typography>
+                </Grid>
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label='Name'
+                  variant='outlined'
+                  id='name'
+                  type='name'
+                  name='name'
+                  inputProps={{ style: { color: 'white' } }}
+                  autoComplete='name'
+                  value={values.name}
+                  onChange={handleChange('name')}
+                />
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label='Email'
+                  variant='outlined'
+                  id='email'
+                  type='email'
+                  name='email'
+                  inputProps={{ style: { color: 'white' } }}
+                  autoComplete='email'
+                  value={values.email}
+                  onChange={handleChange('email')}
+                />
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label='Password'
+                  variant='outlined'
+                  id='password'
+                  type='password'
+                  name='password'
+                  inputProps={{ style: { color: 'white' } }}
+                  autoComplete='password'
+                  value={values.password}
+                  onChange={handleChange('password')}
+                />
+                <CssTextField
+                  className={classes.margin}
+                  required
+                  fullWidth
+                  label='Confirm password'
+                  variant='outlined'
+                  id='confirmPassword'
+                  type='password'
+                  name='confirmPassword'
+                  inputProps={{ style: { color: 'white' } }}
+                  autoComplete='confirmPassword'
+                  value={values.confirmPassword}
+                  onChange={handleChange('confirmPassword')}
+                />
+              </Grid>
+              <Grid item xs={12} style={{ paddingTop: 1 + 'rem' }}>
+                <Typography>
+                  By clicking Sign up you are accepting our{' '}
+                  <Link to='/termsandconditions'>Terms and Conditions</Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  color='secondary'
+                  style={{ marginTop: '0.8rem' }}
+                >
+                  Sign up
+                </Button>
+              </Grid>
+            </form>
+          )}
+        </Consumer>
       </Container>
 
       <Snackbar

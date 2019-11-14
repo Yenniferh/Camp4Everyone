@@ -1,14 +1,13 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import CardActions from "@material-ui/core/CardActions";
-import { CardMedia } from "@material-ui/core";
-import romanticImage from "./Romantic.jpg";
-import auditoriumImage from "./Auditorium.jpg";
-import businessImage from "./Business.jpg";
-import adventureImage from "./Adventure.jpg";
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import { CardMedia } from '@material-ui/core';
+import romanticImage from './Romantic.jpg';
+import auditoriumImage from './Auditorium.jpg';
+import businessImage from './Business.jpg';
+import adventureImage from './Adventure.jpg';
 
 export default function CategoryNavigation() {
   return (

@@ -20,10 +20,8 @@ export default function Landing() {
             <Typography component='h1' variant='h1' className='h1'>
               Camp4Everyone
             </Typography>
-            <Typography component='h4' variant='h4' className='h4'>
-              Discover new places, begin the adventure and
-            </Typography>
-            <Typography component='h4' variant='h4' className='h4'>
+            <Typography component='h2' variant='h4' className='h2'>
+              Discover new places, begin the adventure and <br />
               live a magical experience.
             </Typography>
             <Button
@@ -41,24 +39,12 @@ export default function Landing() {
       </Grid>
 
       {/* Benefits */}
-      <Grid
-        container
-        lg={12}
-        direction='column'
-        component='div'
-        className='benefits-container'
-      >
-        <Typography component='h3' variant='h3' className='h3 center'>
+      <Grid item component='div' className='benefits-container'>
+        <Typography component='h2' variant='h3' className='h3 center'>
           Benefits
         </Typography>
-        <Grid
-          item
-          container
-          justify='center'
-          maxWidth='md'
-          className='cards-container'
-        >
-          <Card item className='card'>
+        <Container className='cards-container'>
+          <Card className='card'>
             <CardContent>
               <div className='circle-icon'>
                 <MaterialIcon icon='access_time' color='#11144c' size={100} />
@@ -67,7 +53,7 @@ export default function Landing() {
               <Typography
                 gutterBottom
                 variant='h5'
-                component='h2'
+                component='h3'
                 className='card-title center'
               >
                 Save Time
@@ -83,7 +69,7 @@ export default function Landing() {
             </CardContent>
           </Card>
 
-          <Card item className='card'>
+          <Card className='card'>
             <CardContent>
               <div className='circle-icon'>
                 <MaterialIcon icon='attach_money' color='#11144c' size={100} />
@@ -108,7 +94,7 @@ export default function Landing() {
             </CardContent>
           </Card>
 
-          <Card item className='card'>
+          <Card className='card'>
             <CardContent>
               <div className='circle-icon'>
                 <MaterialIcon icon='security' color='#11144c' size={100} />
@@ -132,55 +118,50 @@ export default function Landing() {
               </Typography>
             </CardContent>
           </Card>
-        </Grid>
+        </Container>
       </Grid>
 
+      {/* Reviews */}
       <Grid
         container
-        lg={12}
         direction='column'
         component='div'
         className='reviews-container'
       >
-        <Typography item component='h3' variant='h3' className='h3 center'>
+        <Typography component='h3' variant='h3' className='h3 center'>
           Reviews
         </Typography>
-        <Typography item variant='h4' component='h4' className='h4 center'>
+        <Typography variant='h4' component='h4' className='h4 center'>
           This is what our clients are saying...
         </Typography>
-        <Grid
-          container
-          justify='space-around'
-          maxWidth='xl'
-          className='review-cards'
-        >
-          <Card item className='review-card'>
+        <Grid container justify='space-around' className='review-cards'>
+          <Card className='review-card'>
             <CardHeader
-              avatar={<Avatar>M</Avatar>}
-              title='Elizabeth Mayer'
+              avatar={<Avatar>L</Avatar>}
+              title='Laura Pregonero'
             ></CardHeader>
             <CardContent>
-              <Typography>Best Thing ever! Totally recommend!</Typography>
+              <Typography>I really enjoyed the trip to France</Typography>
             </CardContent>
           </Card>
 
-          <Card item className='review-card'>
+          <Card className='review-card'>
             <CardHeader
-              avatar={<Avatar>M</Avatar>}
+              avatar={<Avatar>E</Avatar>}
               title='Elizabeth Mayer'
             ></CardHeader>
             <CardContent>
-              <Typography>Best Thing ever! Totally recommend!</Typography>
+              <Typography>Best thing ever! Totally recommend!</Typography>
             </CardContent>
           </Card>
 
-          <Card item className='review-card'>
+          <Card className='review-card'>
             <CardHeader
-              avatar={<Avatar>M</Avatar>}
-              title='Elizabeth Mayer'
+              avatar={<Avatar>J</Avatar>}
+              title='John Doe'
             ></CardHeader>
             <CardContent>
-              <Typography>Best Thing ever! Totally recommend!</Typography>
+              <Typography>I visited Sri Lanka last week. Amazing!</Typography>
             </CardContent>
           </Card>
         </Grid>
