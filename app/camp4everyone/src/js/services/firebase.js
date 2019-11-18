@@ -59,6 +59,65 @@ export const readUser = (email) => {
       return user;
   }).catch((err) => console.log(err));
 };
+export const updateUser = (email,name,role) => {
+  return db.collection("users").where('email', '==', email)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        db.collection('users')
+        .doc(doc.id)
+        .update({ name: name, role: role });
+    });
+  })
+};
+export const updatePlace = (name,price) => {
+  return db.collection("places").where('name', '==', name)
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        db.collection('places')
+        .doc(doc.id)
+        .update({price: price});
+    });
+  })
+};
+export const updateReservation = (code,date,billing) => {
+  if(date&&billing){
+    return db.collection("reservations").where('code', '==', code)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          db.collection('reservations')
+          .doc(doc.id)
+          .update({billing: billing,date:date});
+      });
+    })
+  }else{
+    if(date){
+      return db.collection("reservations").where('code', '==', code)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            db.collection('reservations')
+            .doc(doc.id)
+            .update({date: date});
+        });
+      })
+    }
+    if(billing){
+      return db.collection("reservations").where('code', '==', code)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            db.collection('reservations')
+            .doc(doc.id)
+            .update({billing: billing});
+        });
+      })
+    }
+  }
+
+};
 export const readPlace = (name) => {
   return db.collection("places").where('name', '==', name)
   .get()

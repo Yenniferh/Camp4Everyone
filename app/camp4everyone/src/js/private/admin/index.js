@@ -30,7 +30,7 @@ import Loading from './../../utils/Loading'
 
 
 
-import { getdb, signup, addUser, readUser, addPlace, readPlace, addReservation, readReservation, deletePlace, deleteUser, deleteReservation }  from '../../services/firebase'
+import { getdb, signup, addUser, readUser, updateUser, addPlace, readPlace, updatePlace, addReservation, readReservation, updateReservation, deletePlace, deleteUser, deleteReservation }  from '../../services/firebase'
 
 const CssTextField = withStyles({
   root: {
@@ -196,17 +196,21 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [tempUser, setTempUser] = React.useState(null);
+  const [tempUserUpdate, setTempUserUpdate] = React.useState(null);
   const [tempPlace, setTempPlace] = React.useState(null);
   const [tempReservation, setTempReservation] = React.useState(null);
   const [openAD, setOpenAD] = React.useState(false);
   const [openUserCreate, setOpenUserCreate] = React.useState(false);
   const [openUserRead, setOpenUserRead] = React.useState(false);
+  const [openUserUpdate, setOpenUserUpdate] = React.useState(false);
   const [openPlaceCreate, setOpenPlaceCreate] = React.useState(false);
   const [openPlaceRead, setOpenPlaceRead] = React.useState(false);
+  const [openPlaceUpdate, setOpenPlaceUpdate] = React.useState(false);
   const [openPlaceDelete, setOpenPlaceDelete] = React.useState(false);
   const [openUserDelete, setOpenUserDelete] = React.useState(false);
   const [openReservationCreate, setOpenReservationCreate] = React.useState(false);
   const [openReservationRead, setOpenReservationRead] = React.useState(false);
+  const [openReservationUpdate, setOpenReservationUpdate] = React.useState(false);
   const [openReservationDelete, setOpenReservationDelete] = React.useState(false);
   const [loading, setLoading] = React.useState(false)
   const [variant, setVariant] = React.useState('')
@@ -227,6 +231,9 @@ export default function Dashboard() {
   const handleOpenUserRead = () => {
     setOpenUserRead(true);
   };
+  const handleOpenUserUpdate = () => {
+    setOpenUserUpdate(true);
+  };
   const handleCloseUserCreate = () => {
     setOpenUserCreate(false);
   };
@@ -234,11 +241,18 @@ export default function Dashboard() {
     setOpenUserRead(false);
     setTempUser(null);
   };
+  const handleCloseUserUpdate = () => {
+    setOpenUserUpdate(false);
+    setTempUserUpdate(null);
+  };
   const handleOpenPlaceCreate = () => {
     setOpenPlaceCreate(true);
   };
   const handleOpenPlaceRead = () => {
     setOpenPlaceRead(true);
+  };
+  const handleOpenPlaceUpdate = () => {
+    setOpenPlaceUpdate(true);
   };
   const handleOpenPlaceDelete = () => {
     setOpenPlaceDelete(true);
@@ -256,6 +270,10 @@ export default function Dashboard() {
     setOpenPlaceRead(false);
     setTempPlace(null);
   };
+  const handleClosePlaceUpdate = () => {
+    setOpenPlaceUpdate(false);
+  };
+  
   const handleClosePlaceDelete = () => {
     setOpenPlaceDelete(false);
   };
@@ -268,6 +286,9 @@ export default function Dashboard() {
   const handleOpenReservationRead = () => {
     setOpenReservationRead(true);
   };
+  const handleOpenReservationUpdate = () => {
+    setOpenReservationUpdate(true);
+  };
   const handleOpenReservationDelete = () => {
     setOpenReservationDelete(true);
   };
@@ -276,6 +297,9 @@ export default function Dashboard() {
   };
   const handleCloseReservationRead = () => {
     setOpenReservationRead(false);
+  };
+  const handleCloseReservationUpdate = () => {
+    setOpenReservationUpdate(false);
   };
   const handleCloseReservationDelete = () => {
     setOpenReservationDelete(false);
@@ -294,6 +318,7 @@ export default function Dashboard() {
     email: '',
     password: '',
     confirmPassword: '',
+    role:'',
   });
   const [placeValues, setPlacesValues] = React.useState({
     name: '',
@@ -401,6 +426,21 @@ export default function Dashboard() {
 
     }
   };
+  const handleUpdatePlaceSubmit = evt =>{
+    evt.preventDefault();
+    setLoading(true)
+    if ( placeValues.name) {
+      updatePlace(placeValues.name, placeValues.price)
+          setTimeout(() => {
+            setVariant('success')
+            setMessage('Place Updated successfully')
+            setOpenPlaceUpdate(false);
+            setLoading(false)
+            setOpenAD(true)
+          }, 2000)
+    }
+  };
+  
   const handleReadPlaceSubmit = evt =>{
     evt.preventDefault();
     setLoading(true)
@@ -472,6 +512,20 @@ export default function Dashboard() {
         });
     }
   };
+  const handleUpdateReservationSubmit = evt =>{
+    evt.preventDefault();
+    setLoading(true)
+    if (reservationValues.code) {
+      updateReservation(reservationValues.code,reservationValues.date,reservationValues.price)
+          setTimeout(() => {
+            setVariant('success')
+            setMessage('Reservation Update successfully')
+            setLoading(false)
+            setOpenReservationUpdate(false);
+            setOpenAD(true)
+          }, 2000)
+    }
+  };
   const handleDeleteUserSubmit = evt =>{
     evt.preventDefault();
     setLoading(true)
@@ -532,6 +586,25 @@ export default function Dashboard() {
           values.email = '';
         }, 2000);
       });
+    }
+  };
+  const handleUpdateUserSubmit = evt =>{
+    evt.preventDefault();
+    setLoading(true)
+    if ( values.email ) {
+      updateUser(values.email,values.name,values.role)
+      setTimeout(() => {
+        setVariant('success')
+        setMessage('User Updated successfully')
+        setLoading(false)
+        setOpenUserUpdate(false)
+        setOpenAD(true)
+      }, 2000)
+    }else{
+      setLoading(false)
+      setVariant('error')
+      setMessage('Email Is Required')
+      setOpenAD(true)
     }
   };
   const handleDeleteReservationSubmit = evt =>{
@@ -604,13 +677,6 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper className={fixedHeightPaper}>
-                <Chart reservations={reservations}/>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper2}>
                 <center>User Panel</center>
@@ -743,7 +809,72 @@ export default function Dashboard() {
                   }                  
                 </div>
                 </Modal>
-                <button>UPDATE</button>
+                <button onClick={handleOpenUserUpdate}>UPDATE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openUserUpdate}
+                  onClose={handleCloseUserUpdate}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                  <h2 id="simple-modal-title">Update User</h2>
+                  <form  onSubmit={handleUpdateUserSubmit} noValidate>
+                  <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Email'
+                      variant='outlined'
+                      id='email'
+                      type='email'
+                      name='email'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='email'
+                      value={values.email}
+                      onChange={handleChange('email')}
+                    />
+                    <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Name'
+                      variant='outlined'
+                      id='name'
+                      type='text'
+                      name='name'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='name'
+                      value={values.name}
+                      onChange={handleChange('name')}
+                    />
+                    <CssTextField
+                      className={classes.margin}
+                      required
+                      fullWidth
+                      label='Role'
+                      variant='outlined'
+                      id='role'
+                      type='text'
+                      name='role'
+                      inputProps={{ style: { color: 'black' } }}
+                      autoComplete='role'
+                      value={values.role}
+                      onChange={handleChange('role')}
+                    />
+                    <Grid item xs={12}>
+                      <Button
+                        type='submit'
+                        fullWidth
+                        variant='contained'
+                        color='secondary'
+                        style={{ marginTop: '0.8rem' }}
+                      >
+                      Update
+                      </Button>
+                      </Grid>
+                    </form>
+                </div>
+                </Modal>
                 <button  onClick={handleOpenUserDelete}>DELETE</button>
                 <Modal
                   aria-labelledby="simple-modal-title"
@@ -880,7 +1011,54 @@ export default function Dashboard() {
                     }                    
                   </div>
                 </Modal>
-                <button>UPDATE</button>
+                <button onClick={handleOpenPlaceUpdate}>UPDATE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openPlaceUpdate}
+                  onClose={handleClosePlaceUpdate}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Update Place</h2>                    
+                      <form  onSubmit={handleUpdatePlaceSubmit} noValidate>
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Place Name'
+                        variant='outlined'
+                        id='place_name'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.name}
+                        onChange={handlePlaceChange('name')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Place Price'
+                        variant='outlined'
+                        id='place_price'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.price}
+                        onChange={handlePlaceChange('price')}
+                      />
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        Update
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal>                
                 <button onClick={handleOpenPlaceDelete}>DELETE</button>
                 <Modal
                   aria-labelledby="simple-modal-title"
@@ -1043,7 +1221,67 @@ export default function Dashboard() {
                     }
                   </div>
                 </Modal>
-                <button>UPDATE</button>
+                <button onClick={handleOpenReservationUpdate}>UPDATE</button>
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={openReservationUpdate}
+                  onClose={handleCloseReservationUpdate}
+                >
+                  <div style={modalStyle} className={classes.paperModal}>
+                    <h2 id="simple-modal-title">Update Reservation</h2>
+                      <form  onSubmit={handleUpdateReservationSubmit} noValidate>
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Code'
+                        variant='outlined'
+                        id='code'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.code}
+                        onChange={handleReservationChange('code')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Date'
+                        variant='outlined'
+                        id='date'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.date}
+                        onChange={handleReservationChange('date')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Price'
+                        variant='outlined'
+                        id='price'
+                        type='number'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={reservationValues.price}
+                        onChange={handleReservationChange('price')}
+                      />
+                    
+                      <Grid item xs={12}>
+                        <Button
+                          type='submit'
+                          fullWidth
+                          variant='contained'
+                          color='secondary'
+                          style={{ marginTop: '0.8rem' }}
+                        >
+                        Update
+                        </Button>
+                        </Grid>
+                      </form>
+                  </div>
+                </Modal>
                 <button onClick={handleOpenReservationDelete}>DELETE</button>
                 <Modal
                   aria-labelledby="simple-modal-title"
@@ -1081,13 +1319,6 @@ export default function Dashboard() {
                       </form>
                   </div>
                 </Modal>              
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {reservations.length}
-                <Orders reservations={reservations}/>
               </Paper>
             </Grid>
           </Grid>
