@@ -1,8 +1,8 @@
 .not-found {
-  min-height: 250px;
   height: auto;
-  max-height: 100vh;
-  padding: 1.5rem;
+  min-height: 100vh;
+  padding: 1rem 0.8rem;
+  margin-bottom: 1rem;
   color: $text-blue;
   .left-image,
   .right-image {
@@ -11,20 +11,34 @@
     align-content: center;
   }
 
-  .left-image {
-    height: 30rem;
-    padding: 1.5rem 2rem;
+  .left-image > img {
+    height: auto;
+    width: 95%;
+    padding: 1rem;
+    @media screen and (max-width: 899px) {
+      display: none;
+    }
   }
+
   .right-image {
     align-self: center;
     flex-direction: column;
-    height: 15rem;
-    padding: 2.5rem 2rem;
-    margin-top: 2rem;
     .right-paragraph {
       margin-top: 1rem;
       font-weight: 300;
       font-size: 1rem;
     }
+    @media screen and (max-width: 899px) {
+      width: 100%;
+      margin: 10px;
+    }
+  }
+  .right-image > img {
+    height: auto;
+    width: 95%;
+    display: block;
+    object-fit: cover;
+    background-origin: padding-box;
+    background-attachment: scroll;
   }
 }
