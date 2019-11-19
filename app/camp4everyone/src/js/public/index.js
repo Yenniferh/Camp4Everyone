@@ -11,6 +11,8 @@ import Navbar from "./Navbar/";
 import Footer from "./Footer/";
 import TermsAndConditions from "./TermsAndConditions/";
 import NotFound from "../public/NotFound";
+import Place from "./places/";
+import Place2 from "./places2/";
 
 function Public(props) {
   return (
@@ -25,6 +27,8 @@ function Public(props) {
         <Route path="/termsandconditions" component={TermsAndConditions} />
         <Route path="/passwordrecovery" component={PasswordRec} />
         <Route path="/categorynav" component={CategoryNav} />
+        <Route path="/places" component={Place} />
+        <Route path="/places2" component={Place2} />
         <Route component={NotFound} />
         <Footer></Footer>
       </BrowserRouter>
