@@ -1,54 +1,63 @@
-import React, { useState, Fragment } from 'react'
-import clsx from 'clsx'
-import { withStyles, makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import { Redirect } from 'react-router-dom'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { green } from '@material-ui/core/colors'
-import Grid from '@material-ui/core/Grid'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import { ChangeName, ChangeEmail, UploadImage } from './../../services/firebase'
+import React, { useState, Fragment, createRef, useEffect } from 'react';
+import clsx from 'clsx';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import { Redirect } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import {
+  ChangeName,
+  ChangeEmail,
+  UploadImage,
+  getCurrentUserEmail,
+  readUser,
+} from './../../services/firebase';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const CssTextField = withStyles({
   root: {
     '&': {
-      marginBottom: '8px'
+      marginBottom: '8px',
     },
     '& label.Mui-focused': {
-      color: '#3a9679'
+      color: '#3a9679',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: '#3a9679'
+      borderBottomColor: '#3a9679',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#11144'
+        borderColor: '#11144',
       },
       '&:hover fieldset': {
-        borderColor: '#3a9679'
+        borderColor: '#3a9679',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#3a9679'
-      }
-    }
-  }
-})(TextField)
+        borderColor: '#3a9679',
+      },
+    },
+  },
+})(TextField);
 
 const styles = makeStyles(theme => ({
   wrapper: {
     margin: theme.spacing(1),
     position: 'relative',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonSuccess: {
     backgroundColor: green[500],
     '&:hover': {
-      backgroundColor: green[700]
-    }
+      backgroundColor: green[700],
+    },
   },
   buttonProgress: {
     color: green[500],
@@ -56,97 +65,120 @@ const styles = makeStyles(theme => ({
     top: '50%',
     left: '50%',
     marginTop: -12,
-    marginLeft: -12
-  }
-}))
+    marginLeft: -12,
+  },
+}));
 
 export default function Profile() {
-  let photo = React.createRef()
-  let uploadPhoto = React.createRef()
-  let tooltip = React.createRef()
-  let output = React.createRef()
-  const classes = styles()
-  const [loading, setLoading] = React.useState(false)
-  const [success, setSuccess] = React.useState(false)
-  const timer = React.useRef()
-  const [pic, setPic] = React.useState(null)
-  const [values, setValues] = React.useState({
+  let photoRef = createRef();
+  let uploadPhotoRef = createRef();
+  let tooltipRef = createRef();
+  let outputRef = createRef();
+  let editFormRef = createRef();
+  let reviewsRef = createRef();
+  const classes = styles();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const timer = React.useRef();
+  const [pic, setPic] = useState(null);
+  const [values, setValues] = useState({
     email: '',
-    name: ''
-  })
+    name: '',
+  });
+  const [data, setData] = useState({ info: [] });
+  useEffect(() => {
+    let email = getCurrentUserEmail();
+    console.log(email);
+    const fetchData = async () => {
+      const result = await readUser(email);
+      setData(result.data);
+      /* console.log(data) */
+    };
+    fetchData();
+  });
 
   React.useEffect(() => {
     return () => {
-      clearTimeout(timer.current)
-    }
-  }, [])
+      clearTimeout(timer.current);
+    };
+  }, []);
 
-  const [reload, setReload] = useState(false)
-
+  const [reload, setReload] = useState(false);
+  const [edit, setEdit] = useState(false);
   const buttonClassname = clsx({
-    [classes.buttonSuccess]: success
-  })
+    [classes.buttonSuccess]: success,
+  });
 
   const handleClick = () => {
-    photo.current.click()
-  }
+    photoRef.current.click();
+  };
 
   const handleSubmit = evt => {
-    setLoading(true)
-    setSuccess(false)
-    evt.preventDefault()
-    let email = values.email
-    let name = values.name
-    if (pic || email || name) {
-      if (pic) {
-        UploadImage(pic)
-      }
+    if (edit) {
+      setLoading(true);
+      setSuccess(false);
+      evt.preventDefault();
+      let email = values.email;
+      let name = values.name;
+      if (pic || email || name) {
+        if (pic) {
+          UploadImage(pic);
+        }
 
-      if (name) {
-        ChangeName(name)
-      }
+        if (name) {
+          ChangeName(name);
+        }
 
-      if (email) {
-        ChangeEmail(email)
+        if (email) {
+          ChangeEmail(email);
+        }
+        timer.current = setTimeout(() => {
+          setSuccess(true);
+          setLoading(false);
+          setValues({ email: '', name: '' });
+          setTimeout(() => {
+            setSuccess(false);
+            setReload(true);
+          }, 1500);
+        }, 2000);
       }
-      timer.current = setTimeout(() => {
-        setSuccess(true)
-        setLoading(false)
-        setValues({ email: '', name: '' })
-        setTimeout(() => {
-          setSuccess(false)
-          setReload(true)
-        }, 1500)
-      }, 2000)
     }
-  }
+  };
+
+  const handleClickOpenEdit = () => {
+    setEdit(true);
+    reviewsRef.current.hidden = true;
+    editFormRef.current.hidden = false;
+  };
 
   const handleChangePic = ev => {
-    let input = ev.target
+    let input = ev.target;
     if (input.files[0]) {
-      let reader = new FileReader()
+      let reader = new FileReader();
 
       reader.onload = function() {
-        let dataURL = reader.result
-        output.current.src = dataURL
-        setPic(input.files[0])
-      }
-      reader.readAsDataURL(input.files[0])
+        let dataURL = reader.result;
+        outputRef.current.src = dataURL;
+        setPic(input.files[0]);
+      };
+      reader.readAsDataURL(input.files[0]);
 
-      if (photo.current.value) {
-        tooltip.current.innerHTML = photo.current.value.replace(/^.*\\/, '')
+      if (photoRef.current.value) {
+        tooltipRef.current.innerHTML = photoRef.current.value.replace(
+          /^.*\\/,
+          '',
+        );
       } else {
-        tooltip.current.innerHTML = 'No photo chosen, yet.'
+        tooltipRef.current.innerHTML = 'No photo chosen, yet.';
       }
     }
-  }
+  };
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   //FIXME: Obtain name from firebase
-  //FIXME: Scroll does not work in mobile version
   return (
     <Fragment>
       {reload ? <Redirect to='/profile' /> : null}
@@ -157,9 +189,20 @@ export default function Profile() {
             <Typography variant='h4' component='h1' className='head-info_name'>
               Ryan Musk
             </Typography>
+            <Button
+              type='button'
+              variant='outlined'
+              color='secondary'
+              size='medium'
+              aria-label='edit'
+              startIcon={<EditIcon />}
+              onClick={handleClickOpenEdit}
+            >
+              edit profile
+            </Button>
           </Container>
         </Grid>
-        <Grid item className='edit-info'>
+        <Grid item className='edit-info' ref={editFormRef} hidden>
           <Container maxWidth='sm' className='info'>
             <form onSubmit={handleSubmit} noValidate>
               <Container className='edit-profile-img'>
@@ -170,14 +213,14 @@ export default function Profile() {
                 >
                   Profile picture
                 </Typography>
-                <img id='output' ref={output}></img>
+                <img id='output' ref={outputRef}></img>
                 <Container className='selector'>
                   <input
                     type='file'
                     id='photo'
                     accept='image/*'
                     hidden
-                    ref={photo}
+                    ref={photoRef}
                     onChange={handleChangePic}
                   ></input>
 
@@ -185,10 +228,11 @@ export default function Profile() {
                     type='button'
                     variant='contained'
                     color='secondary'
-                    size='large'
+                    size='small'
                     id='upload-photo'
-                    ref={uploadPhoto}
+                    ref={uploadPhotoRef}
                     onClick={handleClick}
+                    startIcon={<CloudUploadIcon />}
                   >
                     upload pic
                   </Button>
@@ -196,7 +240,7 @@ export default function Profile() {
                     variant='body2'
                     component='p'
                     id='tooltip'
-                    ref={tooltip}
+                    ref={tooltipRef}
                   >
                     No picture chosen, yet.
                   </Typography>
@@ -231,9 +275,11 @@ export default function Profile() {
                   type='submit'
                   variant='contained'
                   color='secondary'
+                  size='large'
                   className={buttonClassname}
                   disabled={loading}
                   style={{ marginTop: '0.8rem' }}
+                  startIcon={<SaveIcon />}
                 >
                   save changes
                 </Button>
@@ -247,7 +293,10 @@ export default function Profile() {
             </form>
           </Container>
         </Grid>
+        <Grid item className='review-list' ref={reviewsRef}>
+          <Typography>Hola soy post</Typography>
+        </Grid>
       </Grid>
     </Fragment>
-  )
+  );
 }

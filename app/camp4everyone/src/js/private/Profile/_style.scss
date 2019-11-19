@@ -21,7 +21,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 200px;
+      height: 210px;
       .head-info_avatar {
         width: 100px;
         height: 100px;
@@ -30,7 +30,7 @@
         font-size: 24px;
       }
       .head-info_name {
-        margin-top: 0.8rem;
+        margin: 0.8rem 0 0.5rem 0;
       }
     }
   }

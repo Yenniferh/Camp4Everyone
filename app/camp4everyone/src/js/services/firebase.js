@@ -47,88 +47,104 @@ export const addUser = (name, email) => {
     });
 };
 
-export const readUser = (email) => {
-  return db.collection("users").where('email', '==', email)
-  .get()
-  .then((data) =>{
-    let user = []
-    data.forEach((doc)=>{
-      console.log(doc)
-      user.push(doc.data());
-    });
+export const readUser = email => {
+  return db
+    .collection('users')
+    .where('email', '==', email)
+    .get()
+    .then(data => {
+      let user = [];
+      data.forEach(doc => {
+        console.log(doc);
+        user.push(doc.data());
+      });
+      console.log(user);
       return user;
-  }).catch((err) => console.log(err));
+    })
+    .catch(err => console.log(err));
 };
-export const updateUser = (email,name,role) => {
-  return db.collection("users").where('email', '==', email)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-        db.collection('users')
-        .doc(doc.id)
-        .update({ name: name, role: role });
-    });
-  })
-};
-export const updatePlace = (name,price) => {
-  return db.collection("places").where('name', '==', name)
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-        db.collection('places')
-        .doc(doc.id)
-        .update({price: price});
-    });
-  })
-};
-export const updateReservation = (code,date,billing) => {
-  if(date&&billing){
-    return db.collection("reservations").where('code', '==', code)
+export const updateUser = (email, name, role) => {
+  return db
+    .collection('users')
+    .where('email', '==', email)
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-          db.collection('reservations')
+        db.collection('users')
           .doc(doc.id)
-          .update({billing: billing,date:date});
+          .update({ name: name, role: role });
       });
-    })
-  }else{
-    if(date){
-      return db.collection("reservations").where('code', '==', code)
+    });
+};
+export const updatePlace = (name, price) => {
+  return db
+    .collection('places')
+    .where('name', '==', name)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        db.collection('places')
+          .doc(doc.id)
+          .update({ price: price });
+      });
+    });
+};
+export const updateReservation = (code, date, billing) => {
+  if (date && billing) {
+    return db
+      .collection('reservations')
+      .where('code', '==', code)
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            db.collection('reservations')
+          db.collection('reservations')
             .doc(doc.id)
-            .update({date: date});
+            .update({ billing: billing, date: date });
         });
-      })
+      });
+  } else {
+    if (date) {
+      return db
+        .collection('reservations')
+        .where('code', '==', code)
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            db.collection('reservations')
+              .doc(doc.id)
+              .update({ date: date });
+          });
+        });
     }
-    if(billing){
-      return db.collection("reservations").where('code', '==', code)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+    if (billing) {
+      return db
+        .collection('reservations')
+        .where('code', '==', code)
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
             db.collection('reservations')
-            .doc(doc.id)
-            .update({billing: billing});
+              .doc(doc.id)
+              .update({ billing: billing });
+          });
         });
-      })
     }
   }
-
 };
-export const readPlace = (name) => {
-  return db.collection("places").where('name', '==', name)
-  .get()
-  .then((data) =>{
-    let place = []
-    data.forEach((doc)=>{
-      console.log(doc)
-      place.push(doc.data());
-    });
+export const readPlace = name => {
+  return db
+    .collection('places')
+    .where('name', '==', name)
+    .get()
+    .then(data => {
+      let place = [];
+      data.forEach(doc => {
+        console.log(doc);
+        place.push(doc.data());
+      });
       return place;
-  }).catch((err) => console.log(err));
+    })
+    .catch(err => console.log(err));
 };
 
 export const addPlace = (name, price) => {
@@ -161,18 +177,21 @@ export const addReservation = (user, place, price, date) => {
       console.error('Error adding document: ', error);
     });
 };
-export const readReservation = (code) => {
+export const readReservation = code => {
   console.log(code);
-  return db.collection("reservations").where('code', '==', code)
-  .get()
-  .then((data) =>{
-    let user = []
-    data.forEach((doc)=>{
-      console.log(doc)
-      user.push(doc.data());
-    });
+  return db
+    .collection('reservations')
+    .where('code', '==', code)
+    .get()
+    .then(data => {
+      let user = [];
+      data.forEach(doc => {
+        console.log(doc);
+        user.push(doc.data());
+      });
       return user;
-  }).catch((err) => console.log(err));
+    })
+    .catch(err => console.log(err));
 };
 export const getdb = () => {
   return db;
@@ -274,40 +293,51 @@ export const ChangeImg = imgURL => {
     });
 };
 
-export const deletePlace = (placeName) =>{
-  return db.collection('places')
-  .where('name','==',placeName)
-  .get()
-  .then(function(querySnapshot){
-    if(querySnapshot.empty){
-      throw "error 404"
-    }else{
-      return querySnapshot
-    }
-  })
-  .then(function(querySnapshot){
+export const deletePlace = placeName => {
+  return db
+    .collection('places')
+    .where('name', '==', placeName)
+    .get()
+    .then(function(querySnapshot) {
+      if (querySnapshot.empty) {
+        throw 'error 404';
+      } else {
+        return querySnapshot;
+      }
+    })
+    .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-        return db.collection("places").doc(doc.id).delete()
+        return db
+          .collection('places')
+          .doc(doc.id)
+          .delete();
       });
-  });
+    });
 };
-export const deleteUser = (userEmail) =>{
-  return db.collection('users')
-  .where('email','==',userEmail)
-  .get()
-  .then(function(querySnapshot){
-    if(querySnapshot.empty){
-      throw "error 404"
-    }else{
-      return querySnapshot
-    }
-  })
-  .then(function(querySnapshot){
+export const deleteUser = userEmail => {
+  return db
+    .collection('users')
+    .where('email', '==', userEmail)
+    .get()
+    .then(function(querySnapshot) {
+      if (querySnapshot.empty) {
+        throw 'error 404';
+      } else {
+        return querySnapshot;
+      }
+    })
+    .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-        return db.collection("users").doc(doc.id).delete()
+        return db
+          .collection('users')
+          .doc(doc.id)
+          .delete();
       });
-  });
+    });
 };
-export const deleteReservation = (reservationId) =>{
-  return db.collection("reservations").doc(reservationId).delete();
+export const deleteReservation = reservationId => {
+  return db
+    .collection('reservations')
+    .doc(reservationId)
+    .delete();
 };
