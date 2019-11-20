@@ -55,10 +55,8 @@ export const readUser = email => {
     .then(data => {
       let user = [];
       data.forEach(doc => {
-        console.log(doc);
         user.push(doc.data());
       });
-      console.log(user);
       return user;
     })
     .catch(err => console.log(err));

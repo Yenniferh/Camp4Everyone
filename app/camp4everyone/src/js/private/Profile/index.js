@@ -69,7 +69,20 @@ const styles = makeStyles(theme => ({
   },
 }));
 
+function UserInfo(){
+  const [user, setUser] = useState([]);
+  useEffect(() => {
+    readUser('dacuentas@uninorte.edu.co').then(res=>{
+      setUser(res[0])
+    })
+    
+},[]);
+
+return user
+}
+
 export default function Profile() {
+  const user = UserInfo()
   let photoRef = createRef();
   let uploadPhotoRef = createRef();
   let tooltipRef = createRef();
@@ -85,17 +98,8 @@ export default function Profile() {
     email: '',
     name: '',
   });
-  const [data, setData] = useState({ info: [] });
-  useEffect(() => {
-    let email = getCurrentUserEmail();
-    console.log(email);
-    const fetchData = async () => {
-      const result = await readUser(email);
-      setData(result.data);
-      /* console.log(data) */
-    };
-    fetchData();
-  });
+const [data, setData] = useState(null);
+
 
   React.useEffect(() => {
     return () => {
@@ -187,7 +191,7 @@ export default function Profile() {
           <Container maxWidth='md' className='head-info'>
             <Avatar className='head-info_avatar'>RM</Avatar>
             <Typography variant='h4' component='h1' className='head-info_name'>
-              Ryan Musk
+              {user.name}
             </Typography>
             <Button
               type='button'
