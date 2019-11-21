@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import MaterialIcon from 'material-icons-react';
 import {
   ChangeName,
   ChangeEmail,
@@ -69,20 +70,20 @@ const styles = makeStyles(theme => ({
   },
 }));
 
-function UserInfo(){
+function UserInfo() {
   const [user, setUser] = useState([]);
   useEffect(() => {
-    readUser('dacuentas@uninorte.edu.co').then(res=>{
-      setUser(res[0])
-    })
-    
-},[]);
+    let email = getCurrentUserEmail();
+    readUser(email).then(res => {
+      setUser(res[0]);
+    });
+  }, []);
 
-return user
+  return user;
 }
 
 export default function Profile() {
-  const user = UserInfo()
+  const user = UserInfo();
   let photoRef = createRef();
   let uploadPhotoRef = createRef();
   let tooltipRef = createRef();
@@ -98,8 +99,6 @@ export default function Profile() {
     email: '',
     name: '',
   });
-const [data, setData] = useState(null);
-
 
   React.useEffect(() => {
     return () => {
@@ -149,6 +148,11 @@ const [data, setData] = useState(null);
     }
   };
 
+  const getImage = imgURL => {
+    let reader = new Image(imgURL);
+    return reader;
+  };
+
   const handleClickOpenEdit = () => {
     setEdit(true);
     reviewsRef.current.hidden = true;
@@ -189,7 +193,10 @@ const [data, setData] = useState(null);
       <Grid container className='profile'>
         <Grid item className='head'>
           <Container maxWidth='md' className='head-info'>
-            <Avatar className='head-info_avatar'>RM</Avatar>
+            <Avatar className='head-info_avatar' src={user.image}>
+              {!user.image &
+              <MaterialIcon icon='perm_identity' color='#ffffff' size={80} />}
+            </Avatar>
             <Typography variant='h4' component='h1' className='head-info_name'>
               {user.name}
             </Typography>
