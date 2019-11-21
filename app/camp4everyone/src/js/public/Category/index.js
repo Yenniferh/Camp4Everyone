@@ -10,6 +10,7 @@ import imagen1 from './Imagen1.jpg';
 import imagen2 from './Imagen2.jpg';
 import imagen3 from './Imagen3.jpg';
 import imagen4 from './Imagen4.jpg';
+import { prueba } from './../../services/firebase';
 
 export default function Category() {
   return (
@@ -32,6 +33,7 @@ export default function Category() {
         item
         spacing={40}
         className="Location-Cards"
+        id="list_of_places"
       >
         <Card item className="Location-Card">
           <CardMedia className="Card-Image" image={imagen1} />

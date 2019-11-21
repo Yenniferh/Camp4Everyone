@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { CardMedia } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-export default function Places() {
+export default function PlacePopUp() {
     return (
         <Grid
             container
