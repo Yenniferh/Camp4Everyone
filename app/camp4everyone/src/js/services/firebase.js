@@ -118,25 +118,18 @@ export const updateReservation = (code, date, billing) => {
   }
 
 };
+
 export const readPlace = (name) => {
   return db.collection("places").where('name', '==', name)
     .get()
     .then((data) => {
-      let place;
+      let place = []
       data.forEach((doc) => {
-        place = (doc.data().description);
+        place.push(doc.data());
       });
       return place;
     }).catch((err) => console.log(err));
 };
-
-/* .then(function (querySnapshot) {
-  querySnapshot.forEach(function (doc) {
-    db.collection('users')
-      .doc(doc.id)
-      .update({ image: imgURL });
-  });
-}) */
 
 export const addPlace = (name, price) => {
   return db
@@ -144,6 +137,12 @@ export const addPlace = (name, price) => {
     .add({
       name: name,
       price: price,
+      address: '',
+      description: '',
+      maxcap: '',
+      image1: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Building.jpg?alt=media&token=3ceb4d51-0ef6-4d10-87fb-b89ae4301479',
+      image2: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Room.jpg?alt=media&token=db23b430-7009-4451-abdb-35c6d2d77568',
+      image3: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Wall.jpg?alt=media&token=490c7efb-1b13-4e68-9b0e-2dff2662bdc7'
     })
     .then(function (docRef) {
       console.log('Document written with ID: ', docRef.id);
