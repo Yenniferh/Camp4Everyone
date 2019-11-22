@@ -3,6 +3,7 @@ import 'firebase/database';
 import 'firebase/storage';
 import 'firebase/firestore';
 import 'firebase/auth';
+import Reviews from '../public/Reviews';
 
 const firebaseApp = firebase.initializeApp({
   apiKey: process.env.REACT_APP_APIKEY,
@@ -341,17 +342,42 @@ export const deleteReservation = reservationId => {
     .delete();
 };
 
-export const getReviews = () => {
+export const getReviews = place => {
+  let reviews = [];
+  let id, name, comment;
+  function review(idRev, nameUsr, comment) {
+    this.idRev = idRev;
+    this.nameUsr = nameUsr;
+    this.comment = comment;
+  }
   return db
     .collection('reviews')
+    .where('place', '==', place)
     .get()
-    .then(data => {
-      let user = [];
-      data.forEach(doc => {
-        console.log(doc);
-        user.push(doc.data());
+    .then(function(querySnapshot) {
+      if (querySnapshot.empty) {
+        throw 'error 404';
+      } else {
+        return querySnapshot;
+      }
+    })
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        id = doc.id;
+        comment = doc.data().comment;
+        db.collection('users')
+          .doc(doc.data().user)
+          .get()
+          .then(function(querySnapshot) {
+            if (querySnapshot.empty) {
+              throw 'error 404';
+            } else {
+              name = querySnapshot.get('name');
+              reviews.push(new review(id, name, comment));
+            }
+          });
       });
-      return user;
+      return reviews;
     })
     .catch(err => console.log(err));
 };
