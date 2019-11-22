@@ -75,6 +75,7 @@ export const updatePlace = (name, price) => {
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
+
         db.collection('places')
           .doc(doc.id)
           .update({ price: price });
@@ -116,9 +117,7 @@ export const updateReservation = (code, date, billing) => {
         })
     }
   }
-
 };
-
 export const readPlace = (name) => {
   return db.collection("places").where('name', '==', name)
     .get()
@@ -168,7 +167,7 @@ export const addReservation = (user, place, price, date) => {
       console.error('Error adding document: ', error);
     });
 };
-export const readReservation = (code) => {
+export const readReservation = code => {
   console.log(code);
   return db.collection("reservations").where('code', '==', code)
     .get()
