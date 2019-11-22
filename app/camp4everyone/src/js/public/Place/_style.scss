@@ -1,0 +1,56 @@
+.place-Container{
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    .paper-Place{
+        min-width: 100vw;
+        .first-Container{
+            padding:0;
+            display: flex;
+            height: 50vh;
+            .imagen1{
+                object-fit: cover;
+                width: 40vw;
+                height: 100%;
+            }
+            .info-Container{
+                width: 40vw;
+                height: 100%;
+                display: flex;
+                align-content: center;
+                .place-Title{
+                    margin-bottom: 10px;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+                .place-Description{
+                    margin:20px;
+                }
+            }
+        }
+    }
+    .second-Container{
+        display: flex;
+        height: 25vh;
+        .imagen2{
+            object-fit: cover;
+            width: 20vw;
+            height: 100%;
+        }
+        .imagen3{
+            object-fit: cover;
+            width: 20vw;
+            height: 100%;
+        }
+        .paper2{
+            width:40vw;
+            height: 100%;
+            .place-details{
+                width: 20vw;
+            }
+            .place-action{
+                width: 20vw;
+            }
+        }
+    }
+}

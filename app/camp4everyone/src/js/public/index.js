@@ -11,6 +11,8 @@ import Navbar from './Navbar/';
 import Footer from './Footer/';
 import TermsAndConditions from './TermsAndConditions/';
 import NotFound from '../public/NotFound';
+import PlacePopUp from './PlacePopUp/';
+import Place from './Place/';
 
 function Public() {
   return (
@@ -26,6 +28,8 @@ function Public() {
           <Route path='/termsandconditions' component={TermsAndConditions} />
           <Route path='/passwordrecovery' component={PasswordRec} />
           <Route path='/categorynav' component={CategoryNav} />
+          <Route path="/PlacePopUp" component={PlacePopUp} />
+          <Route path="/Place" component={Place} />
           <Route component={NotFound} />
         </Switch>
         <Footer></Footer>
