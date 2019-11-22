@@ -344,7 +344,7 @@ export const deleteReservation = reservationId => {
 
 export const getReviews = place => {
   let reviews = [];
-  let id, name, comment;
+  let name;
   function review(idRev, nameUsr, comment) {
     this.idRev = idRev;
     this.nameUsr = nameUsr;
@@ -363,7 +363,6 @@ export const getReviews = place => {
     })
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-        comment = doc.data().comment;
         db.collection('users')
           .doc(doc.data().user)
           .get()
@@ -372,7 +371,7 @@ export const getReviews = place => {
               throw 'error 404';
             } else {
               name = querySnapshot.get('name');
-              reviews.push(new review(doc.id, name, comment));
+              reviews.push(new review(doc.id, name, doc.data().comment));
             }
           });
       });

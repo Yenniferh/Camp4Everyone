@@ -10,18 +10,6 @@ import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getReviews, getPlaceReviews } from '../../services/firebase';
 
-function createData(user, comment) {
-  return { user, comment };
-}
-
-const rows = [
-  createData('Elvis Presley', 'BLA BLA BLA BLA'),
-  createData('Paul McCartney', 'BLA BLA BLA BLA'),
-  createData('Tom Scholz', 'BLA BLA BLA BLA'),
-  createData('Michael Jackson', 'BLA BLA BLA BLA'),
-  createData('Bruce Springsteen', 'BLA BLA BLA BLA'),
-];
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -31,19 +19,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 export default function Reviews() {
   const classes = useStyles();
   const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
-    getReviews('SERkVLb1SBJOiK5wn8FO').then(res =>{
+    getReviews('SERkVLb1SBJOiK5wn8FO').then(res => {
       setTimeout(() => {
-        console.log(res)
-        setReviews(res)
-      }, 2000)
-    })
-  },[]);
+        console.log(res);
+        setReviews(res);
+      }, 2000);
+    });
+  }, []);
 
   return (
     <Container maxWidth='md'>
