@@ -140,9 +140,10 @@ export const addPlace = (name, price) => {
       address: '',
       description: '',
       maxcap: '',
-      image1: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Building.jpg?alt=media&token=3ceb4d51-0ef6-4d10-87fb-b89ae4301479',
+      category: '',
+      image1: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Wall.jpg?alt=media&token=490c7efb-1b13-4e68-9b0e-2dff2662bdc7',
       image2: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Room.jpg?alt=media&token=db23b430-7009-4451-abdb-35c6d2d77568',
-      image3: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Wall.jpg?alt=media&token=490c7efb-1b13-4e68-9b0e-2dff2662bdc7'
+      image3: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Stairs.jpg?alt=media&token=81d7ace5-06a5-47f0-8f41-b3b016a5f578'
     })
     .then(function (docRef) {
       console.log('Document written with ID: ', docRef.id);

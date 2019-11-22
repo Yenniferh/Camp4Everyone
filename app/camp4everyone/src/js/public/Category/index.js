@@ -48,7 +48,7 @@ export default function Category() {
             <Typography>Calificacion: 5.0⋆ (20)</Typography>
           </CardContent>
           <CardActions>
-            <Link to='/Place name="Twin Towers"'><Button
+            <Link to={{ pathname: '/Place', state: { name: 'Twin Towers' } }}><Button
               type="button"
               variant="contained"
               color="secondary"
@@ -71,7 +71,7 @@ export default function Category() {
             <Typography>Calificacion: 5.0⋆ (20)</Typography>
           </CardContent>
           <CardActions>
-            <Button
+            <Link to={{ pathname: '/Place', state: { name: 'Big Pool' } }}><Button
               type="button"
               variant="contained"
               color="secondary"
@@ -79,7 +79,7 @@ export default function Category() {
               className="Book-Button"
             >
               Book
-            </Button>
+            </Button></Link>
           </CardActions>
         </Card>
 
