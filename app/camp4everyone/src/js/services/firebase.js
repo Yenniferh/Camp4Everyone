@@ -363,7 +363,6 @@ export const getReviews = place => {
     })
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-        id = doc.id;
         comment = doc.data().comment;
         db.collection('users')
           .doc(doc.data().user)
@@ -373,7 +372,7 @@ export const getReviews = place => {
               throw 'error 404';
             } else {
               name = querySnapshot.get('name');
-              reviews.push(new review(id, name, comment));
+              reviews.push(new review(doc.id, name, comment));
             }
           });
       });

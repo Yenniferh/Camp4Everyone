@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { getReviews } from '../../services/firebase';
+import { getReviews, getPlaceReviews } from '../../services/firebase';
 
 function createData(user, comment) {
   return { user, comment };
@@ -31,20 +31,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function GetReviewList() {
-  const [reviews, setReviews] = useState([]);
-  useEffect(() => {
-    getReviews('SERkVLb1SBJOiK5wn8FO').then(res => {
-      setReviews(res);
-    });
-  }, []);
-  console.log(reviews);
-  return reviews;
-}
 
 export default function Reviews() {
-  const reviews = GetReviewList();
   const classes = useStyles();
+  const [reviews, setReviews] = useState(null);
+
+  useEffect(() => {
+    getReviews('SERkVLb1SBJOiK5wn8FO').then(res =>{
+      setTimeout(() => {
+        console.log(res)
+        setReviews(res)
+      }, 2000)
+    })
+  },[]);
 
   return (
     <Container maxWidth='md'>
@@ -57,14 +56,14 @@ export default function Reviews() {
               </Typography>
             </Grid>
             {reviews.map(review => (
-              <Grid item xs={12} sm={8} key={review.idRev.value}>
+              <Grid item xs={12} sm={8} key={review.idRev}>
                 <Card>
                   <CardHeader
                     avatar={<Avatar>{review.nameUsr.charAt(0)}</Avatar>}
-                    title={review.nameUsr.value}
+                    title={review.nameUsr}
                   ></CardHeader>
                   <CardContent>
-                    <Typography>{review.comment.value}</Typography>
+                    <Typography>{review.comment}</Typography>
                   </CardContent>
                 </Card>
               </Grid>
