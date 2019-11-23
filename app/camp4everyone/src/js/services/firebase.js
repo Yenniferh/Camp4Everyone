@@ -130,16 +130,16 @@ export const readPlace = (name) => {
     }).catch((err) => console.log(err));
 };
 
-export const addPlace = (name, price) => {
+export const addPlace = (name, price, maxcap, category, address, description) => {
   return db
     .collection('places')
     .add({
       name: name,
       price: price,
-      address: '',
-      description: '',
-      maxcap: '',
-      category: '',
+      address: address,
+      description: description,
+      maxcap: maxcap,
+      category: category,
       image1: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Wall.jpg?alt=media&token=490c7efb-1b13-4e68-9b0e-2dff2662bdc7',
       image2: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Room.jpg?alt=media&token=db23b430-7009-4451-abdb-35c6d2d77568',
       image3: 'https://firebasestorage.googleapis.com/v0/b/camp4everyone-19221.appspot.com/o/places%2Fdefault%2FWhite%20Stairs.jpg?alt=media&token=81d7ace5-06a5-47f0-8f41-b3b016a5f578'
