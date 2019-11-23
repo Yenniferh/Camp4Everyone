@@ -329,3 +329,20 @@ export const prueba = () => {
       )
     });
 }
+
+export const getPlaces = category => {
+  return db
+    .collection('places')
+    .where('category', '==', category)
+    .get()
+    .then(data => {
+      let places = [];
+      data.forEach(doc => {
+        console.log('Lo siguiente de de la funcion de Firebase:');
+        console.log(doc);
+        places.push(doc.data());
+      });
+      return places;
+    })
+    .catch(err => console.log(err));
+};
