@@ -323,6 +323,10 @@ export default function Dashboard() {
   const [placeValues, setPlacesValues] = React.useState({
     name: '',
     price:'',
+    description:'',
+    category:'',
+    address:'',
+    maxcap:'',
   });
   const [reservationValues, setReservationValues] = React.useState({
     user: '',
@@ -406,8 +410,8 @@ export default function Dashboard() {
     evt.preventDefault();
     setOpenPlaceCreate(false);
     setLoading(true)
-    if ( placeValues.name && placeValues.price) {
-      addPlace(placeValues.name,placeValues.price)
+    if ( placeValues.name && placeValues.price &&  placeValues.maxcap &&  placeValues.category &&  placeValues.address &&  placeValues.description) {
+      addPlace(placeValues.name,placeValues.price, placeValues.maxcap,  placeValues.category, placeValues.address,  placeValues.description)
         .then(place => {
           setTimeout(() => {
             setVariant('success')
@@ -933,7 +937,7 @@ export default function Dashboard() {
                         className={classes.margin}
                         required
                         fullWidth
-                        label='Place Name'
+                        label='Name'
                         variant='outlined'
                         id='place_name'
                         type='text'
@@ -945,14 +949,62 @@ export default function Dashboard() {
                         className={classes.margin}
                         required
                         fullWidth
-                        label='Place Price'
+                        label='Description'
+                        variant='outlined'
+                        id='place_des'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.description}
+                        onChange={handlePlaceChange('description')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Category'
+                        variant='outlined'
+                        id='place_cat'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.category}
+                        onChange={handlePlaceChange('category')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Address'
+                        variant='outlined'
+                        id='place_address'
+                        type='text'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.address}
+                        onChange={handlePlaceChange('address')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Capacity'
+                        variant='outlined'
+                        id='place_cap'
+                        type='number'
+                        inputProps={{ style: { color: 'black' } }}
+                        value={placeValues.maxcap}
+                        onChange={handlePlaceChange('maxcap')}
+                      />
+                      <CssTextField
+                        className={classes.margin}
+                        required
+                        fullWidth
+                        label='Price'
                         variant='outlined'
                         id='place_price'
                         type='number'
                         inputProps={{ style: { color: 'black' } }}
                         value={placeValues.price}
                         onChange={handlePlaceChange('price')}
-                      />
+                      />                    
                       <Grid item xs={12}>
                         <Button
                           type='submit'
@@ -980,6 +1032,10 @@ export default function Dashboard() {
                       tempPlace ?
                         <div>
                           <h4>Name: {tempPlace.name} </h4>
+                          <h4>Description: {tempPlace.description}</h4>
+                          <h4>Capacity: {tempPlace.maxcap}</h4>
+                          <h4>Address: {tempPlace.address}</h4>
+                          <h4>Category: {tempPlace.category}</h4>
                           <h4>Price: {tempPlace.price}</h4>
                         </div>
                       :
