@@ -68,7 +68,7 @@ export default function Category(prop) {
                 <Typography>Calificacion: 5.0⋆ (20)</Typography>
               </CardContent>
               <CardActions>
-                <Link className="link-button" to={{ pathname: '/Place', state: { name: place.name } }}><Button
+                <Link className="link-button" to={{ pathname: '/Place', state: { name: place.name, price: place.price } }}><Button
                   type="button"
                   variant="contained"
                   color="secondary"
