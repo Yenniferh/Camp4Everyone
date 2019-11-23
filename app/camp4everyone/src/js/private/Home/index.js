@@ -1,9 +1,10 @@
 import React from 'react';
+import CaregoryNav from '../../public/CategoryNavigation';
 
 function Home(props) {
   return (
     <main>
-      <h1>HOME</h1>
+      <CaregoryNav></CaregoryNav>
     </main>
   );
 }

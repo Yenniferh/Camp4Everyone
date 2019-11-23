@@ -24,6 +24,7 @@ function Getplaces(category) {
   const [places, setPlaces] = useState([]);
   useEffect(() => {
     getPlaces(category).then(res => {
+      console.log(res);
       setTimeout(() => {
         setPlaces(res);
       }, 2000);
@@ -34,12 +35,13 @@ function Getplaces(category) {
 
 export default function Category(prop) {
   const classes = useStyles();
+  console.log(prop)
   const places = Getplaces(prop.location.state.name);
 
   return (
     <Grid
       container
-      justifyContent='center'
+      justifycontent='center'
       alignItems='center'
       component='main'
       spacing={4}
@@ -54,7 +56,7 @@ export default function Category(prop) {
 
       {places ? (
         places.map(place => (
-          <Grid item xs={12} sm={6} md={4} lg={3} className='places'>
+          <Grid item xs={12} sm={6} md={4} lg={3} className='places' key={place.name}>
             <Card className='location-card'>
               <CardMedia className='card-image' image={place.image1} />
               <CardContent>
