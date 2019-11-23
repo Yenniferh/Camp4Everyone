@@ -34,7 +34,7 @@ function Getplaces(category) {
 
 export default function Category(prop) {
   const classes = useStyles();
-  const places = Getplaces('Romantic');
+  const places = Getplaces(prop.location.state.name);
 
   return (
     <Grid
@@ -48,7 +48,7 @@ export default function Category(prop) {
       {/* Title */}
       <Grid item sm={12} md={12} lg={12}>
         <Typography component='h3' variant='h3' className='h3 center'>
-          Adventure
+          {prop.location.state.name}
         </Typography>
       </Grid>
 
@@ -66,13 +66,13 @@ export default function Category(prop) {
                 <Typography>Calificacion: 5.0⋆ (20)</Typography>
               </CardContent>
               <CardActions>
-                <Link to={{ pathname: '/Place', state: { name: place.name } }}><Button
+                <Link className="link-button" to={{ pathname: '/Place', state: { name: place.name } }}><Button
                   type="button"
                   variant="contained"
                   color="secondary"
                   size="large"
                   fullWidth
-                  className="Book-Button">
+                  className="book-button">
                   Book
                 </Button></Link>
               </CardActions>

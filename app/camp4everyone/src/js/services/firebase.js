@@ -338,8 +338,6 @@ export const getPlaces = category => {
     .then(data => {
       let places = [];
       data.forEach(doc => {
-        console.log('Lo siguiente de de la funcion de Firebase:');
-        console.log(doc);
         places.push(doc.data());
       });
       return places;
