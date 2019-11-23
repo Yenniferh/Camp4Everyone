@@ -8,7 +8,6 @@ import romanticImage from './Romantic.jpg';
 import auditoriumImage from './Auditorium.jpg';
 import businessImage from './Business.jpg';
 import adventureImage from './Adventure.jpg';
-import { Link } from 'react-router-dom';
 
 export default function CategoryNavigation() {
   return (
@@ -18,7 +17,6 @@ export default function CategoryNavigation() {
       alignItems="center"
       className="categorys-fondo"
     >
-
       <Grid
         container
         justify="center"
@@ -34,59 +32,46 @@ export default function CategoryNavigation() {
           alignItems="center"
           className="category-cards"
         >
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Romantic' } }}>
-            <Card className="category-card">
-              <CardContent className="card-title">
-                <Typography component="h5" variant="h5" className="h5">
-                  Romantic
+          <Card item className="category-card">
+            <CardContent className="card-title">
+              <Typography component="h5" variant="h5" className="h5">
+                Romantic
               </Typography>
-              </CardContent>
-              <CardMedia image={romanticImage} className="card-image" />
-            </Card>
-          </Link>
-
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Auditorium' } }}>
-            <Card className="category-card">
-              <CardContent>
-                <Typography component="h5" variant="h5" className="h5">
-                  Auditorium
+            </CardContent>
+            <CardMedia image={romanticImage} className="card-image" />
+          </Card>
+          <Card item className="category-card">
+            <CardContent>
+              <Typography component="h5" variant="h5" className="h5">
+                Auditorium
               </Typography>
-              </CardContent>
-              <CardMedia image={auditoriumImage} className="card-image" />
-            </Card>
-          </Link>
-
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Business' } }}>
-            <Card className="category-card">
-              <CardContent>
-                <Typography component="h5" variant="h5" className="h5">
-                  Business
+            </CardContent>
+            <CardMedia image={auditoriumImage} className="card-image" />
+          </Card>
+          <Card item className="category-card">
+            <CardContent>
+              <Typography component="h5" variant="h5" className="h5">
+                Business
               </Typography>
-              </CardContent>
-              <CardMedia image={businessImage} className="card-image" />
-            </Card>
-          </Link>
-
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Adventure' } }}>
-            <Card className="category-card">
-              <CardContent>
-                <Typography component="h5" variant="h5" className="h5">
-                  Adventure
+            </CardContent>
+            <CardMedia image={businessImage} className="card-image" />
+          </Card>
+          <Card item className="category-card">
+            <CardContent>
+              <Typography component="h5" variant="h5" className="h5">
+                Adventure
               </Typography>
-              </CardContent>
-              <CardMedia image={adventureImage} className="card-image" />
-            </Card>
-          </Link>
-
+            </CardContent>
+            <CardMedia image={adventureImage} className="card-image" />
+          </Card>
         </Grid>
       </Grid>
-
 
       <Grid
         container
         justify="center"
         alignItems="center"
-        className="most-checked-section"
+        className="normal-section"
       >
         <Typography component="h4" variant="h4" className="h4 center">
           List
@@ -97,53 +82,47 @@ export default function CategoryNavigation() {
           alignItems="center"
           className="category-cards"
         >
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Romantic' } }}>
-            <Card className="category-card">
+          <Grid
+            container
+            justify="center"
+            alignItems="center"
+            className="category-cards"
+          >
+            <Card item className="category-card">
               <CardContent className="card-title">
                 <Typography component="h5" variant="h5" className="h5">
                   Romantic
-              </Typography>
+                </Typography>
               </CardContent>
               <CardMedia image={romanticImage} className="card-image" />
             </Card>
-          </Link>
-
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Auditorium' } }}>
-            <Card className="category-card">
+            <Card item className="category-card">
               <CardContent>
                 <Typography component="h5" variant="h5" className="h5">
                   Auditorium
-              </Typography>
+                </Typography>
               </CardContent>
               <CardMedia image={auditoriumImage} className="card-image" />
             </Card>
-          </Link>
-
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Business' } }}>
-            <Card className="category-card">
+            <Card item className="category-card">
               <CardContent>
                 <Typography component="h5" variant="h5" className="h5">
                   Business
-              </Typography>
+                </Typography>
               </CardContent>
               <CardMedia image={businessImage} className="card-image" />
             </Card>
-          </Link>
-
-          <Link className="navbar-link" to={{ pathname: '/Category', state: { name: 'Adventure' } }}>
-            <Card className="category-card">
+            <Card item className="category-card">
               <CardContent>
                 <Typography component="h5" variant="h5" className="h5">
                   Adventure
-              </Typography>
+                </Typography>
               </CardContent>
               <CardMedia image={adventureImage} className="card-image" />
             </Card>
-          </Link>
-
+          </Grid>
         </Grid>
       </Grid>
-
     </Grid>
   );
 }
