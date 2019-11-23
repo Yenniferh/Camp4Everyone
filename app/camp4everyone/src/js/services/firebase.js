@@ -329,3 +329,18 @@ export const prueba = () => {
       )
     });
 }
+
+export const getPlaces = category => {
+  return db
+    .collection('places')
+    .where('category', '==', category)
+    .get()
+    .then(data => {
+      let places = [];
+      data.forEach(doc => {
+        places.push(doc.data());
+      });
+      return places;
+    })
+    .catch(err => console.log(err));
+};

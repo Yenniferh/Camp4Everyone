@@ -1,23 +1,26 @@
-.Category{
-    background-color: $background-color;
-    .h3 {
-        margin-top: 2.5rem;
-        margin-bottom: 30px;
-        color: $text-blue;
-        font-weight: bold;
+.category-container {
+  background-color: $background-color;
+  min-height: 100vh;
+  padding: 3rem 1rem;
+
+  .h3 {
+    color: $text-blue;
+    font-weight: bold;
+  }
+
+  .places {
+    .location-card {
+      width: 300px;
+      .card-image {
+        height: 200px;
+      }
+      .link-button{
+        margin: 0 auto;
+        min-width: 100%;
+        .book-button {
+          margin: 0 auto;
+        }
+      }
     }
-    .Location-Cards{
-        .Location-Card{
-            width: 300px;
-            margin: 20px;
-            .h5{
-            }
-            .Card-Image{
-                height: 200px;
-            }
-            .Book-Button{
-                margin: 0 auto;
-            }
-        }    
-    }
+  }
 }
