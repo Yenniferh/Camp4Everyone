@@ -5,6 +5,8 @@ import Home from "./Home";
 import Profile from "./Profile";
 import Navbar from "../public/Navbar";
 import Landing from "../public/Landing";
+import Category from "../public/Category";
+import Place from "../public/Place";
 
 function Private(props) {
   return (
@@ -22,6 +24,12 @@ function Private(props) {
           render={() => (
             <Home setAuthentication={props.setAuthentication}></Home>
           )}
+        />
+        <Route
+          path="/category" component={Category}
+        />
+        <Route
+          path="/place" component={Place}
         />
         <Route
           path="/profile"

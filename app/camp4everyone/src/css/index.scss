@@ -1,23 +1,24 @@
 // Common
-@import "variables";
-@import "mixins";
-@import "general";
-@import "forms";
-@import "loading";
+@import 'variables';
+@import 'mixins';
+@import 'general';
+@import 'forms';
+@import 'loading';
 
 // Components
 /*
   Asegurarse de importar aquí los estilos de cada componente
 */
-@import "./../js/public/Landing/style";
-@import "./../js/public/Login/style";
-@import "./../js/public/Signup/style";
-@import "./../js//public/Category/style";
-@import "./../js/public//AboutUs/style";
-@import "./../js/public/PasswordRecovery/style";
-@import "./../js//public/CategoryNavigation/style";
-@import "./../js/public/Navbar/style";
-@import "./../js/public/Footer/style";
-@import "./../js/public/TermsAndConditions/style";
-@import "./../js/private/Profile/style";
-@import "./../js/public/NotFound/style";
+@import './../js/public/Landing/style';
+@import './../js/public/Login/style';
+@import './../js/public/Signup/style';
+@import './../js/public/Category/style';
+@import './../js/public/AboutUs/style';
+@import './../js/public/PasswordRecovery/style';
+@import './../js/public/CategoryNavigation/style';
+@import './../js/public/Navbar/style';
+@import './../js/public/Footer/style';
+@import './../js/public/TermsAndConditions/style';
+@import './../js/private/Profile/style';
+@import './../js/public/NotFound/style';
+@import './../js/public/Reviews/style';
