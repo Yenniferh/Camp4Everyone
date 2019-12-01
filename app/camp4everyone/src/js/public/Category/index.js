@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -37,7 +37,7 @@ export default function Category(prop) {
   const classes = useStyles();
   console.log(prop)
   const places = Getplaces(prop.location.state.name);
-
+  
   return (
     <Grid
       container
@@ -48,11 +48,63 @@ export default function Category(prop) {
       className='category-container'
     >
       {/* Title */}
-      <Grid item sm={12} md={12} lg={12}>
-        <Typography component='h3' variant='h3' className='h3 center'>
-          {prop.location.state.name}
-        </Typography>
-      </Grid>
+      <Typography item component="h3" variant="h3" className="h3 center">
+        Adventure
+      </Typography>
+
+      {/* Location Card List*/}
+      <Grid
+        container
+        justify="space-around"
+        item
+        spacing={40}
+        className="Location-Cards"
+      >
+        <Card item className="Location-Card">
+          <CardMedia className="Card-Image" image={imagen1} />
+          <CardContent>
+            <Typography component="h5" variant="h5" className="h5">
+              Ockla Forest
+            </Typography>
+            <Typography>$120 USD</Typography>
+            <Typography>Tiempo: 3 days</Typography>
+            <Typography>Calificacion: 5.0⋆ (20)</Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              type="button"
+              variant="contained"
+              color="secondary"
+              size="large"
+              className="Book-Button"
+            >
+              Book
+            </Button>
+          </CardActions>
+        </Card>
+
+        <Card item className="Location-Card">
+          <CardMedia className="Card-Image" image={imagen2} />
+          <CardContent>
+            <Typography component="h5" variant="h5" className="h5">
+              Canyon Camp
+            </Typography>
+            <Typography>$120 USD</Typography>
+            <Typography>Tiempo: 3 days</Typography>
+            <Typography>Calificacion: 5.0⋆ (20)</Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              type="button"
+              variant="contained"
+              color="secondary"
+              size="large"
+              className="Book-Button"
+            >
+              Book
+            </Button>
+          </CardActions>
+        </Card>
 
       {places ? (
         places.map(place => (
@@ -87,5 +139,6 @@ export default function Category(prop) {
           </div>
         )}
     </Grid>
+  </Grid>
   );
 }
