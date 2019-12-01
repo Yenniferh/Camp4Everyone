@@ -1,10 +1,10 @@
 import React from 'react';
-import Reviews from '../../public/Reviews';
+import CaregoryNav from '../../public/CategoryNavigation';
+
 function Home(props) {
   return (
     <main>
-      <h1>HOME</h1>
-      <Reviews></Reviews>
+      <CaregoryNav></CaregoryNav>
     </main>
   );
 }
